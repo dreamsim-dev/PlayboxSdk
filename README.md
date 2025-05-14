@@ -4,6 +4,8 @@
   
 <h2>Install</h2>
 
+AppLovin is integrating first
+
 <div>AppsFlyer - https://github.com/AppsFlyerSDK/appsflyer-unity-plugin</div>
 <div> "appsflyer-unity-plugin": "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#upm"</div>
 <div>AppLovin - https://developers.applovin.com/en/max/unity/overview/integration/</div>
