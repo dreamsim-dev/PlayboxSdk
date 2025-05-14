@@ -9,6 +9,6 @@
 <div>DevToDev - https://github.com/devtodev-analytics/package_Analytics.git</div>
 <div>FaceBookSdk - https://developers.facebook.com/docs/unity/</div>
 <div>Unity In app - From UPM</div>
-<div>Firebase - https://firebase.google.com/download/unity<div>(Firebase Crashlytics & Firebase Analytics)</div>div</div>
+<div>Firebase - https://firebase.google.com/download/unity<div>(Firebase Crashlytics & Firebase Analytics)</div></div>
 
 </body>
