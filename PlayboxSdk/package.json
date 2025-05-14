@@ -1,0 +1,7 @@
+{
+  "name": "dreamsim.integrations.playbox_sdk",
+  "displayName": "Playbox Sdk",
+  "version": "0.0.1a",
+  "unity": "2022.3",
+  "description": "Package description"
+}
