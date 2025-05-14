@@ -2,13 +2,14 @@
     "name": "Playbox",
     "rootNamespace": "",
     "references": [
-        "UnityEngine.Purchasing"
+        "UnityEngine.Purchasing",
+        "DevToDev.Analytics"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
-    "precompiledReferences": [],
+    "precompiledReferences": ["Newtonsoft.Json.dll"],
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],

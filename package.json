@@ -5,10 +5,9 @@
   "unity": "2021.3",
   "description": "Support package for SDK and CI/CD integration",
   "keywords": ["utility", "tools", "game", "CI/CD"],
-  "dependencies": {  
-	
+  "dependencies": {
 	"com.unity.nuget.newtonsoft-json": "3.2.1",
-	"com.unity.purchasing": "4.12.2"
-	
+	"com.unity.purchasing": "4.12.2",
+    "com.devtodev.sdk.analytics": "https://github.com/devtodev-analytics/package_Analytics.git",
   }
 }

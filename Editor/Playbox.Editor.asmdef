@@ -4,7 +4,7 @@
     "references": [
         "Playbox",
         "UnityEngine.Purchasing",
-        "Unity.Timeline.Editor"
+        "DevToDev.Analytics"
     ],
     "includePlatforms": [
         "Editor"
