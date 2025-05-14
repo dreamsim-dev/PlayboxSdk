@@ -12,7 +12,7 @@ namespace Playbox
         public static event Action<string> OnLoadedFailed;
         public static event Action<string> OnPlayerClosedAd;
         public static event Action<string> OnPlayerOnClicked;
-        public static event Action<string> OnPlayerOpenedAd;
+        public static event Action<string> OnPlayerOpened;
         
         public static Action<string,string> OnAdLoadFailedEvent;
         public static Action<string,string> OnAdReceivedRewardEvent;
@@ -22,7 +22,7 @@ namespace Playbox
         public static Action OnDisplay;
         public static Action OnFailedDisplay;
         public static Action OnRewarderedClose;
-        public static Action OnRewarderedReceivedAd;
+        public static Action OnRewarderedReceived;
         
         public static void RegisterReward(string unitId)
         {
@@ -85,7 +85,7 @@ namespace Playbox
 
         private static void OnRewardedAdReceivedRewardEvent(string arg1, MaxSdkBase.Reward error_info, MaxSdkBase.AdInfo info)
         {
-            OnRewarderedReceivedAd?.Invoke();   
+            OnRewarderedReceived?.Invoke();   
             Load();
         }
 
