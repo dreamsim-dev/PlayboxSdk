@@ -3,54 +3,42 @@ using CI.Utils.Extentions;
 
 namespace Playbox
 {
-    public class Advertisement
+    public static class Advertisement
     {
-        private string unitId;
-        private bool isReady => Instance != null && IsReady();
+        private static string unitId;
+        private static bool isReady => IsReady();
 
-        public event Action OnLoaded;
-        public event Action<string> OnLoadedFailed;
-        public event Action<string> OnPlayerClosedAd;
-        public event Action<string> OnPlayerOnClicked;
-        public event Action<string> OnPlayerOpenedAd;
+        public static event Action OnLoaded;
+        public static event Action<string> OnLoadedFailed;
+        public static event Action<string> OnPlayerClosedAd;
+        public static event Action<string> OnPlayerOnClicked;
+        public static event Action<string> OnPlayerOpenedAd;
         
         public static Action<string,string> OnAdLoadFailedEvent;
         public static Action<string,string> OnAdReceivedRewardEvent;
         public static Action<string,string> OnAdHiddenEvent;
         public static Action<string> OnSdkInitializedEvent;
+        
         public static Action OnDisplay;
         public static Action OnFailedDisplay;
         public static Action OnRewarderedClose;
         public static Action OnRewarderedReceivedAd;
         
-        public static Advertisement Instance { get; private set; }
-        public static bool IsInitialized => Instance != null;
-        
-        public Advertisement(string unitId)
+        public static void RegisterReward(string unitId)
         {
-            this.UnitId = unitId;
+            UnitId = unitId;
             
             InitCallback();
             Load();
         }
 
-        public string UnitId
+        public static string UnitId
         {
             get => unitId;
             set => unitId = value;
         }
-
-        public static void Initialize(string adUnitId)
-        {
-            if(Instance == null)
-                Instance = new Advertisement(adUnitId);
-            else
-            {
-                return;
-            }
-        }
-
-        public void Load()
+        
+        public static void Load()
         {
             if (!isReady)
                 MaxSdk.LoadRewardedAd(UnitId);
@@ -58,25 +46,18 @@ namespace Playbox
 
         public static void Show()
         {
-            if (!IsInitialized)
-            {
-                Advertisement.Log("Advertisement not initialized");
-                
-                return;
-            }
-
-            Instance.ShowSelf();
+            ShowSelf();
         }
 
-        public void ShowSelf()
+        public static void ShowSelf()
         {
-            if (Instance.isReady)
+            if (isReady)
             {
-                MaxSdk.ShowRewardedAd(Instance.unitId);    
+                MaxSdk.ShowRewardedAd(unitId);    
             }
             else
             {
-                Instance.Load();
+                Load();
             }
         }
 
@@ -87,10 +68,10 @@ namespace Playbox
 
         public static bool IsReady()
         {
-            return IsInitialized && MaxSdk.IsRewardedAdReady(Instance.unitId);
+            return MaxSdk.IsRewardedAdReady(unitId);
         }
 
-        private void InitCallback()
+        private static void InitCallback()
         {
             MaxSdkCallbacks.Rewarded.OnAdLoadedEvent += OnRewardedAdLoadedEvent;
             MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnRewardedAdLoadFailedEvent;
@@ -102,48 +83,48 @@ namespace Playbox
             MaxSdkCallbacks.Rewarded.OnAdReceivedRewardEvent += OnRewardedAdReceivedRewardEvent;
         }
 
-        private void OnRewardedAdReceivedRewardEvent(string arg1, MaxSdkBase.Reward error_info, MaxSdkBase.AdInfo info)
+        private static void OnRewardedAdReceivedRewardEvent(string arg1, MaxSdkBase.Reward error_info, MaxSdkBase.AdInfo info)
         {
             OnRewarderedReceivedAd?.Invoke();   
             Load();
         }
 
-        private void OnRewardedAdFailedToDisplayEvent(string arg1, MaxSdkBase.ErrorInfo error_info, MaxSdkBase.AdInfo info)
+        private static void OnRewardedAdFailedToDisplayEvent(string arg1, MaxSdkBase.ErrorInfo error_info, MaxSdkBase.AdInfo info)
         {
             OnFailedDisplay?.Invoke();
             Load();
         }
 
-        private void OnRewardedAdHiddenEvent(string arg1, MaxSdkBase.AdInfo info)
+        private static void OnRewardedAdHiddenEvent(string arg1, MaxSdkBase.AdInfo info)
         {
             OnRewarderedClose?.Invoke();
             Load();
         }
 
-        private void OnRewardedAdRevenuePaidEvent(string arg1, MaxSdkBase.AdInfo info)
+        private static void OnRewardedAdRevenuePaidEvent(string arg1, MaxSdkBase.AdInfo info)
         {
             
         }
 
-        private void OnRewardedAdClickedEvent(string arg1, MaxSdkBase.AdInfo info)
+        private static void OnRewardedAdClickedEvent(string arg1, MaxSdkBase.AdInfo info)
         {
             OnPlayerOnClicked?.Invoke(arg1);
         }
 
-        private void OnRewardedAdDisplayedEvent(string arg1, MaxSdkBase.AdInfo info)
+        private static void OnRewardedAdDisplayedEvent(string arg1, MaxSdkBase.AdInfo info)
         {
             OnDisplay?.Invoke();
             Load();
         }
 
-        private void OnRewardedAdLoadFailedEvent(string arg1, MaxSdkBase.ErrorInfo info)
+        private static void OnRewardedAdLoadFailedEvent(string arg1, MaxSdkBase.ErrorInfo info)
         {
             OnLoadedFailed?.Invoke(info.ToString().PlayboxInfoD(arg1));
             
             Load();
         }
 
-        private void OnRewardedAdLoadedEvent(string arg1, MaxSdkBase.AdInfo info)
+        private static void OnRewardedAdLoadedEvent(string arg1, MaxSdkBase.AdInfo info)
         { 
             OnLoaded?.Invoke();
         }

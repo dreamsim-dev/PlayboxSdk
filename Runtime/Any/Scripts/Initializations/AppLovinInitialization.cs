@@ -58,7 +58,7 @@ namespace Playbox
 #endif
             
 #if UNITY_ANDROID
-            Advertisement.Initialize(AppLovinConfiguration.AndroidKey);
+            Advertisement.RegisterReward(AppLovinConfiguration.AndroidKey);
 #endif
             
             Advertisement.OnSdkInitializedEvent?.Invoke(sdkConfiguration.ToString());
