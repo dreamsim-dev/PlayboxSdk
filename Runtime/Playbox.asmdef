@@ -15,7 +15,12 @@
         "Newtonsoft.Json.dll",
         "DevToDev.Analytics.dll",
         "Facebook.Unity.dll",
-        "DevToDev.Core.dll"
+        "DevToDev.Core.dll",
+        "Firebase.Crashlytics.dll",
+        "Firebase.Analytics.dll",
+        "Firebase.App.dll",
+        "Firebase.Platform.dll",
+        "Firebase.TaskExtension.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

@@ -4,7 +4,6 @@
     "references": [
         "Playbox",
         "UnityEngine.Purchasing",
-        "DevToDev.Analytics.Editor",
         "AppsFlyer.Editor",
         "AppsFlyer",
         "com.devtodev.sdk.analytics",
