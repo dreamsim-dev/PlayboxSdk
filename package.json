@@ -8,14 +8,6 @@
   "keywords": ["utility", "tools", "game", "CI/CD"],
   "dependencies": {
 	"com.unity.nuget.newtonsoft-json": "3.2.1",
-	"com.unity.purchasing": "4.12.2",
-    "com.appsflyer.unity": "6.9.4"
-  },
-  "scopedRegistries": [
-    {
-      "name": "AppsFlyer",
-      "url": "https://registry.appsflyer.com",
-      "scopes": ["com.appsflyer"]
-    }
-  ]
+	"com.unity.purchasing": "4.12.2"
+  }
 }
