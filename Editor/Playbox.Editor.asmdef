@@ -1,6 +1,6 @@
 {
   "name": "Playbox.Editor",
-  "references": ["Playbox"],
+  "references": ["Playbox", "Newtonsoft.Json"],
   "includePlatforms": ["Editor"],
   "allowUnsafeCode": false,
   "autoReferenced": false

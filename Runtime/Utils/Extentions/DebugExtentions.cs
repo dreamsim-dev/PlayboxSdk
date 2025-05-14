@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Essentials;
 using Playbox;
 using UnityEngine;
 using Object = System.Object;
@@ -50,11 +49,11 @@ namespace CI.Utils.Extentions
         {
             if (!Debug.isDebugBuild) return "";
             
-            string prfx = string.IsNullOrEmpty(currentPrefix) ? "" : $" <color=#{color.ToHex()}>[{currentPrefix}]</color> ";
+            string prfx = string.IsNullOrEmpty(currentPrefix) ? "" : $" <color=#{color}>[{currentPrefix}]</color> ";
             string desct = string.IsNullOrEmpty(description) ? "" : $" [{description}] ";
             string pred = string.IsNullOrEmpty(predicate) ? "" : $" [{predicate}] ";
             
-            string str = $"<color=#{Color.green.ToHex()}>[Playbox]</color> {prfx}{pred}{desct}: {text}";
+            string str = $"<color=#{Color.green}>[Playbox]</color> {prfx}{pred}{desct}: {text}";
             
             action?.Invoke(str);
             

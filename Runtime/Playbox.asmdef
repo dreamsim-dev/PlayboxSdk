@@ -1,6 +1,6 @@
 {
   "name": "Playbox",
-  "references": [],
+  "references": ["Newtonsoft.Json"],
   "allowUnsafeCode": false,
   "autoReferenced": true
 }
