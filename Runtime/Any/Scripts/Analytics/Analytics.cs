@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DevToDev.Analytics;
 using AppsFlyerSDK;
+using DevToDev.Analytics;
 using Firebase.Analytics;
 using UnityEngine;
 
