@@ -9,6 +9,13 @@
   "dependencies": {
 	"com.unity.nuget.newtonsoft-json": "3.2.1",
 	"com.unity.purchasing": "4.12.2",
-    "appsflyer-unity-plugin": "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#upm"
-  }
+    "com.appsflyer.unity": "6.9.4"
+  },
+  "scopedRegistries": [
+    {
+      "name": "AppsFlyer",
+      "url": "https://registry.appsflyer.com",
+      "scopes": ["com.appsflyer"]
+    }
+  ]
 }
