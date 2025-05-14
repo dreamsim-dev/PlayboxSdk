@@ -1,7 +1,16 @@
 {
-  "name": "dreamsim.integrations.playbox_sdk",
-  "displayName": "Playbox Sdk",
-  "version": "0.0.1a",
-  "unity": "2022.3",
-  "description": "Package description"
+  "name": "com.playbox",
+  "displayName": "Playbox",
+  "version": "1.0.0",
+  "unity": "2021.3",
+  "description": "A collection of useful game utilities and tools",
+  "keywords": ["utility", "tools", "game"],
+  "dependencies": {},
+  "samples": [
+    {
+      "displayName": "Basic Example",
+      "description": "Basic usage example",
+      "path": "Samples~/Example"
+    }
+  ]
 }

@@ -1,12 +1,6 @@
 {
-    "name": "Playbox",
-    "includePlatforms": ["IOS", "ANDROID"],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+  "name": "Playbox",
+  "references": [],
+  "allowUnsafeCode": false,
+  "autoReferenced": true
 }

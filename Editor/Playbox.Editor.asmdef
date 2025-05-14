@@ -1,12 +1,7 @@
 {
-    "name": "Playbox",
-    "includePlatforms": ["Editor"]
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+  "name": "Playbox.Editor",
+  "references": ["Playbox"],
+  "includePlatforms": ["Editor"],
+  "allowUnsafeCode": false,
+  "autoReferenced": false
 }
