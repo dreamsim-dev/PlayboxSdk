@@ -29,9 +29,9 @@ namespace Playbox
                 Instance = this;
             }
             
-            var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
+            //var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
             
-            UnityPurchasing.Initialize(this, builder);
+            //UnityPurchasing.Initialize(this, builder);
         }
         
         public static void Purchase(Product product, Action<bool> callback, string payload)
