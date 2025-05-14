@@ -7,14 +7,8 @@
   "keywords": ["utility", "tools", "game"],
   "dependencies": {  
 	
-	"com.unity.nuget.newtonsoft-json": "3.2.1"
+	"com.unity.nuget.newtonsoft-json": "3.x.x",
+	"com.unity.purchasing": ""
 	
-  },
-  "samples": [
-    {
-      "displayName": "Basic Example",
-      "description": "Basic usage example",
-      "path": "Samples~/Example"
-    }
-  ]
+  }
 }
