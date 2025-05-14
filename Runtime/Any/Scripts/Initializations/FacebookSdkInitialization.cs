@@ -1,4 +1,5 @@
-﻿using Facebook.Unity;
+﻿using System.Collections.Generic;
+using Facebook.Unity;
 using Playbox.SdkConfigurations;
 using UnityEngine;
 
@@ -44,7 +45,7 @@ namespace Playbox
             }
             else
             {
-                Analytics.TrackEvent("Facebook", new(){
+                Analytics.TrackEvent("Facebook", new List<KeyValuePair<string, string>>{
                     new("type","Error of Initializing"),
                     new("app identifier",Application.identifier)
                 });

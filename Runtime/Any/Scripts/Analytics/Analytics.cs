@@ -17,6 +17,33 @@ namespace Playbox
            
            FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
         }
+        
+        public static void TrackEvent(string eventName, KeyValuePair<string,string> eventPair)
+        {
+            var arguments = new Dictionary<string,string>();
+            arguments.Add(eventPair.Key, eventPair.Value);
+            
+            DTDAnalytics.CustomEvent(eventName, arguments.ToList().ToCustomParameters());
+           
+            AppsFlyer.sendEvent(eventName, arguments);
+           
+            FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
+        }
+
+        public static void LogLevelUp(int level)
+        {
+            DTDAnalytics.LevelUp(level);
+        }
+        
+        public static void LogContentView(string content)
+        {
+            TrackEvent(nameof(LogContentView),new KeyValuePair<string, string>(nameof(LogContentView),content));
+        }
+
+        public static void LogTutorialSkipped(string tutorial)
+        {
+            TrackEvent("TutorialSkipped");
+        }
 
         public static void TrackEvent(string eventName)
         {
