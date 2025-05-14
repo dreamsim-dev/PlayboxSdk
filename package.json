@@ -5,7 +5,11 @@
   "unity": "2021.3",
   "description": "A collection of useful game utilities and tools",
   "keywords": ["utility", "tools", "game"],
-  "dependencies": {},
+  "dependencies": {  
+	
+	"com.unity.nuget.newtonsoft-json": "3.2.1"
+	
+  },
   "samples": [
     {
       "displayName": "Basic Example",
