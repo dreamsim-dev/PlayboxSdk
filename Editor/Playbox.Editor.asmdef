@@ -1,7 +1,20 @@
 {
-  "name": "Playbox.Editor",
-  "references": ["Playbox", "Newtonsoft.Json"],
-  "includePlatforms": ["Editor"],
-  "allowUnsafeCode": false,
-  "autoReferenced": false
+    "name": "Playbox.Editor",
+    "rootNamespace": "",
+    "references": [
+        "Playbox",
+        "UnityEngine.Purchasing",
+        "Unity.Timeline.Editor"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
