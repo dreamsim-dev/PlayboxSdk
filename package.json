@@ -8,7 +8,6 @@
   "dependencies": {  
 	
 	"com.unity.nuget.newtonsoft-json": "3.x.x",
-	"com.unity.purchasing": ""
-	
+	"com.unity.purchasing": "4.x.x"
   }
 }
