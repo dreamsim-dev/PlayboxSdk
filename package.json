@@ -1,15 +1,18 @@
 {
-  "name": "com.playbox",
+  "name": "dreamsim.playbox",
   "displayName": "Playbox",
   "author": "Dreamsim",
   "version": "0.0.1",
-  "unity": "2021.3",
   "description": "Support package for SDK and CI/CD integration",
-  "keywords": ["utility", "tools", "game", "CI/CD"],
+  "keywords": [
+    "utility",
+    "tools",
+    "game",
+    "CI/CD"
+  ],
   "dependencies": {
-	"com.unity.nuget.newtonsoft-json": "3.2.1",
-	"com.unity.purchasing": "4.12.2",
-    "com.devtodev.sdk.analytics" : "https://github.com/devtodev-analytics/package_Analytics.git",
-    "appsflyer-unity-plugin": "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#upm"
-  }
+    "com.unity.nuget.newtonsoft-json": "3.2.1",
+    "com.unity.purchasing": "4.12.2"
+  },
+  "hideInEditor": false
 }

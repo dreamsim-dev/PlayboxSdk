@@ -3,13 +3,20 @@
     "rootNamespace": "",
     "references": [
         "UnityEngine.Purchasing",
-        "DevToDev.Analytics"
+        "DevToDev.Analytics",
+        "AppsFlyer",
+        "com.devtodev.sdk.analytics"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
-    "precompiledReferences": ["Newtonsoft.Json.dll"],
+    "precompiledReferences": [
+        "Newtonsoft.Json.dll",
+        "DevToDev.Analytics.dll",
+        "Facebook.Unity.dll",
+        "DevToDev.Core.dll"
+    ],
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
