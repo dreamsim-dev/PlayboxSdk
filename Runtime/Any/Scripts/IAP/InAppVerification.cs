@@ -99,7 +99,9 @@ namespace Playbox
         
             yield return unityWebRequest.SendWebRequest();
 
-            if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
+            if (unityWebRequest.result == UnityWebRequest.Result.ProtocolError ||
+                unityWebRequest.result == UnityWebRequest.Result.ConnectionError || 
+                unityWebRequest.result == UnityWebRequest.Result.DataProcessingError)
             {
                 $"Request Failed: {unityWebRequest.error}".PlayboxError();
             }
@@ -171,10 +173,15 @@ namespace Playbox
         
             yield return unityWebRequest.SendWebRequest();
         
-            if (unityWebRequest.isNetworkError || unityWebRequest.isHttpError)
+            if (unityWebRequest.result == UnityWebRequest.Result.ProtocolError ||
+                unityWebRequest.result == UnityWebRequest.Result.ConnectionError || 
+                unityWebRequest.result == UnityWebRequest.Result.DataProcessingError)
             {
                 $"Request Failed: {unityWebRequest.error}".PlayboxError();
             }
+            
+            
+            
 
             if (unityWebRequest.isDone)
             {
