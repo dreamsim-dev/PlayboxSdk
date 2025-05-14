@@ -8,6 +8,6 @@
   "dependencies": {
 	"com.unity.nuget.newtonsoft-json": "3.2.1",
 	"com.unity.purchasing": "4.12.2",
-    "com.devtodev.sdk.analytics": "https://github.com/devtodev-analytics/package_Analytics.git",
+    "com.devtodev.sdk.analytics": "https://github.com/devtodev-analytics/package_Analytics.git"
   }
 }
