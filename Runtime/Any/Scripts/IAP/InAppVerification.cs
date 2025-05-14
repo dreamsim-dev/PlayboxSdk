@@ -161,7 +161,7 @@ namespace Playbox
                 yield return new WaitForSeconds(verifyUpdateRate);
             }
         }
-
+        
         private IEnumerator GetStatus(KeyValuePair<string,PurchaseValidator> item, Action<bool> remove)
         {
             UnityWebRequest unityWebRequest = new UnityWebRequest($"{uriStatus}/{item.Key}", "GET");
@@ -180,16 +180,13 @@ namespace Playbox
                 $"Request Failed: {unityWebRequest.error}".PlayboxError();
             }
             
-            
-            
-
             if (unityWebRequest.isDone)
             {
                 unityWebRequest.downloadHandler.text.PlayboxInfo();
             
                 JObject json = JObject.Parse(unityWebRequest.downloadHandler.text);
 
-                json["status"].ToString().PlayboxInfo();
+                json["status"]!.ToString().PlayboxInfo();
             
                 remove?.Invoke(json["status"].ToString() != "pending");
 

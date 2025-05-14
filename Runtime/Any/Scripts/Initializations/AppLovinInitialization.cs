@@ -4,8 +4,6 @@ namespace Playbox
 {
     public class AppLovinInitialization : PlayboxBehaviour
     {
-     
-
         public override void Initialization()
         {
             base.Initialization();
@@ -14,7 +12,6 @@ namespace Playbox
             
             if(!AppLovinConfiguration.Active)
                 return;
-            
             
 #if UNITY_EDITOR
             MaxSdkUnityEditor.SetSdkKey(AppLovinConfiguration.AdvertisementSdk);
