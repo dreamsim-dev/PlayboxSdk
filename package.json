@@ -3,8 +3,8 @@
   "displayName": "Playbox",
   "version": "0.0.1",
   "unity": "2021.3",
-  "description": "A collection of useful game utilities and tools",
-  "keywords": ["utility", "tools", "game"],
+  "description": "Support package for SDK and CI/CD integration",
+  "keywords": ["utility", "tools", "game", "CI/CD"],
   "dependencies": {  
 	
 	"com.unity.nuget.newtonsoft-json": "3.2.1",
