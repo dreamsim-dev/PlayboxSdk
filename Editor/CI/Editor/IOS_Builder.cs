@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿#if UNITY_EDITOR && UNITY_IOS
+
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -82,3 +84,4 @@ namespace Playbox.CI
         }
     }
 }
+#endif

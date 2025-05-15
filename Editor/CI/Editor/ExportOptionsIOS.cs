@@ -1,4 +1,6 @@
-﻿using UnityEditor.iOS.Xcode;
+﻿#if UNITY_EDITOR && UNITY_IOS
+
+using UnityEditor.iOS.Xcode;
 
 namespace Playbox.CI
 {
@@ -43,3 +45,5 @@ namespace Playbox.CI
         }
     }
 }
+
+#endif

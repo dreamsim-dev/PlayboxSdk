@@ -1,4 +1,6 @@
-﻿namespace EditorCools.Editor
+﻿#if UNITY_EDITOR
+
+namespace EditorCools.Editor
 {
     using UnityEditor;
     using Object = UnityEngine.Object;
@@ -20,3 +22,4 @@
         }
     }
 }
+#endif

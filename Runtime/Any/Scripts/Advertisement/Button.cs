@@ -1,4 +1,6 @@
-﻿namespace EditorCools.Editor
+﻿#if UNITY_EDITOR
+
+namespace EditorCools.Editor
 {
     using System.Reflection;
     using System.Collections.Generic;
@@ -32,3 +34,4 @@
         }
     }
 }
+#endif

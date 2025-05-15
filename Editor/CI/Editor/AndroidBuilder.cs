@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using CI.Utils.Extentions;
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && UNITY_EDITOR
 using Facebook.Unity;
 using UnityEditor;
 using UnityEditor.Callbacks;
