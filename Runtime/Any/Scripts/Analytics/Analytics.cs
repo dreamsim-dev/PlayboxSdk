@@ -11,14 +11,6 @@ using Product = Facebook.Unity.Product;
 
 namespace Playbox
 {
-    public enum ETutorialState
-    {
-        Start,
-        Skipped,
-        Complete,
-        StepComplete
-    }
-
     public static class Analytics
     {
         public static void TrackEvent(string eventName, List<KeyValuePair<string,string>> arguments)
