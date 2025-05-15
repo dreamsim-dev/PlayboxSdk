@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using CI.Utils.Extentions;
+#if UNITY_EDITOR
 using EditorCools;
+#endif
 using Playbox.SdkConfigurations;
 
 #if UNITY_EDITOR

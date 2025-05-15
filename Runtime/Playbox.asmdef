@@ -6,7 +6,8 @@
         "AppsFlyer",
         "MaxSdk.Scripts",
         "com.devtodev.sdk.analytics",
-        "Purchasing.Common"
+        "Purchasing.Common",
+        "EditorCools"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
