@@ -1,13 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AppsFlyerSDK;
 using DevToDev.Analytics;
-using Facebook.Unity;
 using Firebase.Analytics;
 using UnityEngine;
 using UnityEngine.Purchasing;
-using Product = Facebook.Unity.Product;
+
+/*
+    af_initiated_checkout - инициация покупки
+    af_level_achieved - поднятие уровня
+    af_purchase - совершил покупку
+    af_tutorial_completion - прошел туториал
+    
+    af_add_to_cart - 30 просмотров рекламы
+    ad_reward - отправляет колличество просмотров рекламы
+ */
 
 namespace Playbox
 {
@@ -21,7 +28,7 @@ namespace Playbox
            
            FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
            
-           FB.LogAppEvent(eventName,null,arguments.ToDictionary(a => a.Key, a => (object)a.Value));
+           //FB.LogAppEvent(eventName,null,arguments.ToDictionary(a => a.Key, a => (object)a.Value));
            
         }
         
@@ -32,7 +39,7 @@ namespace Playbox
             
             DTDAnalytics.CustomEvent(eventName, arguments.ToList().ToCustomParameters());
             
-            FB.LogAppEvent(eventName,null,arguments.ToDictionary(a => a.Key, a => (object)a.Value));
+            //FB.LogAppEvent(eventName,null,arguments.ToDictionary(a => a.Key, a => (object)a.Value));
            
             AppsFlyer.sendEvent(eventName, arguments);
            
@@ -82,7 +89,7 @@ namespace Playbox
             
             FirebaseAnalytics.LogEvent(eventName);
             
-            FB.LogAppEvent(eventName);
+            //FB.LogAppEvent(eventName);
         }
         
         public static void TrackSimpleEvent(string eventName, string value)
@@ -103,16 +110,46 @@ namespace Playbox
         public static void LogPurshaseInitiation(UnityEngine.Purchasing.Product product)
         {
             TrackEvent("purchasing_init",new KeyValuePair<string, string>("purchasing_init",product.definition.id));
-            FB.PurchaseSubscription(product.definition.id,null);
         }
 
         public static void LogPurchase(PurchaseEventArgs args)
         {
             TrackEvent("purchase",new KeyValuePair<string, string>("purchase",args.purchasedProduct.receipt));
+
+            string orderId = args.purchasedProduct.transactionID;
+            string productId = args.purchasedProduct.definition.id;
+            var price = args.purchasedProduct.metadata.localizedPrice;
+            string currency = args.purchasedProduct.metadata.isoCurrencyCode;
             
-            UnityEngine.Purchasing.Product product = args.purchasedProduct;
+            DTDAnalytics.RealCurrencyPayment(orderId,(double)price, productId, currency);
             
-            FB.Purchase(product.definition.id,null,product.definition.payout.data);
+            Dictionary<string, string> eventValues = new ()
+            {
+                { "af_currency", currency },
+                { "af_revenue", price.ToString() },
+                { "af_quantity", "1" },
+                { "af_content_id", productId }
+            };
+
+            AppsFlyer.sendEvent("af_purchase", eventValues);
+        }
+
+        public static void TrackAd(MaxSdkBase.AdInfo impressionData)
+        {
+            double revenue = impressionData.Revenue;
+            
+            var impressionParameters = new[] {
+                new Parameter("ad_platform", "AppLovin"),
+                new Parameter("ad_source", impressionData.NetworkName),
+                new Parameter("ad_unit_name", impressionData.AdUnitIdentifier),
+                new Parameter("ad_format", impressionData.AdFormat),
+                new Parameter("value", revenue),
+                new Parameter("currency", "USD"), 
+            };
+            
+            //TO DO: Потом будем пулять в AppsFlyer тоже
+            
+            FirebaseAnalytics.LogEvent("ad_impression", impressionParameters);
         }
     }
 }
