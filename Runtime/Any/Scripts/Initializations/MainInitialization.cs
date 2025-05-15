@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using CI.Utils.Extentions;
+using EditorCools;
 using Playbox.SdkConfigurations;
 
 #if UNITY_EDITOR
@@ -18,6 +20,13 @@ namespace Playbox
         
         private const string objectName = "[Global] MainInitialization";
         
+        [Button]
+        private void Btn()
+        {
+
+            Data.Playbox.GameId.PlayboxInfo();
+        }
+
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);

@@ -78,8 +78,8 @@ namespace Playbox
             JObject sendObject = new JObject();
         
             sendObject["product_id"] = productID;
-            sendObject["game_id"] = "world.dreamsim.ragstoriches";
-            sendObject["version"] = Application.version;
+            sendObject["game_id"] = Data.Playbox.GameId;
+            sendObject["version"] = Data.Playbox.AppVersion;
             sendObject["sandbox"] = isSandbox;
             sendObject["receipt"] = receipt;
 
