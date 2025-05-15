@@ -19,13 +19,6 @@ namespace Playbox
         private List<PlayboxBehaviour> behaviours = new();
         
         private const string objectName = "[Global] MainInitialization";
-        
-        [Button]
-        private void Btn()
-        {
-
-            Data.Playbox.GameId.PlayboxInfo();
-        }
 
         private void Awake()
         {

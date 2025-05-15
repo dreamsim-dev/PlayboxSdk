@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AppsFlyerSDK;
 using DevToDev.Analytics;
@@ -8,6 +9,13 @@ using UnityEngine;
 
 namespace Playbox
 {
+    public enum ETutorialState
+    {
+        Start,
+        Skipped,
+        Complete,
+    }
+
     public static class Analytics
     {
         public static void TrackEvent(string eventName, List<KeyValuePair<string,string>> arguments)
@@ -47,9 +55,26 @@ namespace Playbox
             TrackEvent(nameof(LogContentView),new KeyValuePair<string, string>(nameof(LogContentView),content));
         }
 
-        public static void LogTutorialSkipped(string tutorial)
+        public static void LogTutorial(string tutorial, ETutorialState stateLevel = ETutorialState.Complete)
         {
-            TrackEvent("TutorialSkipped");
+            switch (stateLevel)
+            {
+                case ETutorialState.Start:
+                    TrackEvent("tutorial",new KeyValuePair<string, string>("tutorial","start"));
+                    break;
+                
+                case ETutorialState.Skipped:
+                    TrackEvent("tutorial",new KeyValuePair<string, string>("tutorial","skip"));
+                    break;
+                
+                case ETutorialState.Complete:
+                    TrackEvent("tutorial",new KeyValuePair<string, string>("tutorial","complete"));
+                    break;
+                
+                default:
+                    TrackEvent("tutorial",new KeyValuePair<string, string>("tutorial","completed"));
+                    break;
+            }
         }
 
         public static void TrackEvent(string eventName)
