@@ -60,7 +60,7 @@ namespace Playbox
         private void OnSdkInitializedEvent(MaxSdkBase.SdkConfiguration sdkConfiguration)
         {
 #if UNITY_IOS
-            Advertisement.Initialize(AppLovinConfiguration.IOSKey);
+            Advertisement.RegisterReward(AppLovinConfiguration.IOSKey);
 #endif
             
 #if UNITY_ANDROID
