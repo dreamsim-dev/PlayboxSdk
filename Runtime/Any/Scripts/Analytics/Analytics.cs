@@ -50,28 +50,28 @@ namespace Playbox
             TrackEvent(nameof(LogContentView),new KeyValuePair<string, string>(nameof(LogContentView),content));
         }
 
-        public static void LogTutorial(string tutorial, ETutorialState stateLevel = ETutorialState.Complete)
+        public static void LogTutorial(string tutorial, ETutorialState stateLevel = ETutorialState.Complete, string step = "none")
         {
             switch (stateLevel)
             {
                 case ETutorialState.Start:
-                    TrackEvent("tutorial",new KeyValuePair<string, string>("tutorial","start"));
+                    TrackEvent(tutorial,new KeyValuePair<string, string>("start",step));
                     break;
                 
                 case ETutorialState.Skipped:
-                    TrackEvent("tutorial",new KeyValuePair<string, string>("tutorial","skip"));
+                    TrackEvent(tutorial,new KeyValuePair<string, string>("skip",step));
                     break;
                 
                 case ETutorialState.Complete:
-                    TrackEvent("tutorial",new KeyValuePair<string, string>("tutorial","complete"));
+                    TrackEvent(tutorial,new KeyValuePair<string, string>("complete",step));
                     break;
                 
                 case ETutorialState.StepComplete:
-                    TrackEvent("tutorial",new KeyValuePair<string, string>("tutorial","stepComplete"));
+                    TrackEvent(tutorial,new KeyValuePair<string, string>("stepComplete",step));
                     break;
                 
                 default:
-                    TrackEvent("tutorial",new KeyValuePair<string, string>("tutorial","completed"));
+                    TrackEvent(tutorial,new KeyValuePair<string, string>("completed",step));
                     break;
             }
         }
