@@ -27,9 +27,6 @@ namespace Playbox
            AppsFlyer.sendEvent(eventName, arguments.ToDictionary(a => a.Key, a => a.Value));
            
            FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
-           
-           //FB.LogAppEvent(eventName,null,arguments.ToDictionary(a => a.Key, a => (object)a.Value));
-           
         }
         
         public static void TrackEvent(string eventName, KeyValuePair<string,string> eventPair)
@@ -39,8 +36,6 @@ namespace Playbox
             
             DTDAnalytics.CustomEvent(eventName, arguments.ToList().ToCustomParameters());
             
-            //FB.LogAppEvent(eventName,null,arguments.ToDictionary(a => a.Key, a => (object)a.Value));
-           
             AppsFlyer.sendEvent(eventName, arguments);
            
             FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
@@ -85,7 +80,7 @@ namespace Playbox
 
         public static void TrackEvent(string eventName)
         {
-            AppsFlyer.AFLog(nameof(Analytics.TrackEvent), eventName);
+            AppsFlyer.AFLog(nameof(TrackEvent), eventName);
             
             FirebaseAnalytics.LogEvent(eventName);
             
