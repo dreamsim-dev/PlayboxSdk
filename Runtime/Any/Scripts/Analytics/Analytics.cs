@@ -103,13 +103,19 @@ namespace Playbox
            Firebase.Crashlytics.Crashlytics.Log(error);
         }
 
-        public static void LogPurshaseInitiation(Product product)
+        public static void LogPurshaseInitiation(UnityEngine.Purchasing.Product product)
         {
+            TrackEvent("purchasing_init",new KeyValuePair<string, string>("purchasing_init",product.definition.id));
+            FB.PurchaseSubscription(product.definition.id,null);
         }
 
         public static void LogPurchase(PurchaseEventArgs args)
         {
+            TrackEvent("purchase",new KeyValuePair<string, string>("purchase",args.purchasedProduct.receipt));
             
+            UnityEngine.Purchasing.Product product = args.purchasedProduct;
+            
+            FB.Purchase(product.definition.id,null,product.definition.payout.data);
         }
     }
 }
