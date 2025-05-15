@@ -16,6 +16,7 @@ namespace Playbox
         Start,
         Skipped,
         Complete,
+        StepComplete
     }
 
     public static class Analytics
@@ -71,6 +72,10 @@ namespace Playbox
                 
                 case ETutorialState.Complete:
                     TrackEvent("tutorial",new KeyValuePair<string, string>("tutorial","complete"));
+                    break;
+                
+                case ETutorialState.StepComplete:
+                    TrackEvent("tutorial",new KeyValuePair<string, string>("tutorial","stepComplete"));
                     break;
                 
                 default:
