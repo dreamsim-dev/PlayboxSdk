@@ -2,6 +2,7 @@
 using System.Linq;
 using AppsFlyerSDK;
 using DevToDev.Analytics;
+using Facebook.Unity;
 using Firebase.Analytics;
 using UnityEngine;
 
@@ -16,6 +17,9 @@ namespace Playbox
            AppsFlyer.sendEvent(eventName, arguments.ToDictionary(a => a.Key, a => a.Value));
            
            FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
+           
+           FB.LogAppEvent(eventName,null,arguments.ToDictionary(a => a.Key, a => (object)a.Value));
+           
         }
         
         public static void TrackEvent(string eventName, KeyValuePair<string,string> eventPair)
@@ -24,6 +28,8 @@ namespace Playbox
             arguments.Add(eventPair.Key, eventPair.Value);
             
             DTDAnalytics.CustomEvent(eventName, arguments.ToList().ToCustomParameters());
+            
+            FB.LogAppEvent(eventName,null,arguments.ToDictionary(a => a.Key, a => (object)a.Value));
            
             AppsFlyer.sendEvent(eventName, arguments);
            
@@ -33,6 +39,7 @@ namespace Playbox
         public static void LogLevelUp(int level)
         {
             DTDAnalytics.LevelUp(level);
+            TrackEvent("LevelUp",new KeyValuePair<string, string>("level",level.ToString()));
         }
         
         public static void LogContentView(string content)
@@ -50,6 +57,8 @@ namespace Playbox
             AppsFlyer.AFLog(nameof(Analytics.TrackEvent), eventName);
             
             FirebaseAnalytics.LogEvent(eventName);
+            
+            FB.LogAppEvent(eventName);
         }
         
         public static void TrackSimpleEvent(string eventName, string value)
