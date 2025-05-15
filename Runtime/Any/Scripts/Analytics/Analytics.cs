@@ -6,6 +6,8 @@ using DevToDev.Analytics;
 using Facebook.Unity;
 using Firebase.Analytics;
 using UnityEngine;
+using UnityEngine.Purchasing;
+using Product = Facebook.Unity.Product;
 
 namespace Playbox
 {
@@ -99,6 +101,15 @@ namespace Playbox
         public static void LogError(string error)
         {
            Firebase.Crashlytics.Crashlytics.Log(error);
+        }
+
+        public static void LogPurshaseInitiation(Product product)
+        {
+        }
+
+        public static void LogPurchase(PurchaseEventArgs args)
+        {
+            
         }
     }
 }
