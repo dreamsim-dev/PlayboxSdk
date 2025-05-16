@@ -13,19 +13,9 @@ namespace Playbox
             if(!AppLovinConfiguration.Active)
                 return;
             
-#if UNITY_EDITOR
-            MaxSdkUnityEditor.SetSdkKey(AppLovinConfiguration.AdvertisementSdk);
-            MaxSdkUnityEditor.InitializeSdk();
-#elif UNITY_ANDROID
-            MaxSdkAndroid.SetSdkKey(AppLovinConfiguration.AdvertisementSdk);
-            MaxSdkAndroid.InitializeSdk();
-#elif UNITY_IPHONE || UNITY_IOS
-            MaxSdkiOS.SetSdkKey(AppLovinConfiguration.AdvertisementSdk);
-            MaxSdkiOS.InitializeSdk();
-#else
-            MaxSdkUnityEditor.SetSdkKey(AppLovinConfiguration.AdvertisementSdk);
-            MaxSdkUnityEditor.InitializeSdk();
-#endif
+            MaxSdk.SetSdkKey(AppLovinConfiguration.AdvertisementSdk);
+            MaxSdk.InitializeSdk();
+
             MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnAdLoadFailedEvent;
             MaxSdkCallbacks.Rewarded.OnAdReceivedRewardEvent += OnAdReceivedRewardEvent;
             MaxSdkCallbacks.Rewarded.OnAdHiddenEvent += OnAdHiddenEvent;
