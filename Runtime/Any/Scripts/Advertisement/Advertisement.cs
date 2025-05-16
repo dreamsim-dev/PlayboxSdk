@@ -7,6 +7,7 @@ namespace Playbox
     {
         private static string unitId;
         private static bool isReady => IsReady();
+        private static bool readyFlag = false;
 
         public static event Action OnLoaded;
         public static event Action<string> OnLoadedFailed;
@@ -27,6 +28,7 @@ namespace Playbox
         public static void RegisterReward(string unitId)
         {
             UnitId = unitId;
+            readyFlag = true;
             
             InitCallback();
             Load();
@@ -77,6 +79,9 @@ namespace Playbox
         {
             if (!MaxSdk.IsInitialized())
                 return false;
+            
+            if (readyFlag)
+                return true;
             
             return MaxSdk.IsRewardedAdReady(unitId);
         }
