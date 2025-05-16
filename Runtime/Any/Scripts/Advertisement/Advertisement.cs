@@ -24,8 +24,6 @@ namespace Playbox
         public static Action OnRewarderedClose;
         public static Action OnRewarderedReceived;
         
-        private static bool isInitialized = false;
-        
         public static void RegisterReward(string unitId)
         {
             UnitId = unitId;
@@ -42,13 +40,19 @@ namespace Playbox
         
         public static void Load()
         {
-            if (!isReady)
-                MaxSdk.LoadRewardedAd(UnitId);
+            MaxSdk.LoadRewardedAd(UnitId);
         }
 
         public static void Show()
         {
-            ShowSelf();
+            if (isReady)
+            {
+                MaxSdk.ShowRewardedAd(unitId);    
+            }
+            else
+            {
+                Load();
+            }
         }
 
         public static void ShowSelf()
@@ -70,7 +74,7 @@ namespace Playbox
 
         public static bool IsReady()
         {
-            if (!isInitialized)
+            if (!MaxSdk.IsInitialized())
                 return false;
             
             return MaxSdk.IsRewardedAdReady(unitId);
@@ -78,8 +82,6 @@ namespace Playbox
 
         private static void InitCallback()
         {
-            MaxSdkCallbacks.OnSdkInitializedEvent += configuration => isInitialized = true;
-
             MaxSdkCallbacks.Rewarded.OnAdLoadedEvent += OnRewardedAdLoadedEvent;
             MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnRewardedAdLoadFailedEvent;
             MaxSdkCallbacks.Rewarded.OnAdDisplayedEvent += OnRewardedAdDisplayedEvent;
@@ -94,7 +96,7 @@ namespace Playbox
         {
             Analytics.TrackAd(info);
             OnRewarderedReceived?.Invoke();   
-           // Load();
+            Load();
         }
 
         private static void OnRewardedAdFailedToDisplayEvent(string arg1, MaxSdkBase.ErrorInfo error_info, MaxSdkBase.AdInfo info)

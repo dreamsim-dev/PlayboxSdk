@@ -18,6 +18,7 @@ namespace Playbox
             MaxSdkCallbacks.Rewarded.OnAdHiddenEvent += OnAdHiddenEvent;
             MaxSdkCallbacks.OnSdkInitializedEvent += OnSdkInitializedEvent;
             
+            MaxSdk.SetSdkKey(AppLovinConfiguration.AdvertisementSdk);
             MaxSdk.InitializeSdk();
 
         }
