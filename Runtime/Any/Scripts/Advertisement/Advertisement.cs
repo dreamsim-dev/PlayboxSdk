@@ -95,7 +95,6 @@ namespace Playbox
             MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnRewardedAdLoadFailedEvent;
             MaxSdkCallbacks.Rewarded.OnAdDisplayedEvent += OnRewardedAdDisplayedEvent;
             MaxSdkCallbacks.Rewarded.OnAdClickedEvent += OnRewardedAdClickedEvent;
-            MaxSdkCallbacks.Rewarded.OnAdRevenuePaidEvent += OnRewardedAdRevenuePaidEvent;
             MaxSdkCallbacks.Rewarded.OnAdHiddenEvent += OnRewardedAdHiddenEvent;
             MaxSdkCallbacks.Rewarded.OnAdDisplayFailedEvent += OnRewardedAdFailedToDisplayEvent;
             MaxSdkCallbacks.Rewarded.OnAdReceivedRewardEvent += OnRewardedAdReceivedRewardEvent;
@@ -104,25 +103,24 @@ namespace Playbox
         private static void OnRewardedAdReceivedRewardEvent(string arg1, MaxSdkBase.Reward error_info, MaxSdkBase.AdInfo info)
         {
             Analytics.TrackAd(info);
-            OnRewarderedReceived?.Invoke();   
+            OnRewarderedReceived?.Invoke();  
+            OnAdReceivedRewardEvent?.Invoke(arg1, error_info.ToString());
             Load();
+            Analytics.TrackEvent("rewarded_received_display");
         }
 
         private static void OnRewardedAdFailedToDisplayEvent(string arg1, MaxSdkBase.ErrorInfo error_info, MaxSdkBase.AdInfo info)
         {
             OnFailedDisplay?.Invoke();
             Load();
+            Analytics.TrackEvent("rewarded_failed_display");
         }
 
         private static void OnRewardedAdHiddenEvent(string arg1, MaxSdkBase.AdInfo info)
         {
             OnRewarderedClose?.Invoke();
             Load();
-        }
-
-        private static void OnRewardedAdRevenuePaidEvent(string arg1, MaxSdkBase.AdInfo info)
-        {
-            
+            Analytics.TrackEvent("rewarded_hidden_event");
         }
 
         private static void OnRewardedAdClickedEvent(string arg1, MaxSdkBase.AdInfo info)
@@ -133,17 +131,20 @@ namespace Playbox
         private static void OnRewardedAdDisplayedEvent(string arg1, MaxSdkBase.AdInfo info)
         {
             OnDisplay?.Invoke();
+            Analytics.TrackEvent("rewarded_display");
         }
 
         private static void OnRewardedAdLoadFailedEvent(string arg1, MaxSdkBase.ErrorInfo info)
         {
             OnLoadedFailed?.Invoke(info.ToString().PlayboxInfoD(arg1));
-            
+            OnAdLoadFailedEvent?.Invoke(arg1, info.ToString());
             Load();
+            Analytics.TrackEvent("rewarded_load_failed");
         }
 
         private static void OnRewardedAdLoadedEvent(string arg1, MaxSdkBase.AdInfo info)
         { 
+            Analytics.TrackEvent("rewarded_loaded");
             OnLoaded?.Invoke();
         }
     }
