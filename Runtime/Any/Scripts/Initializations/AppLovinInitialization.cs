@@ -15,6 +15,7 @@ namespace Playbox
 
             MaxSdkCallbacks.OnSdkInitializedEvent += OnSdkInitializedEvent;
             
+            MaxSdk.SetHasUserConsent(true);
             MaxSdk.SetSdkKey(AppLovinConfiguration.AdvertisementSdk);
             MaxSdk.InitializeSdk();
 
