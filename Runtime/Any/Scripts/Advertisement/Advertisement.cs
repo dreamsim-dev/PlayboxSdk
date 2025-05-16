@@ -40,7 +40,8 @@ namespace Playbox
         
         public static void Load()
         {
-            MaxSdk.LoadRewardedAd(UnitId);
+            if (MaxSdk.IsInitialized())
+                MaxSdk.LoadRewardedAd(UnitId);
         }
 
         public static void Show()
