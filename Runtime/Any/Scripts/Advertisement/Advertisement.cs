@@ -28,7 +28,6 @@ namespace Playbox
         public static void RegisterReward(string unitId)
         {
             UnitId = unitId;
-            readyFlag = true;
             
             InitCallback();
             Load();
@@ -79,10 +78,6 @@ namespace Playbox
         {
             if (!MaxSdk.IsInitialized())
                 return false;
-            
-            if (readyFlag)
-                return false;
-
             if (string.IsNullOrEmpty(unitId))
                 return false;
             
