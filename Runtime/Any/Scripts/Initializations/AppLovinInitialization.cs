@@ -13,13 +13,12 @@ namespace Playbox
             if(!AppLovinConfiguration.Active)
                 return;
             
-            MaxSdk.SetSdkKey(AppLovinConfiguration.AdvertisementSdk);
-            MaxSdk.InitializeSdk();
-
             MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnAdLoadFailedEvent;
             MaxSdkCallbacks.Rewarded.OnAdReceivedRewardEvent += OnAdReceivedRewardEvent;
             MaxSdkCallbacks.Rewarded.OnAdHiddenEvent += OnAdHiddenEvent;
             MaxSdkCallbacks.OnSdkInitializedEvent += OnSdkInitializedEvent;
+            
+            MaxSdk.InitializeSdk();
 
         }
 
