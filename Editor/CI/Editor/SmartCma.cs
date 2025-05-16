@@ -37,16 +37,16 @@
         
         public static class Constants
         {
-            public const string DEVELOPMENT_MODE = "-debug";
-            public const string BUILD_LOCATION = "-build-location";
-            public const string SPLASH_SCREEN = "-splash-screen";
-            public const string BUILD_VERSION = "-build-version";
-            public const string BUILD_NUMBER = "-build-number";
-            public const string KEYSTORE_PASS = "-keystorepass";
+            public const string DEVELOPMENT_MODE = "-debug"; // Дебаг мод
+            public const string BUILD_LOCATION = "-build-location"; // куда выгружается билд
+            public const string SPLASH_SCREEN = "-splash-screen"; // Показываем ли всплывающий экран
+            public const string BUILD_VERSION = "-build-version"; // appVersion по типу 0.0.1
+            public const string BUILD_NUMBER = "-build-number"; // номер билда в лденкинс или подобном пример 179
+            public const string KEYSTORE_PASS = "-keystorepass"; 
             public const string KEYALIAS_NAME = "-keyaliasname";
             public const string KEYALIAS_PASS = "-keyaliaspass";
             public const string KEYSTORE_PATH = "-keystore-path";
-            public const string STORE_BUILD = "-store-build";
+            public const string STORE_BUILD = "-store-build"; 
             
             public const string MANAUL_SIGN = "-code-sign-manual";
             public const string PROVISION_PROFILE_IOS_SIGN = "-provision-profile";

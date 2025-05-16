@@ -24,6 +24,8 @@ namespace Playbox
         public static Action OnRewarderedClose;
         public static Action OnRewarderedReceived;
         
+        private static bool isInitialized = false;
+        
         public static void RegisterReward(string unitId)
         {
             UnitId = unitId;
@@ -68,11 +70,16 @@ namespace Playbox
 
         public static bool IsReady()
         {
+            if (!isInitialized)
+                return false;
+            
             return MaxSdk.IsRewardedAdReady(unitId);
         }
 
         private static void InitCallback()
         {
+            MaxSdkCallbacks.OnSdkInitializedEvent += configuration => isInitialized = true;
+
             MaxSdkCallbacks.Rewarded.OnAdLoadedEvent += OnRewardedAdLoadedEvent;
             MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnRewardedAdLoadFailedEvent;
             MaxSdkCallbacks.Rewarded.OnAdDisplayedEvent += OnRewardedAdDisplayedEvent;
