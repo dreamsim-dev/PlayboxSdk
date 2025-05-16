@@ -48,9 +48,9 @@ namespace Playbox
     
         public static void Validate(string productID,string receipt ,string saveId, Action<bool> callback)
         {
-            if (instance == null) "instance is null".PlayboxException();
-            if(string.IsNullOrEmpty(productID)) "Product ID is null or emply".PlayboxError();
-            if(callback == null) "Callback Action is null".PlayboxError();
+            if (instance == null) return;
+            if(string.IsNullOrEmpty(productID)) return;
+            if(callback == null) return;
         
             if (verificationQueue.ContainsKey(productID) ||
                 (keyBuffer.FindIndex((kv)=> kv.ProductId == productID) > -1))
