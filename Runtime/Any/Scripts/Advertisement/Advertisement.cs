@@ -77,9 +77,16 @@ namespace Playbox
         public static bool IsReady()
         {
             if (!MaxSdk.IsInitialized())
+            {
+                Analytics.TrackEvent("MaxSDK is not init".PlayboxInfoD("ADS"));
                 return false;
+            }
+
             if (string.IsNullOrEmpty(unitId))
+            {
+                Analytics.TrackEvent($"Unit Id Is null {Data.Playbox.GameId}".PlayboxInfoD("ADS"));
                 return false;
+            }
             
             return MaxSdk.IsRewardedAdReady(unitId);
         }
