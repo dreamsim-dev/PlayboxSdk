@@ -81,7 +81,10 @@ namespace Playbox
                 return false;
             
             if (readyFlag)
-                return true;
+                return false;
+
+            if (string.IsNullOrEmpty(unitId))
+                return false;
             
             return MaxSdk.IsRewardedAdReady(unitId);
         }
