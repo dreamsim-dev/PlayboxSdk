@@ -2,6 +2,7 @@
 using System.Linq;
 using AppsFlyerSDK;
 using DevToDev.Analytics;
+using Facebook.Unity;
 using Firebase.Analytics;
 using UnityEngine;
 using UnityEngine.Purchasing;
@@ -20,11 +21,35 @@ namespace Playbox
 {
     public static class Analytics
     {
+        public static void TutorialCompleted()
+        {
+            AppsFlyer.sendEvent("af_tutorial_completion", new());
+        }
+        
+        public static void AdToCart(int count) // more than 30 ad impressions
+        {
+            SendEvent("af_add_to_cart","count", count);
+        }
+        
+        public static void AdRewardCount(int count) // ad views
+        {
+            SendEvent("ad_reward","count", count);
+        }
+        
+        private static void SendEvent(string eventName,string parameter_name, int value)
+        {
+            var dict = new Dictionary<string, string>();
+            
+            dict.Add(parameter_name, value.ToString());
+            
+            AppsFlyer.sendEvent(eventName, dict);
+        }
+
         public static void TrackEvent(string eventName, List<KeyValuePair<string,string>> arguments)
         {
            DTDAnalytics.CustomEvent(eventName, arguments.ToCustomParameters());
            
-           AppsFlyer.sendEvent(eventName, arguments.ToDictionary(a => a.Key, a => a.Value));
+           //AppsFlyer.sendEvent(eventName, arguments.ToDictionary(a => a.Key, a => a.Value));
            
            FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
         }
@@ -36,7 +61,7 @@ namespace Playbox
             
             DTDAnalytics.CustomEvent(eventName, arguments.ToList().ToCustomParameters());
             
-            AppsFlyer.sendEvent(eventName, arguments);
+            //AppsFlyer.sendEvent(eventName, arguments);
            
             FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
         }
@@ -45,6 +70,7 @@ namespace Playbox
         {
             DTDAnalytics.LevelUp(level);
             TrackEvent("LevelUp",new KeyValuePair<string, string>("level",level.ToString()));
+            SendEvent("af_level_achieved","level",level);
         }
         
         public static void LogContentView(string content)
@@ -83,8 +109,6 @@ namespace Playbox
             AppsFlyer.AFLog(nameof(TrackEvent), eventName);
             
             FirebaseAnalytics.LogEvent(eventName);
-            
-            //FB.LogAppEvent(eventName);
         }
         
         public static void TrackSimpleEvent(string eventName, string value)
@@ -105,11 +129,15 @@ namespace Playbox
         public static void LogPurshaseInitiation(UnityEngine.Purchasing.Product product)
         {
             TrackEvent("purchasing_init",new KeyValuePair<string, string>("purchasing_init",product.definition.id));
+            
+            FB.Purchase(product.definition.id,null);
+            
+            AppsFlyer.sendEvent("af_initiated_checkout",new());
         }
 
         public static void LogPurchase(PurchaseEventArgs args)
         {
-            TrackEvent("purchase",new KeyValuePair<string, string>("purchase",args.purchasedProduct.receipt));
+            //TrackEvent("purchase",new KeyValuePair<string, string>("purchase",args.purchasedProduct.receipt));
 
             string orderId = args.purchasedProduct.transactionID;
             string productId = args.purchasedProduct.definition.id;
@@ -127,6 +155,7 @@ namespace Playbox
             };
 
             AppsFlyer.sendEvent("af_purchase", eventValues);
+            FB.Purchase(productId,null);
         }
 
         public static void TrackAd(MaxSdkBase.AdInfo impressionData)
