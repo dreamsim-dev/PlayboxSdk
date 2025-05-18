@@ -8,8 +8,7 @@ namespace Playbox.SdkConfigurations
     public static class GlobalPlayboxConfig 
     {
         private static JObject jsonConfig = new();
-        private static string configFile = "playbox_sdk_config.json";
-        private static string configBackupFile = "playbox_sdk_config_backup.json";
+        private static string configFile = "playbox_sdk_config";
     
         public static void Load()
         {
@@ -34,7 +33,7 @@ namespace Playbox.SdkConfigurations
                 Directory.CreateDirectory(path);
             }
         
-            File.WriteAllText(Path.Combine(path,configFile), jsonConfig.ToString());
+            File.WriteAllText(Path.Combine(path,configFile + ".json"), jsonConfig.ToString());
         
 #if UNITY_EDITOR
             UnityEditor.AssetDatabase.Refresh();
@@ -43,6 +42,9 @@ namespace Playbox.SdkConfigurations
 
         public static void SaveSubconfigs(string name, JObject config)
         {
+            if(jsonConfig == null)
+                jsonConfig = new JObject();
+            
             jsonConfig[name] = config;
         }
 
