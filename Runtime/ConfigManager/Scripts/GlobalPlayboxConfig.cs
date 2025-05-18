@@ -19,11 +19,15 @@ namespace Playbox.SdkConfigurations
             {
                 jsonConfig = JObject.Parse(textAsset.text);
             }
+            else
+            {
+                Debug.Log("Playbox config file not found.");
+            }
         }
 
         public static void Save()
         {
-            var path = Path.Combine(Application.streamingAssetsPath,"Playbox", "PlayboxConfig");
+            var path = Path.Combine(Application.streamingAssetsPath,"Resources","Playbox", "PlayboxConfig");
         
             if (!Directory.Exists(path))
             {
@@ -32,22 +36,6 @@ namespace Playbox.SdkConfigurations
         
             File.WriteAllText(Path.Combine(path,configFile), jsonConfig.ToString());
         
-#if UNITY_EDITOR
-            UnityEditor.AssetDatabase.Refresh();
-#endif
-        }
-    
-        private static void SaveBackup()
-        {
-            var path = Path.Combine(Application.streamingAssetsPath,"Playbox", "PlayboxConfig");
-        
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-        
-            File.WriteAllText(Path.Combine(path,configBackupFile), jsonConfig.ToString());
-
 #if UNITY_EDITOR
             UnityEditor.AssetDatabase.Refresh();
 #endif
@@ -68,8 +56,6 @@ namespace Playbox.SdkConfigurations
 
         public static void Clear()
         {
-            SaveBackup();
-        
             jsonConfig = new JObject();
         }
     }
