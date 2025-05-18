@@ -13,18 +13,12 @@ namespace Playbox.SdkConfigurations
     
         public static void Load()
         {
-            var path = Path.Combine(Application.streamingAssetsPath,"Playbox", "PlayboxConfig");
+            var textAsset = Resources.Load<TextAsset>($"Playbox/PlayboxConfig/{configFile}");
 
-            if (!Directory.Exists(path))
+            if (textAsset != null)
             {
-                "GlobalPlayboxConfig is null.".PlayboxException(); 
-                
-                return;
+                jsonConfig = JObject.Parse(textAsset.text);
             }
-        
-            var text = File.ReadAllText(Path.Combine(path,configFile));
-            
-            jsonConfig = JObject.Parse(text);
         }
 
         public static void Save()
