@@ -138,6 +138,7 @@ namespace Playbox
         private static void OnRewardedAdReceivedRewardEvent(string arg1, MaxSdkBase.Reward error_info, MaxSdkBase.AdInfo info)
         {
             Analytics.TrackAd(info);
+            
             OnRewarderedReceived?.Invoke();  
             OnAdReceivedRewardEvent?.Invoke(arg1, error_info.ToString());
             Load();

@@ -47,7 +47,7 @@ namespace Playbox
 
         public static void TrackEvent(string eventName, List<KeyValuePair<string,string>> arguments)
         {
-           DTDAnalytics.CustomEvent(eventName, arguments.ToCustomParameters());
+           //DTDAnalytics.CustomEvent(eventName, arguments.ToCustomParameters());
            
            //AppsFlyer.sendEvent(eventName, arguments.ToDictionary(a => a.Key, a => a.Value));
            
@@ -59,7 +59,7 @@ namespace Playbox
             var arguments = new Dictionary<string,string>();
             arguments.Add(eventPair.Key, eventPair.Value);
             
-            DTDAnalytics.CustomEvent(eventName, arguments.ToList().ToCustomParameters());
+            //DTDAnalytics.CustomEvent(eventName, arguments.ToList().ToCustomParameters());
             
             //AppsFlyer.sendEvent(eventName, arguments);
            
