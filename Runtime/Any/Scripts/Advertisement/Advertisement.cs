@@ -1,12 +1,28 @@
 ﻿using System;
 using CI.Utils.Extentions;
+using UnityEngine;
 
 namespace Playbox
 {
+      public enum AdReadyStatus
+        {
+            Ready,
+            NotReady,
+            NullStatus,
+            NotInitialized
+        }
+    
     public static class Advertisement
     {
         private static string unitId;
-        private static bool isReady => IsReady();
+
+        private static bool isReady()
+        {
+            var ready = IsReadyStatus();
+            return ready == AdReadyStatus.Ready;
+        }
+
+
         private static bool readyFlag = false;
 
         public static event Action OnLoaded;
@@ -25,9 +41,12 @@ namespace Playbox
         public static Action OnRewarderedClose;
         public static Action OnRewarderedReceived;
         
-        public static void RegisterReward(string unitId)
+        private static AppLovinInitialization appLovinInitialization;
+        
+        public static void RegisterReward(string unitId, AppLovinInitialization aInitialization)
         {
             UnitId = unitId;
+            appLovinInitialization = aInitialization;
             
             InitCallback();
             Load();
@@ -45,9 +64,17 @@ namespace Playbox
                 MaxSdk.LoadRewardedAd(UnitId);
         }
 
+        public static void Load(float delay)
+        {
+            if (appLovinInitialization)
+            {
+                appLovinInitialization.DelayInvoke(() => { Load(); }, delay);
+            }
+        }
+
         public static void Show()
         {
-            if (isReady)
+            if (isReady())
             {
                 MaxSdk.ShowRewardedAd(unitId);    
             }
@@ -59,7 +86,7 @@ namespace Playbox
 
         public static void ShowSelf()
         {
-            if (isReady)
+            if (isReady())
             {
                 MaxSdk.ShowRewardedAd(unitId);    
             }
@@ -74,19 +101,26 @@ namespace Playbox
             Analytics.TrackEvent(message.PlayboxInfoD("ADS"));
         }
 
-        public static bool IsReady()
+        public static AdReadyStatus IsReadyStatus()
         {
             if (!MaxSdk.IsInitialized())
             {
-                return false;
+                return AdReadyStatus.NotInitialized;
             }
 
             if (string.IsNullOrEmpty(unitId))
             {
-                return false;
+                return AdReadyStatus.NullStatus;
             }
-            
-            return MaxSdk.IsRewardedAdReady(unitId);
+
+            if (MaxSdk.IsRewardedAdReady(unitId))
+            {
+                return AdReadyStatus.Ready;
+            }
+            else
+            {
+                return AdReadyStatus.NotReady;
+            }
         }
 
         private static void InitCallback()
@@ -138,7 +172,7 @@ namespace Playbox
         {
             OnLoadedFailed?.Invoke(info.ToString().PlayboxInfoD(arg1));
             OnAdLoadFailedEvent?.Invoke(arg1, info.ToString());
-            Load();
+            Load(1);
             Analytics.TrackEvent("rewarded_load_failed");
         }
 

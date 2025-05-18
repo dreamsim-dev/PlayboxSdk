@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Playbox
@@ -26,6 +27,20 @@ namespace Playbox
 
         public virtual void Close()
         {
+        }
+
+        public void DelayInvoke(Action action, float delay)
+        {
+            StartCoroutine(Invoker(action, delay));
+        }
+
+        private IEnumerator Invoker(Action action, float delay = 0)
+        {
+            yield return new WaitForSeconds(delay);
+            
+            action?.Invoke();
+            
+            yield return null;
         }
     }
 }

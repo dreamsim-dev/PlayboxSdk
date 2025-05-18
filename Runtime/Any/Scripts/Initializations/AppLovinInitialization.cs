@@ -35,16 +35,17 @@ namespace Playbox
         private void OnSdkInitializedEvent(MaxSdkBase.SdkConfiguration sdkConfiguration)
         {
 #if UNITY_IOS
-            Advertisement.RegisterReward(AppLovinConfiguration.IOSKey);
+            Advertisement.RegisterReward(AppLovinConfiguration.IOSKey, this);
 #endif
             
 #if UNITY_ANDROID
-            Advertisement.RegisterReward(AppLovinConfiguration.AndroidKey);
+            Advertisement.RegisterReward(AppLovinConfiguration.AndroidKey, this);
 #endif
             
             Advertisement.OnSdkInitializedEvent?.Invoke(sdkConfiguration.ToString());
             
             Advertisement.Log("AppLovinInitialization");
         }
+        
     }
 }
