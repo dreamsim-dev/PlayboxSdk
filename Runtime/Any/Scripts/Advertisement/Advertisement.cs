@@ -16,7 +16,7 @@ namespace Playbox
     {
         private static string unitId;
 
-        private static bool isReady()
+        public static bool isReady()
         {
             var ready = IsReadyStatus();
             return ready == AdReadyStatus.Ready;
