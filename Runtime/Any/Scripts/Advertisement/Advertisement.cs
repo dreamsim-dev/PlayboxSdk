@@ -105,6 +105,7 @@ namespace Playbox
         {
             if (!MaxSdk.IsInitialized())
             {
+                MaxSdk.InitializeSdk();
                 return AdReadyStatus.NotInitialized;
             }
 
