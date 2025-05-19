@@ -26,7 +26,7 @@ namespace Playbox.SdkConfigurations
 
         public static void Save()
         {
-            var path = Path.Combine(Application.streamingAssetsPath,"Resources","Playbox", "PlayboxConfig");
+            var path = Path.Combine(Application.dataPath,"Resources","Playbox", "PlayboxConfig");
         
             if (!Directory.Exists(path))
             {
