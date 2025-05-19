@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using Firebase;
 using Firebase.Crashlytics;
 using Firebase.Extensions;
@@ -16,7 +17,7 @@ namespace Playbox
  
         }
 
-        public static void InitializeCrashlytics()
+        public void InitializeCrashlytics()
         {
             FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
             {
@@ -32,20 +33,12 @@ namespace Playbox
             });
         }
 
-        private static void Init()
+        private void Init()
         {
             Crashlytics.ReportUncaughtExceptionsAsFatal = true; 
             Crashlytics.IsCrashlyticsCollectionEnabled = true;
-        }
-
-        public static void LogCrashlytics(string message)
-        {
-            Crashlytics.Log(message); 
-        }
-        
-        public static void LogCrashlyticsException(string message)
-        {
-            Crashlytics.LogException(new Exception(message));
+            
+            ApproveInitialization();
         }
     }
 }

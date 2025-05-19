@@ -21,9 +21,7 @@ namespace Playbox
         private static Dictionary<string, PurchaseValidator> verificationQueue = new(); // ticket_id and requestAction
 
         private static List<PurchaseValidator> keyBuffer = new();
-
-        private static bool isReadyAddToDictionary = false;
-
+        
         private static InAppVerification instance;
     
         public override void Initialization()

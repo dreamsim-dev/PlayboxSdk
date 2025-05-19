@@ -21,10 +21,13 @@ namespace Playbox
         private List<PlayboxBehaviour> behaviours = new();
         
         private const string objectName = "[Global] MainInitialization";
-
+        
+        public static Dictionary<string,bool> initStatus = new();
+        
         private void Awake()
         {
-            DontDestroyOnLoad(gameObject);
+            if(Application.isPlaying)
+                DontDestroyOnLoad(gameObject);
             
             GlobalPlayboxConfig.Load();
             
@@ -34,7 +37,21 @@ namespace Playbox
             behaviours.Add(AddToGameObject<FacebookSdkInitialization>(gameObject));
             behaviours.Add(AddToGameObject<AppLovinInitialization>(gameObject));
             behaviours.Add(AddToGameObject<InAppVerification>(gameObject, useInAppValidation) ?? null);
-            //behaviours.Add(AddToGameObject<InaAP>(gameObject));
+            
+            initStatus[nameof(FirebaseInitialization)] = false;
+            initStatus[nameof(AppsFlyerInitialization)] = false;
+            initStatus[nameof(DevToDevInitialization)] = false;
+            initStatus[nameof(FacebookSdkInitialization)] = false;
+            initStatus[nameof(AppLovinInitialization)] = false;
+            
+            foreach (var item in behaviours)
+            {
+                if(item != null)
+                    item.GetInitStatus(() =>
+                    {
+                        item.playboxName.PlayboxInfo("INITIALIZED");
+                    });
+            }
             
             foreach (var item in behaviours)
             {

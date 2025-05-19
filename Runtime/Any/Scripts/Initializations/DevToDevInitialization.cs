@@ -1,5 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using DevToDev.Analytics;
 using Playbox.SdkConfigurations;
+using UnityEngine;
 
 
 namespace Playbox
@@ -24,8 +27,16 @@ namespace Playbox
 #endif
             DTDAnalytics.SetLogLevel(DevToDevConfiguration.LOGLevel);
             
+            DTDAnalytics.CoppaControlEnable();
             DTDAnalytics.StartActivity();
 
+            DTDAnalytics.GetDeviceId((a) =>
+            {
+                if (!string.IsNullOrEmpty(a))
+                {
+                    ApproveInitialization();
+                }
+            });
         }
 
         public override void Close()

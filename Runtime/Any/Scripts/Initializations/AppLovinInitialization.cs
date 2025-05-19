@@ -1,4 +1,6 @@
-﻿using Playbox.SdkConfigurations;
+﻿using System.Collections;
+using Playbox.SdkConfigurations;
+using UnityEngine;
 
 namespace Playbox
 {
@@ -17,7 +19,8 @@ namespace Playbox
             
             MaxSdk.SetHasUserConsent(true);
             MaxSdk.SetSdkKey(AppLovinConfiguration.AdvertisementSdk);
-            MaxSdk.InitializeSdk();
+
+            StartCoroutine(initUpd());
 
         }
 
@@ -26,7 +29,25 @@ namespace Playbox
             base.Close();
             MaxSdkCallbacks.OnSdkInitializedEvent -= OnSdkInitializedEvent;
         }
-        
+
+        private IEnumerator initUpd()
+        {
+            while (true)
+            {
+                if (MaxSdk.IsInitialized())
+                {
+                    ApproveInitialization();
+                    yield break;
+                }
+                else
+                {
+                    MaxSdk.InitializeSdk();
+                }
+
+                yield return new WaitForSeconds(1f);
+            }
+        }
+
         private void OnSdkInitializedEvent(MaxSdkBase.SdkConfiguration sdkConfiguration)
         {
 #if UNITY_IOS

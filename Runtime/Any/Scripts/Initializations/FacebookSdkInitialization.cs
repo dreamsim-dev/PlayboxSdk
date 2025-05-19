@@ -42,6 +42,7 @@ namespace Playbox
             if (FB.IsInitialized)
             {
                 FB.ActivateApp();
+                ApproveInitialization();
             }
             else
             {

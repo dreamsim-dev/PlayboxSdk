@@ -6,6 +6,11 @@ namespace Playbox
 {
     public class PlayboxBehaviour : MonoBehaviour
     {
+        protected bool isInitialized = false;
+        protected Action initCallback;
+
+        public string playboxName => GetType().Name;
+        
         public static PlayboxBehaviour AddToGameObject<T>(GameObject target, bool hasAdd = true) where T : PlayboxBehaviour
         {
             if (target == null)
@@ -23,6 +28,18 @@ namespace Playbox
 
         public virtual void Initialization()
         {
+        }
+
+        public virtual void GetInitStatus(Action OnInitComplete)
+        {
+            OnInitComplete += () => initCallback?.Invoke();
+        }
+
+        public bool IsInitialization() => isInitialized;
+        protected void ApproveInitialization()
+        {
+            isInitialized = true;
+            initCallback.Invoke();
         }
 
         public virtual void Close()

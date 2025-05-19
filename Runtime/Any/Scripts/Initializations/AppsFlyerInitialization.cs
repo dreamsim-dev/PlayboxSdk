@@ -1,5 +1,7 @@
-﻿using Playbox.SdkConfigurations;
+﻿using System.Collections;
+using Playbox.SdkConfigurations;
 using AppsFlyerSDK;
+using UnityEngine;
 
 
 namespace Playbox
@@ -30,6 +32,21 @@ namespace Playbox
             AppsFlyer.setIsDebug(true);      
 #endif
             
+            StartCoroutine(initUpd());
+
+        }
+
+        private IEnumerator initUpd()
+        {
+            while (true)
+            {
+                if (!string.IsNullOrEmpty(AppsFlyer.getAppsFlyerId()))
+                {
+                    ApproveInitialization();
+                    yield break;
+                }
+                yield return new WaitForSeconds(1f);
+            }
         }
     }
 }
