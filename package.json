@@ -2,7 +2,7 @@
   "name": "dreamsim.playbox",
   "displayName": "Playbox",
   "author": "Dreamsim",
-  "version": "0.0.2",
+  "version": "0.0.21",
   "description": "Support package for SDK and CI/CD integration",
   "keywords": [
     "utility",
@@ -13,6 +13,7 @@
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.2.1",
     "com.unity.purchasing": "4.12.2",
-    "com.devtodev.sdk.analytics": "3.9.1"
+    "com.devtodev.sdk.analytics": "3.9.1",
+    "com.devtodev.sdk.analytics.google": "3.9.0"
   }
 }

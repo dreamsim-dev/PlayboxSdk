@@ -26,11 +26,6 @@ namespace Playbox
             base.Close();
             MaxSdkCallbacks.OnSdkInitializedEvent -= OnSdkInitializedEvent;
         }
-
-        private void OnAdHiddenEvent(string arg1, MaxSdkBase.AdInfo arg2)
-        {
-           Advertisement.OnAdHiddenEvent?.Invoke(arg1, arg2.ToString());
-        }
         
         private void OnSdkInitializedEvent(MaxSdkBase.SdkConfiguration sdkConfiguration)
         {
