@@ -104,6 +104,7 @@ namespace Playbox
         /// Вызывается когда реклама была просмотрена.
         /// </summary>
         public static Action OnRewarderedReceived;
+        public static Action OnPlayerOpened;
         
         private static AppLovinInitialization appLovinInitialization;
         
@@ -265,6 +266,7 @@ namespace Playbox
         private static void OnRewardedAdDisplayedEvent(string arg1, MaxSdkBase.AdInfo info)
         {
             OnDisplay?.Invoke();
+            OnPlayerOpened?.Invoke();
             Analytics.TrackEvent("rewarded_display");
         }
 
