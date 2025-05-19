@@ -29,7 +29,10 @@ namespace Playbox
             NullStatus,
             NotInitialized
         }
-    
+    /// <summary>
+    /// Responsible for advertising, is static. To use it, it must be initialized and AppLovinInitialization must be thrown into it.
+    /// Отвечает за рекламу, является статическим. Для использования его необходимо проинициализировать и прокинуть в него AppLovinInitialization.
+    /// </summary>
     public static class Advertisement
     {
         private static string unitId;
@@ -163,7 +166,10 @@ namespace Playbox
                 appLovinInitialization.DelayInvoke(() => { Load(); }, delay);
             }
         }
-
+        /// <summary>
+        /// Starts showing ads if they are ready to be shown, otherwise they will try to load again.
+        /// Запускает показ рекламы если она готова к показу, иначе она будет пытаться подгрузится снова.
+        /// </summary>
         public static void Show()
         {
             if (isReady())
@@ -175,7 +181,11 @@ namespace Playbox
                 Load();
             }
         }
-
+        /// <summary>
+        /// Starts showing ads if they are ready to be shown, otherwise they will try to load again.
+        /// Запускает показ рекламы если она готова к показу, иначе она будет пытаться подгрузится снова.
+        /// </summary>
+        [Obsolete("Obsolete, will be deleted in the future.Устарел, в дальнейшем будет удалено.")]
         public static void ShowSelf()
         {
             if (isReady())
@@ -188,6 +198,10 @@ namespace Playbox
             }
         }
 
+        /// <summary>
+        /// Custom advertising analytics.
+        /// Кастомная рекламная аналитика.
+        /// </summary>
         public static void Log(string message)
         {
             Analytics.TrackEvent(message.PlayboxInfoD("ADS"));
@@ -235,11 +249,31 @@ namespace Playbox
         private static void OnRewardedAdReceivedRewardEvent(string arg1, MaxSdkBase.Reward reward, MaxSdkBase.AdInfo info)
         {
             Analytics.TrackAd(info);
-            
             OnRewarderedReceived?.Invoke();  
             OnAdReceivedRewardEvent?.Invoke(arg1, reward.ToString());
+            
             Load();
             Analytics.TrackEvent("rewarded_received_display");
+
+            const string adImpressionsCount = "ad_impressions_count";
+
+            if (PlayerPrefs.HasKey(adImpressionsCount))
+            {
+                int adImpressions = PlayerPrefs.GetInt(adImpressionsCount, 0);
+                
+                Analytics.AdRewardCount(adImpressions);
+                
+                var division = Math.DivRem(adImpressions,30,out var remainder);
+                
+                if (division > 0 && remainder == 0)
+                {
+                    Analytics.AdToCart(adImpressions);
+                }
+            }
+            else
+            {
+                PlayerPrefs.SetInt(adImpressionsCount, 1);
+            }
         }
 
         private static void OnRewardedAdFailedToDisplayEvent(string arg1, MaxSdkBase.ErrorInfo reward, MaxSdkBase.AdInfo info)
