@@ -13,7 +13,6 @@
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.2.1",
     "com.unity.purchasing": "4.12.2",
-    "com.devtodev.sdk.analytics": "3.9.1",
-    "com.devtodev.sdk.analytics.google": "3.9.0"
+    "com.devtodev.sdk.analytics": "3.9.1"
   }
 }
