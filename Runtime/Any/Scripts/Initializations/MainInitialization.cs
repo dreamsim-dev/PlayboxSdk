@@ -50,6 +50,8 @@ namespace Playbox
                     item.GetInitStatus(() =>
                     {
                         item.playboxName.PlayboxInfo("INITIALIZED");
+                        initStatus[item.playboxName] = true;
+                        
                     });
             }
             

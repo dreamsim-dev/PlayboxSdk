@@ -21,9 +21,16 @@ namespace Playbox
 {
     public static class Analytics
     {
+        public static bool isAppsFlyerInit => MainInitialization.initStatus[nameof(AppsFlyerInitialization)];
+        public static bool isAppLovinInit => MainInitialization.initStatus[nameof(AppLovinInitialization)];
+        public static bool isDTDInit => MainInitialization.initStatus[nameof(DevToDevInitialization)];
+        public static bool isFSBInit => MainInitialization.initStatus[nameof(FacebookSdkInitialization)];
+        public static bool isFirebaseInit => MainInitialization.initStatus[nameof(FirebaseInitialization)];
+        
         public static void TutorialCompleted()
         {
-            AppsFlyer.sendEvent("af_tutorial_completion", new());
+            if (isAppsFlyerInit)
+                AppsFlyer.sendEvent("af_tutorial_completion", new());
         }
         
         public static void AdToCart(int count) // more than 30 ad impressions
@@ -42,7 +49,8 @@ namespace Playbox
             
             dict.Add(parameter_name, value.ToString());
             
-            AppsFlyer.sendEvent(eventName, dict);
+            if (isAppsFlyerInit)
+                AppsFlyer.sendEvent(eventName, dict);
         }
 
         public static void TrackEvent(string eventName, List<KeyValuePair<string,string>> arguments)
@@ -50,8 +58,8 @@ namespace Playbox
            //DTDAnalytics.CustomEvent(eventName, arguments.ToCustomParameters());
            
            //AppsFlyer.sendEvent(eventName, arguments.ToDictionary(a => a.Key, a => a.Value));
-           
-           FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
+           if (isFirebaseInit)
+                FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
         }
         
         public static void TrackEvent(string eventName, KeyValuePair<string,string> eventPair)
@@ -62,13 +70,15 @@ namespace Playbox
             //DTDAnalytics.CustomEvent(eventName, arguments.ToList().ToCustomParameters());
             
             //AppsFlyer.sendEvent(eventName, arguments);
-           
-            FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
+            if (isFirebaseInit)
+                FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
         }
 
         public static void LogLevelUp(int level)
         {
-            DTDAnalytics.LevelUp(level);
+            if (isDTDInit)
+                DTDAnalytics.LevelUp(level);
+            
             TrackEvent("LevelUp",new KeyValuePair<string, string>("level",level.ToString()));
             SendEvent("af_level_achieved","level",level);
         }
@@ -106,9 +116,11 @@ namespace Playbox
 
         public static void TrackEvent(string eventName)
         {
-            AppsFlyer.AFLog(nameof(TrackEvent), eventName);
+            if (isAppsFlyerInit)
+                AppsFlyer.AFLog(nameof(TrackEvent), eventName);
             
-            FirebaseAnalytics.LogEvent(eventName);
+            if (isFirebaseInit)
+                FirebaseAnalytics.LogEvent(eventName);
         }
         
         public static void TrackSimpleEvent(string eventName, string value)
@@ -118,21 +130,25 @@ namespace Playbox
 
         public static void Log(string message)
         {
-            FirebaseAnalytics.LogEvent(message);
+            if (isFirebaseInit)
+                FirebaseAnalytics.LogEvent(message);
         }
         
         public static void LogError(string error)
         {
-           Firebase.Crashlytics.Crashlytics.Log(error);
+            if (isFirebaseInit)
+                Firebase.Crashlytics.Crashlytics.Log(error);
         }
 
         public static void LogPurshaseInitiation(UnityEngine.Purchasing.Product product)
         {
             TrackEvent("purchasing_init",new KeyValuePair<string, string>("purchasing_init",product.definition.id));
             
-            FB.Purchase(product.definition.id,null);
+            if (isFSBInit)
+                FB.Purchase(product.definition.id,null);
             
-            AppsFlyer.sendEvent("af_initiated_checkout",new());
+            if (isAppsFlyerInit)
+                AppsFlyer.sendEvent("af_initiated_checkout",new());
         }
 
         public static void LogPurchase(PurchaseEventArgs args)
@@ -144,7 +160,8 @@ namespace Playbox
             var price = args.purchasedProduct.metadata.localizedPrice;
             string currency = args.purchasedProduct.metadata.isoCurrencyCode;
             
-            DTDAnalytics.RealCurrencyPayment(orderId,(double)price, productId, currency);
+            if (isDTDInit)
+                DTDAnalytics.RealCurrencyPayment(orderId,(double)price, productId, currency);
             
             Dictionary<string, string> eventValues = new ()
             {
@@ -154,8 +171,11 @@ namespace Playbox
                 { "af_content_id", productId }
             };
 
-            AppsFlyer.sendEvent("af_purchase", eventValues);
-            FB.Purchase(productId,null);
+            if (isAppsFlyerInit)
+                AppsFlyer.sendEvent("af_purchase", eventValues);
+            
+            if (isFSBInit)
+                FB.Purchase(productId,null);
         }
 
         public static void TrackAd(MaxSdkBase.AdInfo impressionData)
@@ -172,8 +192,8 @@ namespace Playbox
             };
             
             //TO DO: Потом будем пулять в AppsFlyer тоже
-            
-            FirebaseAnalytics.LogEvent("ad_impression", impressionParameters);
+            if (isFirebaseInit)
+                FirebaseAnalytics.LogEvent("ad_impression", impressionParameters);
         }
     }
 }

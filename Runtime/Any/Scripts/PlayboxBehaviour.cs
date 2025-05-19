@@ -7,7 +7,7 @@ namespace Playbox
     public class PlayboxBehaviour : MonoBehaviour
     {
         protected bool isInitialized = false;
-        protected Action initCallback;
+        protected Action initCallback = delegate { };
 
         public string playboxName => GetType().Name;
         
@@ -32,7 +32,7 @@ namespace Playbox
 
         public virtual void GetInitStatus(Action OnInitComplete)
         {
-            OnInitComplete += () => initCallback?.Invoke();
+            initCallback += () => OnInitComplete?.Invoke();
         }
 
         public bool IsInitialization() => isInitialized;
