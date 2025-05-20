@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AppsFlyerSDK;
 using DevToDev.Analytics;
@@ -55,7 +56,7 @@ namespace Playbox
 
         public static void TrackEvent(string eventName, List<KeyValuePair<string,string>> arguments)
         {
-           //DTDAnalytics.CustomEvent(eventName, arguments.ToCustomParameters());
+           DTDAnalytics.CustomEvent(eventName, arguments.ToCustomParameters());
            
            //AppsFlyer.sendEvent(eventName, arguments.ToDictionary(a => a.Key, a => a.Value));
            if (isFirebaseInit)
@@ -67,7 +68,7 @@ namespace Playbox
             var arguments = new Dictionary<string,string>();
             arguments.Add(eventPair.Key, eventPair.Value);
             
-            //DTDAnalytics.CustomEvent(eventName, arguments.ToList().ToCustomParameters());
+            DTDAnalytics.CustomEvent(eventName, arguments.ToList().ToCustomParameters());
             
             //AppsFlyer.sendEvent(eventName, arguments);
             if (isFirebaseInit)
@@ -142,6 +143,9 @@ namespace Playbox
 
         public static void LogPurshaseInitiation(UnityEngine.Purchasing.Product product)
         {
+            if(product == null)
+                throw new Exception("Product is null");
+            
             TrackEvent("purchasing_init",new KeyValuePair<string, string>("purchasing_init",product.definition.id));
             
             if (isFSBInit)
