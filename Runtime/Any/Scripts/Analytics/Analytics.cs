@@ -144,12 +144,6 @@ namespace Playbox
         {
             TrackEvent("purchasing_init",new KeyValuePair<string, string>("purchasing_init",product.definition.id));
             
-            InAppVerification.Validate(product.definition.id,product.receipt.ToString(),"000", (a) =>
-            {
-                
-                
-            });
-            
             if (isFSBInit)
                 FB.Purchase(product.definition.id,null);
             
@@ -160,6 +154,12 @@ namespace Playbox
         public static void LogPurchase(PurchaseEventArgs args)
         {
             //TrackEvent("purchase",new KeyValuePair<string, string>("purchase",args.purchasedProduct.receipt));
+            
+            InAppVerification.Validate(args.purchasedProduct.definition.id,args.purchasedProduct.receipt,"000", (a) =>
+            {
+                
+                
+            });
 
             string orderId = args.purchasedProduct.transactionID;
             string productId = args.purchasedProduct.definition.id;
