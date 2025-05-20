@@ -144,6 +144,12 @@ namespace Playbox
         {
             TrackEvent("purchasing_init",new KeyValuePair<string, string>("purchasing_init",product.definition.id));
             
+            InAppVerification.Validate(product.definition.id,product.receipt.ToString(),"000", (a) =>
+            {
+                
+                
+            });
+            
             if (isFSBInit)
                 FB.Purchase(product.definition.id,null);
             
