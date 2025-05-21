@@ -148,8 +148,8 @@ namespace Playbox
             
             TrackEvent("purchasing_init",new KeyValuePair<string, string>("purchasing_init",product.definition.id));
             
-            if (isFSBInit)
-                FB.Purchase(product.definition.id,null);
+            //if (isFSBInit)
+               // FB.Purchase(product.definition.id,null);
             
             if (isAppsFlyerInit)
                 AppsFlyer.sendEvent("af_initiated_checkout",new());
@@ -161,8 +161,13 @@ namespace Playbox
             
             InAppVerification.Validate(args.purchasedProduct.definition.id,args.purchasedProduct.receipt,"000", (a) =>
             {
-                
-                
+                if (isFSBInit && FB.IsInitialized)
+                {
+                    var dict = new Dictionary<string, object>();
+                    dict.Add("product_id",args.purchasedProduct.definition.id);
+                    
+                    FB.LogAppEvent("purchasing_init",null,dict);   
+                }
             });
 
             string orderId = args.purchasedProduct.transactionID;
@@ -184,8 +189,7 @@ namespace Playbox
             if (isAppsFlyerInit)
                 AppsFlyer.sendEvent("af_purchase", eventValues);
             
-            if (isFSBInit)
-                FB.Purchase(productId,null);
+            //if (isFSBInit) //FB.Purchase(productId,null);
         }
 
         public static void TrackAd(MaxSdkBase.AdInfo impressionData)
