@@ -2,7 +2,7 @@
   "name": "dreamsim.playbox",
   "displayName": "Playbox",
   "author": "Dreamsim",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "Support package for SDK and CI/CD integration",
   "keywords": [
     "utility",

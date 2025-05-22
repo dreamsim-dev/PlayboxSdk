@@ -32,10 +32,11 @@ namespace Playbox.CI
             document.root.SetString("teamID",              "AD5J7QFQ52");
 
             // Привязка provisioning profile к bundle identifier
+            
             var profiles = document.root.CreateDict("provisioningProfiles");
             profiles.SetString(
-                "world.dreamsim.ragstoriches",   // ваш Bundle ID
-                "rags-to-riches"                 // имя provisioning profile
+                Playbox.Data.Playbox.GameId,   // ваш Bundle ID
+                SmartCma.Arguments.ProvisionProfileIos                 // имя provisioning profile
             );
         }
 
