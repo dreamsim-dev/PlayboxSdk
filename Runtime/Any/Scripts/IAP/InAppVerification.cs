@@ -10,7 +10,7 @@ namespace Playbox
 {
     public class InAppVerification : PlayboxBehaviour
     {
-        [SerializeField] private bool isSandbox = true;
+        [SerializeField] private bool isSandbox => InAppVerificationCongifuration.IsSandbox;
 
         [SerializeField] private float verifyUpdateRate = 1;
 
@@ -23,7 +23,7 @@ namespace Playbox
         private static List<PurchaseValidator> keyBuffer = new();
         
         private static InAppVerification instance;
-    
+
         public override void Initialization()
         {
             if (instance == null)
