@@ -64,3 +64,14 @@
     - [Firebase Crashlytics & Firebase Analytics](https://firebase.google.com/download/unity) 
 
 ---
+
+## About
+
+> **The SDK consists of:**
+>
+> 1. CI/CD builder for unity.
+> 2. Unification of several analytical sdk.
+> 3. Unification of advertising.
+> 4. Validation of purchases.
+> 5. Abstraction over the sdc of purchases.
+> 6. Custom log system.
