@@ -35,10 +35,15 @@
 
 1. **DevToDev** 
 
+    > - **Adding DevToDev packages via unity package manager**
     >
     > - [DevToDev Analytics GitHub](https://github.com/devtodev-analytics/package_Analytics.git)
     >
+        https://github.com/devtodev-analytics/package_Analytics.git
+    >
     > - [DevToDev Google GitHub](https://github.com/devtodev-analytics/package_Google.git) 
+    >
+        https://github.com/devtodev-analytics/package_Google.git
     >
 
 1. **FaceBookSdk** 
