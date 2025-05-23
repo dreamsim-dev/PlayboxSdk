@@ -161,6 +161,9 @@ namespace Playbox
             
             InAppVerification.Validate(args.purchasedProduct.definition.id,args.purchasedProduct.receipt,"000", (a) =>
             {
+                if(!a)
+                    return; 
+                
                 if (isFSBInit && FB.IsInitialized)
                 {
                     var dict = new Dictionary<string, object>();
