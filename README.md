@@ -30,7 +30,7 @@
     >
     > - [AppsFlyer upm link](https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#upm)
     >
-        >   -  <code><https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#upm></code>
+         <code><https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#upm></code>
     >
 
 1. **DevToDev** 
