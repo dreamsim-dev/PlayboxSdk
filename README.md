@@ -1,18 +1,56 @@
-<body>
+> Document in development.
+# PlayboxSDK Integration
 
-<h1>Playbox Integration</h1>
-  
-<h2>Install</h2>
+---
 
-AppLovin is integrating first
+## Install
 
-<div>AppsFlyer - https://github.com/AppsFlyerSDK/appsflyer-unity-plugin</div>
-<div> "appsflyer-unity-plugin": "https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#upm"</div>
-<div>AppLovin - https://developers.applovin.com/en/max/unity/overview/integration/</div>
-<div>DevToDev - https://github.com/devtodev-analytics/package_Analytics.git</div>
-<div>https://github.com/devtodev-analytics/package_Google.git </div>
-<div>FaceBookSdk - https://developers.facebook.com/docs/unity/</div>
-<div>Unity In app - From UPM</div>
-<div>Firebase - https://firebase.google.com/download/unity<div>(Firebase Crashlytics & Firebase Analytics)</div></div>
+### Before everything
 
-</body>
+
+1. **AppLovin**
+
+    >
+    >   - **Download the AppLovin package**
+    >
+    >   - [AppLovin](https://developers.applovin.com/en/max/unity/overview/integration/)
+    >
+    >   - **Import AppLovin into Unity**
+    >
+    >   - AppLovin will automatically install the External Dependency Manager. 
+    >
+
+
+1. **AppsFlyer**
+    
+    >
+    > - [Download AppsFlyerSDK package](https://github.com/AppsFlyerSDK/appsflyer-unity-plugin).
+    >
+    > - ***Or add a package via the unity package manager***
+    >
+    > - [AppsFlyer upm link](https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#upm)
+    >
+        >   -  <code><https://github.com/AppsFlyerSDK/appsflyer-unity-plugin.git#upm></code>
+    >
+
+1. **DevToDev** 
+
+    >
+    > - [DevToDev Analytics GitHub](https://github.com/devtodev-analytics/package_Analytics.git)
+    >
+    > - [DevToDev Google GitHub](https://github.com/devtodev-analytics/package_Google.git) 
+    >
+
+1. **FaceBookSdk** 
+
+    - [Facebook](https://developers.facebook.com/docs/unity/)
+
+1. **Unity In app**
+
+    - [From UPM](https://docs.unity3d.com/Packages/com.unity.purchasing@4.12/manual/index.html)
+
+1. **Firebase** 
+
+    - [Firebase Crashlytics & Firebase Analytics](https://firebase.google.com/download/unity) 
+
+---
