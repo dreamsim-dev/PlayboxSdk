@@ -22,9 +22,11 @@
 
 
 1. **AppsFlyer**
-    
+
     >
-    > - [Download AppsFlyerSDK package](https://github.com/AppsFlyerSDK/appsflyer-unity-plugin).
+    > - Download **AppsFlyer** and import to unity project
+    >
+    >   - [AppsFlyerSDK Download Link](https://github.com/AppsFlyerSDK/appsflyer-unity-plugin/releases).
     >
     > - ***Or add a package via the unity package manager***
     >
@@ -46,13 +48,16 @@
         https://github.com/devtodev-analytics/package_Google.git
     >
 
-1. **FaceBookSdk** 
+1. **Facebook SDK** 
 
-    - [Facebook](https://developers.facebook.com/docs/unity/)
+    >
+    > - [Facebook Download Link](https://lookaside.facebook.com/developers/resources/?id=FacebookSDK-current.zip)
+    >
+    > - ***When adding the Facebook SDK, there may be collisions with standard unity ui components. To fix this you need to delete Facebook Samples (folder with Facebook samples), and then call Reimport All command in unity.***
 
 1. **Unity In app**
 
-    - [From UPM](https://docs.unity3d.com/Packages/com.unity.purchasing@4.12/manual/index.html)
+    - [Unity Purchase](https://docs.unity3d.com/Packages/com.unity.purchasing@4.12/manual/index.html)
 
 1. **Firebase** 
 
