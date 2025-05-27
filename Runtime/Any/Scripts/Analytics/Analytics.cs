@@ -175,28 +175,27 @@ namespace Playbox
                     
                     FB.LogAppEvent("purchasing_init",null,dict);   
                 }
+                
+                string orderId = args.purchasedProduct.transactionID;
+                string productId = args.purchasedProduct.definition.id;
+                var price = args.purchasedProduct.metadata.localizedPrice;
+                string currency = args.purchasedProduct.metadata.isoCurrencyCode;
+            
+                if (isDTDInit)
+                    DTDAnalytics.RealCurrencyPayment(orderId,(double)price, productId, currency);
+            
+                Dictionary<string, string> eventValues = new ()
+                {
+                    { "af_currency", currency },
+                    { "af_revenue", price.ToString() },
+                    { "af_quantity", "1" },
+                    { "af_content_id", productId }
+                };
+
+                if (isAppsFlyerInit)
+                    AppsFlyer.sendEvent("af_purchase", eventValues);
+            
             });
-
-            string orderId = args.purchasedProduct.transactionID;
-            string productId = args.purchasedProduct.definition.id;
-            var price = args.purchasedProduct.metadata.localizedPrice;
-            string currency = args.purchasedProduct.metadata.isoCurrencyCode;
-            
-            if (isDTDInit)
-                DTDAnalytics.RealCurrencyPayment(orderId,(double)price, productId, currency);
-            
-            Dictionary<string, string> eventValues = new ()
-            {
-                { "af_currency", currency },
-                { "af_revenue", price.ToString() },
-                { "af_quantity", "1" },
-                { "af_content_id", productId }
-            };
-
-            if (isAppsFlyerInit)
-                AppsFlyer.sendEvent("af_purchase", eventValues);
-            
-            //if (isFSBInit) //FB.Purchase(productId,null);
         }
 
         public static void TrackAd(MaxSdkBase.AdInfo impressionData)
