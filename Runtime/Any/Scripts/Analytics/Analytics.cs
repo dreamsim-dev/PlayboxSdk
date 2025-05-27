@@ -162,7 +162,7 @@ namespace Playbox
                 
                 if(!isValid)
                     return;
-                
+                /*
                 if (isFSBInit && FB.IsInitialized)
                 {
                     var dict = new Dictionary<string, object>();
@@ -170,7 +170,7 @@ namespace Playbox
                     
                     FB.LogAppEvent("purchasing_init",null,dict);   
                 }
-                
+                */
                 string orderId = args.purchasedProduct.transactionID;
                 string productId = args.purchasedProduct.definition.id;
                 var price = args.purchasedProduct.metadata.localizedPrice;
@@ -189,7 +189,6 @@ namespace Playbox
 
                 if (isAppsFlyerInit)
                     AppsFlyer.sendEvent("af_purchase", eventValues);
-            
             });
         }
         
@@ -209,25 +208,6 @@ namespace Playbox
                     
                     FB.LogAppEvent("purchasing_init",null,dict);   
                 }
-                
-                string orderId = "0";
-                var price = 123.0f;
-                string currency = "$";
-            
-                if (isDTDInit)
-                    DTDAnalytics.RealCurrencyPayment(orderId,(double)price, productId, currency);
-            
-                Dictionary<string, string> eventValues = new ()
-                {
-                    { "af_currency", currency },
-                    { "af_revenue", price.ToString() },
-                    { "af_quantity", "1" },
-                    { "af_content_id", productId }
-                };
-
-                if (isAppsFlyerInit)
-                    AppsFlyer.sendEvent("af_purchase", eventValues);
-            
             });
         }
 
