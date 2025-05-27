@@ -157,7 +157,7 @@ namespace Playbox
         {
             InAppVerification.Validate(args.purchasedProduct.definition.id,args.purchasedProduct.receipt,"000", (isValid) =>
             {
-                "Putchase Test".SplashLog(isValid ? $"<color=#{Color.green}>verified</color>" : $"<color=#{Color.red}>not verified</color>");
+                "Putchase Test".SplashLog(isValid ? $"verified" : $"<not verified");
                 "Purchase Test".PlayboxInfo("Purchase");
                 
                 if(!isValid)
