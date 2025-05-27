@@ -37,15 +37,15 @@ namespace Playbox
         
         public static void AdToCart(int count) // more than 30 ad impressions
         {
-            SendEvent("af_add_to_cart","count", count);
+            SendAppsFlyerEvent("af_add_to_cart","count", count);
         }
         
         public static void AdRewardCount(int count) // ad views
         {
-            SendEvent("ad_reward","count", count);
+            SendAppsFlyerEvent("ad_reward","count", count);
         }
         
-        private static void SendEvent(string eventName,string parameter_name, int value)
+        private static void SendAppsFlyerEvent(string eventName,string parameter_name, int value)
         {
             var dict = new Dictionary<string, string>();
             
@@ -58,11 +58,10 @@ namespace Playbox
         public static void TrackEvent(string eventName, List<KeyValuePair<string,string>> arguments)
         {
             if(isDTDInit)
-                DTDAnalytics.CustomEvent(eventName, arguments.ToCustomParameters());
-           
-           //AppsFlyer.sendEvent(eventName, arguments.ToDictionary(a => a.Key, a => a.Value));
-           if (isFirebaseInit)
-                FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
+                    DTDAnalytics.CustomEvent(eventName, arguments.ToCustomParameters());
+            
+            if (isFirebaseInit)
+                    FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
         }
         
         public static void TrackEvent(string eventName, KeyValuePair<string,string> eventPair)
@@ -72,8 +71,7 @@ namespace Playbox
             
             if(isDTDInit)
                 DTDAnalytics.CustomEvent(eventName, arguments.ToList().ToCustomParameters());
-            
-            //AppsFlyer.sendEvent(eventName, arguments);
+     
             if (isFirebaseInit)
                 FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
         }
@@ -83,7 +81,7 @@ namespace Playbox
             if (isDTDInit)
                 DTDAnalytics.LevelUp(level);
             
-            SendEvent("af_level_achieved","level",level);
+            SendAppsFlyerEvent("af_level_achieved","level",level);
         }
         
         public static void LogContentView(string content)
@@ -126,6 +124,7 @@ namespace Playbox
                 DTDAnalytics.CustomEvent(eventName);
         }
 
+        
         public static void Log(string message)
         {
             if (isFirebaseInit)
