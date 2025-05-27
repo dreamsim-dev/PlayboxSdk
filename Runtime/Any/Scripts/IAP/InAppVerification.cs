@@ -143,7 +143,6 @@ namespace Playbox
                     yield return GetStatus(item, b => { 
                         if(b)
                         {
-                            item.Value.OnCallback?.Invoke(true);
                             removesProductId.Add(item.Key);
                         }
                     });
