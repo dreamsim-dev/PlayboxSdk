@@ -149,26 +149,19 @@ namespace Playbox
             
             TrackEvent("purchasing_init",new KeyValuePair<string, string>("purchasing_init",product.definition.id));
             
-            //if (isFSBInit)
-               // FB.Purchase(product.definition.id,null);
-            
             if (isAppsFlyerInit)
                 AppsFlyer.sendEvent("af_initiated_checkout",new());
         }
 
         public static void LogPurchase(PurchaseEventArgs args)
         {
-            //TrackEvent("purchase",new KeyValuePair<string, string>("purchase",args.purchasedProduct.receipt));
-            
             InAppVerification.Validate(args.purchasedProduct.definition.id,args.purchasedProduct.receipt,"000", (isValid) =>
             {
                 "Putchase Test".SplashLog(isValid ? $"<color=#{Color.green}>verified</color>" : $"<color=#{Color.red}>not verified</color>");
+                "Purchase Test".PlayboxInfo("Purchase");
                 
                 if(!isValid)
                     return;
-
-
-                "Putchase Test".PlayboxInfo("Purchase");
                 
                 if (isFSBInit && FB.IsInitialized)
                 {

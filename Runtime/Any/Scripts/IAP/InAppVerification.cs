@@ -191,8 +191,7 @@ namespace Playbox
                 switch (IAPResponseStatus.GetStatusByString(json["status"].ToString()))
                 {
                     case IAPResponseStatus.EIAPResponseStatus.none:
-                    
-                        item.Value.OnCallback?.Invoke(false);
+                        
                         remove?.Invoke(true);
                     
                         break;
@@ -217,17 +216,13 @@ namespace Playbox
                         break;
                 
                     case IAPResponseStatus.EIAPResponseStatus.error:
-                    
-                        item.Value.OnCallback?.Invoke(false);
+                        
                         remove?.Invoke(true);
-                    
                         break;
                 
                     case IAPResponseStatus.EIAPResponseStatus.timeout:
-                    
-                        item.Value.OnCallback?.Invoke(false);
+                        
                         remove?.Invoke(true);
-                    
                         break;
                 
                     default:
