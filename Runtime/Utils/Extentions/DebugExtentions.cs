@@ -44,6 +44,11 @@ namespace CI.Utils.Extentions
             currentPrefix = "";
             prefixes.Clear();
         }
+        
+        private static void SplashLog(this object obj, string text)
+        {
+          //  PlayboxLogger(Color.black, text,);
+        }
 
         private static string PlayboxLogger(Color color,object text,Action<string> action, string predicate = "Playbox",string description = "", bool isException = false)
         {
@@ -59,7 +64,7 @@ namespace CI.Utils.Extentions
             
             return str;
         }
-        
+
         public static string PlayboxLog(this object text, string description = "")
         {
             return PlayboxLogger(Color.white, text,str=> Debug.Log(str,text as GameObject),"Log",description);
