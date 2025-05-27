@@ -1,18 +1,24 @@
-﻿using System;
-using UnityEngine;
+﻿using TMPro;
 using UnityEngine.Events;
 
 namespace Playbox
 {
     public class PlayboxSplashLogger : PlayboxBehaviour
     {
-        public UnityEvent<string> OnSplash;
-        
         public static UnityAction<string> SplashEvent;
+        
+        TMP_Text text;
 
         private void Start()
         {
-            SplashEvent += (arg0) => OnSplash?.Invoke(arg0);
+            text = GetComponent<TMP_Text>();
+
+            SplashEvent += OnText;
+        }
+
+        private void OnText(string text)
+        {
+            this.text.text = text;
         }
     }
 }
