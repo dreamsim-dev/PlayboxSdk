@@ -45,7 +45,7 @@ namespace CI.Utils.Extentions
             prefixes.Clear();
         }
         
-        private static void SplashLog(this object obj, string text)
+        public static void SplashLog(this object obj, string text)
         {
             PlayboxSplashLogger.SplashEvent?.Invoke(text);
             
