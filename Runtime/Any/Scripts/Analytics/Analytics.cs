@@ -57,7 +57,8 @@ namespace Playbox
 
         public static void TrackEvent(string eventName, List<KeyValuePair<string,string>> arguments)
         {
-           DTDAnalytics.CustomEvent(eventName, arguments.ToCustomParameters());
+            if(isDTDInit)
+                DTDAnalytics.CustomEvent(eventName, arguments.ToCustomParameters());
            
            //AppsFlyer.sendEvent(eventName, arguments.ToDictionary(a => a.Key, a => a.Value));
            if (isFirebaseInit)
@@ -69,7 +70,8 @@ namespace Playbox
             var arguments = new Dictionary<string,string>();
             arguments.Add(eventPair.Key, eventPair.Value);
             
-            DTDAnalytics.CustomEvent(eventName, arguments.ToList().ToCustomParameters());
+            if(isDTDInit)
+                DTDAnalytics.CustomEvent(eventName, arguments.ToList().ToCustomParameters());
             
             //AppsFlyer.sendEvent(eventName, arguments);
             if (isFirebaseInit)
@@ -123,6 +125,9 @@ namespace Playbox
             
             if (isFirebaseInit)
                 FirebaseAnalytics.LogEvent(eventName);
+            
+            if (isDTDInit)
+                DTDAnalytics.CustomEvent(eventName);
         }
         
         public static void TrackSimpleEvent(string eventName, string value)
@@ -189,25 +194,6 @@ namespace Playbox
 
                 if (isAppsFlyerInit)
                     AppsFlyer.sendEvent("af_purchase", eventValues);
-            });
-        }
-        
-        public static void LogSimplePurchase(string productId, string receipt, string currency)
-        {
-            InAppVerification.Validate(productId,receipt,"000", (isValid) =>
-            {
-                "Putchase Test".SplashLog(isValid ? "verified" : "not verified");
-                
-                if(!isValid)
-                    return;
-                
-                if (isFSBInit && FB.IsInitialized)
-                {
-                    var dict = new Dictionary<string, object>();
-                    dict.Add("product_id",productId);
-                    
-                    FB.LogAppEvent("purchasing_init",null,dict);   
-                }
             });
         }
 
