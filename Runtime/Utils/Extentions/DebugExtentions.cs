@@ -47,6 +47,8 @@ namespace CI.Utils.Extentions
         
         private static void SplashLog(this object obj, string text)
         {
+            PlayboxSplashLogger.SplashEvent?.Invoke(text);
+            
           //  PlayboxLogger(Color.black, text,);
         }
 
