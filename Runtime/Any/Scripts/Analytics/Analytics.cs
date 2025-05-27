@@ -83,7 +83,6 @@ namespace Playbox
             if (isDTDInit)
                 DTDAnalytics.LevelUp(level);
             
-            TrackEvent("LevelUp",new KeyValuePair<string, string>("level",level.ToString()));
             SendEvent("af_level_achieved","level",level);
         }
         
@@ -120,9 +119,6 @@ namespace Playbox
 
         public static void TrackEvent(string eventName)
         {
-            if (isAppsFlyerInit)
-                AppsFlyer.AFLog(nameof(TrackEvent), eventName);
-            
             if (isFirebaseInit)
                 FirebaseAnalytics.LogEvent(eventName);
             
@@ -130,23 +126,6 @@ namespace Playbox
                 DTDAnalytics.CustomEvent(eventName);
         }
         
-        public static void TrackSimpleEvent(string eventName, string value)
-        {
-            TrackEvent(eventName, new List<KeyValuePair<string,string>> {new(eventName, value)});
-        }
-
-        public static void Log(string message)
-        {
-            if (isFirebaseInit)
-                FirebaseAnalytics.LogEvent(message);
-        }
-        
-        public static void LogError(string error)
-        {
-            if (isFirebaseInit)
-                Firebase.Crashlytics.Crashlytics.Log(error);
-        }
-
         public static void LogPurshaseInitiation(UnityEngine.Purchasing.Product product)
         {
             if(product == null)
