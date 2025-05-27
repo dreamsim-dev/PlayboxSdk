@@ -24,10 +24,11 @@ namespace Playbox
 #endif
 #if UNITY_IOS
             DTDAnalytics.Initialize(DevToDevConfiguration.IOSKey);
+            
 #endif
             DTDAnalytics.SetLogLevel(DevToDevConfiguration.LOGLevel);
             
-            DTDAnalytics.CoppaControlEnable();
+            //DTDAnalytics.CoppaControlEnable();
             DTDAnalytics.StartActivity();
 
             DTDAnalytics.GetDeviceId((a) =>
