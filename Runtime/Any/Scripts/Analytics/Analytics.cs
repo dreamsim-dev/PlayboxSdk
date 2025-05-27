@@ -125,7 +125,19 @@ namespace Playbox
             if (isDTDInit)
                 DTDAnalytics.CustomEvent(eventName);
         }
+
+        public static void Log(string message)
+        {
+            if (isFirebaseInit)
+                FirebaseAnalytics.LogEvent(message);
+        }
         
+        public static void LogError(string error)
+        {
+            if (isFirebaseInit)
+                Firebase.Crashlytics.Crashlytics.Log(error);
+        }
+
         public static void LogPurshaseInitiation(UnityEngine.Purchasing.Product product)
         {
             if(product == null)
