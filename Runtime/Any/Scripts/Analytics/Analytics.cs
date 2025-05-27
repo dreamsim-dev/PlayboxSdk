@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AppsFlyerSDK;
+using CI.Utils.Extentions;
 using DevToDev.Analytics;
 using Facebook.Unity;
 using Firebase.Analytics;
@@ -159,10 +160,13 @@ namespace Playbox
         {
             //TrackEvent("purchase",new KeyValuePair<string, string>("purchase",args.purchasedProduct.receipt));
             
-            InAppVerification.Validate(args.purchasedProduct.definition.id,args.purchasedProduct.receipt,"000", (a) =>
+            InAppVerification.Validate(args.purchasedProduct.definition.id,args.purchasedProduct.receipt,"000", (isValid) =>
             {
-                if(!a)
-                    return; 
+                if(!isValid)
+                    return;
+
+
+                "Putchase Test".PlayboxInfo("Purchase");
                 
                 if (isFSBInit && FB.IsInitialized)
                 {
