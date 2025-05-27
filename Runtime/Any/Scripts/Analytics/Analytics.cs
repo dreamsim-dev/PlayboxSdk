@@ -192,6 +192,44 @@ namespace Playbox
             
             });
         }
+        
+        public static void LogSimplePurchase(string productId, string receipt, string currency)
+        {
+            InAppVerification.Validate(productId,receipt,"000", (isValid) =>
+            {
+                "Putchase Test".SplashLog(isValid ? "verified" : "not verified");
+                
+                if(!isValid)
+                    return;
+                
+                if (isFSBInit && FB.IsInitialized)
+                {
+                    var dict = new Dictionary<string, object>();
+                    dict.Add("product_id",productId);
+                    
+                    FB.LogAppEvent("purchasing_init",null,dict);   
+                }
+                
+                string orderId = "0";
+                var price = 123.0f;
+                string currency = "$";
+            
+                if (isDTDInit)
+                    DTDAnalytics.RealCurrencyPayment(orderId,(double)price, productId, currency);
+            
+                Dictionary<string, string> eventValues = new ()
+                {
+                    { "af_currency", currency },
+                    { "af_revenue", price.ToString() },
+                    { "af_quantity", "1" },
+                    { "af_content_id", productId }
+                };
+
+                if (isAppsFlyerInit)
+                    AppsFlyer.sendEvent("af_purchase", eventValues);
+            
+            });
+        }
 
         public static void TrackAd(MaxSdkBase.AdInfo impressionData)
         {

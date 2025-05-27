@@ -43,10 +43,10 @@ namespace Playbox
             StartCoroutine(UpdatePurchases());
 
         }
-    
+        
         public static void Validate(string productID,string receipt ,string saveId, Action<bool> callback)
         {
-            if (instance == null) return;
+            if(instance == null) return;
             if(string.IsNullOrEmpty(productID)) return;
             if(callback == null) return;
         
