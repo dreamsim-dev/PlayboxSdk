@@ -6,8 +6,7 @@ namespace Playbox
 {
     public class PlayboxSplashLogger : PlayboxBehaviour
     {
-        [SerializeField]
-        private UnityAction<string> OnSplash;
+        public UnityEvent<string> OnSplash;
         
         public static UnityAction<string> SplashEvent;
 
