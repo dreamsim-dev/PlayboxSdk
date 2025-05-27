@@ -63,7 +63,7 @@ namespace Playbox
             if (isFirebaseInit)
                     FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
         }
-        
+
         public static void TrackEvent(string eventName, KeyValuePair<string,string> eventPair)
         {
             var arguments = new Dictionary<string,string>();
