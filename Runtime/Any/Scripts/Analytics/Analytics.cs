@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using AppsFlyerSDK;
 using CI.Utils.Extentions;
@@ -21,31 +22,49 @@ using UnityEngine.Purchasing;
 
 namespace Playbox
 {
+    /// <summary>
+    /// Clavicular static analytics collection class
+    /// </summary>
     public static class Analytics
     {
-        public static bool isAppsFlyerInit => MainInitialization.initStatus[nameof(AppsFlyerInitialization)];
-        public static bool isAppLovinInit => MainInitialization.initStatus[nameof(AppLovinInitialization)];
-        public static bool isDTDInit => MainInitialization.initStatus[nameof(DevToDevInitialization)];
-        public static bool isFSBInit => MainInitialization.initStatus[nameof(FacebookSdkInitialization)];
-        public static bool isFirebaseInit => MainInitialization.initStatus[nameof(FirebaseInitialization)];
+        private static bool isAppsFlyerInit => MainInitialization.initStatus[nameof(AppsFlyerInitialization)];
+        private static bool isAppLovinInit => MainInitialization.initStatus[nameof(AppLovinInitialization)];
+        private static bool isDTDInit => MainInitialization.initStatus[nameof(DevToDevInitialization)];
+        private static bool isFSBInit => MainInitialization.initStatus[nameof(FacebookSdkInitialization)];
+        private static bool isFirebaseInit => MainInitialization.initStatus[nameof(FirebaseInitialization)];
         
+        /// <summary>
+        /// Sends the event if the tutorial is completed
+        /// </summary>
+        [Obsolete("Move to 'Events' subclass")]
         public static void TutorialCompleted()
         {
-            if (isAppsFlyerInit)
-                AppsFlyer.sendEvent("af_tutorial_completion", new());
+            Events.TutorialCompleted();
         }
         
+        /// <summary>
+        /// Is sent every 30 ad views
+        /// </summary>
+        [Obsolete("Move to 'Events' subclass")]
         public static void AdToCart(int count) // more than 30 ad impressions
         {
-            SendAppsFlyerEvent("af_add_to_cart","count", count);
+            Events.AdToCart(count);
         }
         
+        /// <summary>
+        /// Sends the number of video ad views
+        /// </summary>
+        ///
+        [Obsolete("Move to 'Events' subclass")]
         public static void AdRewardCount(int count) // ad views
         {
-            SendAppsFlyerEvent("ad_reward","count", count);
+            Events.AdRewardCount(count);
         }
         
-        private static void SendAppsFlyerEvent(string eventName,string parameter_name, int value)
+        /// <summary>
+        /// Sends a custom event to AppsFlyer
+        /// </summary>
+        public static void SendAppsFlyerEvent(string eventName,string parameter_name, int value)
         {
             var dict = new Dictionary<string, string>();
             
@@ -55,6 +74,9 @@ namespace Playbox
                 AppsFlyer.sendEvent(eventName, dict);
         }
 
+        /// <summary>
+        /// Commits a custom event to DTD and Firebase
+        /// </summary>
         public static void TrackEvent(string eventName, List<KeyValuePair<string,string>> arguments)
         {
             if(isDTDInit)
@@ -75,44 +97,23 @@ namespace Playbox
             if (isFirebaseInit)
                 FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
         }
-
+        
+        [Obsolete("Move to 'Events' subclass")]
         public static void LogLevelUp(int level)
         {
-            if (isDTDInit)
-                DTDAnalytics.LevelUp(level);
-            
-            SendAppsFlyerEvent("af_level_achieved","level",level);
+            Events.LogLevelUp(level);
         }
         
+        [Obsolete("Move to 'Events' subclass")]
         public static void LogContentView(string content)
         {
-            TrackEvent(nameof(LogContentView),new KeyValuePair<string, string>(nameof(LogContentView),content));
+            Events.LogContentView(content);
         }
-
+        
+        [Obsolete("Move to 'Events' subclass")]
         public static void LogTutorial(string tutorial, ETutorialState stateLevel = ETutorialState.Complete, string step = "none")
         {
-            switch (stateLevel)
-            {
-                case ETutorialState.Start:
-                    TrackEvent(tutorial,new KeyValuePair<string, string>("start",step));
-                    break;
-                
-                case ETutorialState.Skipped:
-                    TrackEvent(tutorial,new KeyValuePair<string, string>("skip",step));
-                    break;
-                
-                case ETutorialState.Complete:
-                    TrackEvent(tutorial,new KeyValuePair<string, string>("complete",step));
-                    break;
-                
-                case ETutorialState.StepComplete:
-                    TrackEvent(tutorial,new KeyValuePair<string, string>("stepComplete",step));
-                    break;
-                
-                default:
-                    TrackEvent(tutorial,new KeyValuePair<string, string>("completed",step));
-                    break;
-            }
+            Events.LogTutorial(tutorial, stateLevel, step);
         }
 
         public static void TrackEvent(string eventName)
@@ -152,7 +153,6 @@ namespace Playbox
         {
             InAppVerification.Validate(args.purchasedProduct.definition.id,args.purchasedProduct.receipt,"000", (isValid) =>
             {
-                "Putchase Test".SplashLog(isValid ? "verified" : "not verified");
                 args.purchasedProduct.definition.id.PlayboxInfo(args.purchasedProduct.receipt);
                 
                 if(!isValid)
@@ -177,10 +177,12 @@ namespace Playbox
                 Dictionary<string, string> eventValues = new ()
                 {
                     { "af_currency", currency },
-                    { "af_revenue", price.ToString() },
+                    { "af_revenue", price.ToString(CultureInfo.InvariantCulture) },
                     { "af_quantity", "1" },
                     { "af_content_id", productId }
                 };
+                
+                eventValues.PlayboxSplashLog();
 
                 if (isAppsFlyerInit)
                     AppsFlyer.sendEvent("af_purchase", eventValues);
@@ -196,13 +198,128 @@ namespace Playbox
                 new Parameter("ad_source", impressionData.NetworkName),
                 new Parameter("ad_unit_name", impressionData.AdUnitIdentifier),
                 new Parameter("ad_format", impressionData.AdFormat),
-                new Parameter("value", revenue),
+                new Parameter("value", revenue.ToString(CultureInfo.InvariantCulture)),
                 new Parameter("currency", "USD"), 
             };
             
             //TO DO: Потом будем пулять в AppsFlyer тоже
             if (isFirebaseInit)
                 FirebaseAnalytics.LogEvent("ad_impression", impressionParameters);
+        }
+        
+        public static class Events
+        {
+            public static void LogLevelUp(int level)
+            {
+                if (isDTDInit)
+                    DTDAnalytics.LevelUp(level);
+            
+                SendAppsFlyerEvent("af_level_achieved","level",level);
+            }
+            
+            public static void LogContentView(string content)
+            {
+                TrackEvent(nameof(LogContentView),new KeyValuePair<string, string>(nameof(LogContentView),content));
+            }
+            
+            public static void LogTutorial(string tutorial, ETutorialState stateLevel = ETutorialState.Complete, string step = "none")
+            {
+                switch (stateLevel)
+                {
+                    case ETutorialState.Start:
+                        TrackEvent(tutorial,new KeyValuePair<string, string>("start",step));
+                        break;
+                
+                    case ETutorialState.Skipped:
+                        TrackEvent(tutorial,new KeyValuePair<string, string>("skip",step));
+                        break;
+                
+                    case ETutorialState.Complete:
+                        TrackEvent(tutorial,new KeyValuePair<string, string>("complete",step));
+                        break;
+                
+                    case ETutorialState.StepComplete:
+                        TrackEvent(tutorial,new KeyValuePair<string, string>("stepComplete",step));
+                        break;
+                
+                    default:
+                        TrackEvent(tutorial,new KeyValuePair<string, string>("completed",step));
+                        break;
+                }
+            }
+            
+            /// <summary>
+            /// Sends the event if the tutorial is completed
+            /// </summary>
+            public static void TutorialCompleted()
+            {
+                if (isAppsFlyerInit)
+                    AppsFlyer.sendEvent("af_tutorial_completion", new());
+            }
+            
+            /// <summary>
+            /// Is sent every 30 ad views
+            /// </summary>
+            public static void AdToCart(int count) // more than 30 ad impressions
+            {
+                SendAppsFlyerEvent("af_add_to_cart","count", count);
+            }
+            
+            /// <summary>
+            /// Sends the number of video ad views
+            /// </summary>
+            /// 
+            public static void AdRewardCount(int count) // ad views
+            {
+                SendAppsFlyerEvent("ad_reward","count", count);
+            }
+
+            public static void CurrentBalance(Dictionary<string, long> balance)
+            {
+                if (isDTDInit) DTDAnalytics.CurrentBalance(balance);
+            }
+
+            public static void CurrencyAccrual(string currencyName, int currencyAmount, string source,
+                DTDAccrualType type)
+            {
+                if (isDTDInit) DTDAnalytics.CurrencyAccrual(currencyName, currencyAmount, source, type);
+            }
+
+            public static void RealCurrencyPayment(string orderId, int price, string productId, string currencyCode)
+            {
+                if (isDTDInit) DTDAnalytics.RealCurrencyPayment(orderId, price, productId, currencyCode);
+            }
+
+            public static void VirtualCurrencyPayment(string purchaseId, string purchaseType, int purchaseAmount,
+                Dictionary<string, int> resources)
+            {
+                if (isDTDInit) DTDAnalytics.VirtualCurrencyPayment(purchaseId, purchaseType, purchaseAmount, resources);
+            }
+
+            public static void AdImpression(string network, double revenue, string placement, string unit)
+            {
+                if (isDTDInit) DTDAnalytics.AdImpression(network, revenue, placement, unit);
+            }
+
+            public static void Tutorial(int step)
+            {
+                if (isDTDInit) DTDAnalytics.Tutorial(step);
+            }
+
+            public static void SocialNetworkConnect(DTDSocialNetwork socialNetwork)
+            {
+                if (isDTDInit) DTDAnalytics.SocialNetworkConnect(socialNetwork);
+            }
+
+            public static void SocialNetworkPost(DTDSocialNetwork socialNetwork, string reason)
+            {
+                if (isDTDInit) DTDAnalytics.SocialNetworkPost(socialNetwork, reason);
+            }
+
+            public static void Referrer(Dictionary<DTDReferralProperty, string> referrer)
+            {
+                if (isDTDInit) DTDAnalytics.Referrer(referrer);
+            }
         }
     }
 }
