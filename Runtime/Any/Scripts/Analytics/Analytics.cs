@@ -151,36 +151,28 @@ namespace Playbox
 
         public static void LogPurchase(PurchaseEventArgs args)
         {
+            string orderId = args.purchasedProduct.transactionID;
+            string productId = args.purchasedProduct.definition.id;
+            var price = args.purchasedProduct.metadata.localizedPrice;
+            string currency = args.purchasedProduct.metadata.isoCurrencyCode;
+            
+            Dictionary<string, string> eventValues = new ()
+            {
+                { "af_currency", currency },
+                { "af_revenue", price.ToString(CultureInfo.InvariantCulture) },
+                { "af_quantity", "1" },
+                { "af_content_id", productId }
+            };
+            
             InAppVerification.Validate(args.purchasedProduct.definition.id,args.purchasedProduct.receipt,"000", (isValid) =>
             {
                 args.purchasedProduct.definition.id.PlayboxInfo(args.purchasedProduct.receipt);
                 
                 if(!isValid)
                     return;
-                /*
-                if (isFSBInit && FB.IsInitialized)
-                {
-                    var dict = new Dictionary<string, object>();
-                    dict.Add("product_id",args.purchasedProduct.definition.id);
-                    
-                    FB.LogAppEvent("purchasing_init",null,dict);   
-                }
-                */
-                string orderId = args.purchasedProduct.transactionID;
-                string productId = args.purchasedProduct.definition.id;
-                var price = args.purchasedProduct.metadata.localizedPrice;
-                string currency = args.purchasedProduct.metadata.isoCurrencyCode;
             
                 if (isDTDInit)
                     DTDAnalytics.RealCurrencyPayment(orderId,(double)price, productId, currency);
-            
-                Dictionary<string, string> eventValues = new ()
-                {
-                    { "af_currency", currency },
-                    { "af_revenue", price.ToString(CultureInfo.InvariantCulture) },
-                    { "af_quantity", "1" },
-                    { "af_content_id", productId }
-                };
                 
                 eventValues.PlayboxSplashLog();
 
