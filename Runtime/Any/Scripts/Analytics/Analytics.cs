@@ -167,7 +167,7 @@ namespace Playbox
             
             JObject obj = JObject.FromObject(eventValues);
             
-            obj.PlayboxSplashLog();
+            obj.PlayboxSplashLogUGUI();
             
             InAppVerification.Validate(args.purchasedProduct.definition.id,args.purchasedProduct.receipt,"000", (isValid) =>
             {
