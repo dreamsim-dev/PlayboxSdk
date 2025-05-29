@@ -164,6 +164,8 @@ namespace Playbox
                 { "af_content_id", productId }
             };
             
+            eventValues.PlayboxSplashLog();
+            
             InAppVerification.Validate(args.purchasedProduct.definition.id,args.purchasedProduct.receipt,"000", (isValid) =>
             {
                 args.purchasedProduct.definition.id.PlayboxInfo(args.purchasedProduct.receipt);
@@ -173,8 +175,6 @@ namespace Playbox
             
                 if (isDTDInit)
                     DTDAnalytics.RealCurrencyPayment(orderId,(double)price, productId, currency);
-                
-                eventValues.PlayboxSplashLog();
 
                 if (isAppsFlyerInit)
                     AppsFlyer.sendEvent("af_purchase", eventValues);
