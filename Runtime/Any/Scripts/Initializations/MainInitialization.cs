@@ -17,6 +17,7 @@ namespace Playbox
     public class MainInitialization : PlayboxBehaviour
     {
         [SerializeField] private bool useInAppValidation = true;
+        [SerializeField] private bool isDebugSplash = false;
         
         private List<PlayboxBehaviour> behaviours = new();
         
@@ -36,7 +37,7 @@ namespace Playbox
             
             GlobalPlayboxConfig.Load();
             
-            behaviours.Add(AddToGameObject<PlayboxSplashUGUILogger>(gameObject));
+            if(isDebugSplash) behaviours.Add(AddToGameObject<PlayboxSplashUGUILogger>(gameObject));
             behaviours.Add(AddToGameObject<FirebaseInitialization>(gameObject));
             behaviours.Add(AddToGameObject<AppsFlyerInitialization>(gameObject));
             behaviours.Add(AddToGameObject<DevToDevInitialization>(gameObject));
@@ -44,7 +45,7 @@ namespace Playbox
             behaviours.Add(AddToGameObject<AppLovinInitialization>(gameObject));
             behaviours.Add(AddToGameObject<InAppVerification>(gameObject, useInAppValidation) ?? null);
             
-            initStatus[nameof(PlayboxSplashUGUILogger)] = false;
+            if(isDebugSplash) initStatus[nameof(PlayboxSplashUGUILogger)] = false;
             initStatus[nameof(FirebaseInitialization)] = false;
             initStatus[nameof(AppsFlyerInitialization)] = false;
             initStatus[nameof(DevToDevInitialization)] = false;
