@@ -7,6 +7,7 @@ using CI.Utils.Extentions;
 using DevToDev.Analytics;
 using Facebook.Unity;
 using Firebase.Analytics;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Purchasing;
 
@@ -164,7 +165,9 @@ namespace Playbox
                 { "af_content_id", productId }
             };
             
-            eventValues.PlayboxSplashLog();
+            JObject obj = JObject.FromObject(eventValues);
+            
+            obj.PlayboxSplashLog();
             
             InAppVerification.Validate(args.purchasedProduct.definition.id,args.purchasedProduct.receipt,"000", (isValid) =>
             {
