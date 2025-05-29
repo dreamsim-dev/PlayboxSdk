@@ -171,16 +171,11 @@ namespace Playbox
             
             InAppVerification.Validate(args.purchasedProduct.definition.id,args.purchasedProduct.receipt,"000", (isValid) =>
             {
-                args.purchasedProduct.definition.id.PlayboxInfo(args.purchasedProduct.receipt);
-                
-                if(!isValid)
-                    return;
-            
-                if (isDTDInit)
-                    DTDAnalytics.RealCurrencyPayment(orderId,(double)price, productId, currency);
-
-                if (isAppsFlyerInit)
-                    AppsFlyer.sendEvent("af_purchase", eventValues);
+                if (isValid)
+                {
+                    Events.RealCurrencyPayment(orderId, (double)price, productId, currency);
+                    Events.AppsFlyerPayment(eventValues);
+                }
             });
         }
 
@@ -280,7 +275,7 @@ namespace Playbox
                 if (isDTDInit) DTDAnalytics.CurrencyAccrual(currencyName, currencyAmount, source, type);
             }
 
-            public static void RealCurrencyPayment(string orderId, int price, string productId, string currencyCode)
+            public static void RealCurrencyPayment(string orderId, double price, string productId, string currencyCode)
             {
                 if (isDTDInit) DTDAnalytics.RealCurrencyPayment(orderId, price, productId, currencyCode);
             }
@@ -314,6 +309,12 @@ namespace Playbox
             public static void Referrer(Dictionary<DTDReferralProperty, string> referrer)
             {
                 if (isDTDInit) DTDAnalytics.Referrer(referrer);
+            }
+
+            public static void AppsFlyerPayment(Dictionary<string,string> appsFlyerPaymentValues)
+            {
+                if (isAppsFlyerInit)
+                    AppsFlyer.sendEvent("af_purchase", appsFlyerPaymentValues);
             }
         }
     }

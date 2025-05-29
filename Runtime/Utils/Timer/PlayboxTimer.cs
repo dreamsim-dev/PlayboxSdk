@@ -1,10 +1,5 @@
 ﻿using System;
 
-/*
- * @namespace Utils.Timer
- * @brief Timer utils
- * 
- */
 namespace Utils.Timer
 {
     /// <summary>
