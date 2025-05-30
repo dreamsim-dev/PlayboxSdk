@@ -5,6 +5,7 @@ using System.Linq;
 using AppsFlyerSDK;
 using CI.Utils.Extentions;
 using DevToDev.Analytics;
+using DevToDev.AntiCheat;
 using Facebook.Unity;
 using Firebase.Analytics;
 using Newtonsoft.Json.Linq;
@@ -336,7 +337,7 @@ namespace Playbox
             
             public static void FinishProgressionEvent(string eventName, DTDFinishProgressionEventParameters parameters)
             {
-                if (isDTDInit) DTDAnalytics.FinishProgressionEvent(eventName);
+                if (isDTDInit) DTDAnalytics.FinishProgressionEvent(eventName, parameters);
             }
         }
     }
