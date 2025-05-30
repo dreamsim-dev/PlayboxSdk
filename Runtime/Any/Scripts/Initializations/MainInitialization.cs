@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CI.Utils.Extentions;
 #if UNITY_EDITOR
-using EditorCools;
+using InspectorButton;
 #endif
 using Playbox.SdkConfigurations;
 

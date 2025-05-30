@@ -1,27 +1,79 @@
-﻿# Playbox timer
+﻿
+# Playbox Timer
 
+> **PlayboxTimer** is designed to simplify working with timers by hiding low-level interactions with time variables.
 
-> The timer is necessary to facilitate interaction with time variables and remove their low-level use.
-> 
-> PlayboxTimer : [PlayboxTimer Documentation](@ref Utils.Timer.PlayboxTimer)
-> 
-> Before you start working with the timer, you need to create an instance of the PlayboxTimer class :
-> 
->    <code data-lang="csharp">PlayboxTimer timer = new PlayboxTimer();</code>
-> 
-> We can then optionally specify the start time of the timer
-> 
->    <code data-lang="csharp">timer.initialTime = 5.0f;</code>
-> 
->The PlayboxTimer class has many [callbacks](@ref Utils.Timer.PlayboxTimer.OnTimerStart) to make it easy to use. 
-> [See here for details](@ref Utils.Timer.PlayboxTimer.OnTimerStart).
-> But now we will use the [OnTimeOut](@ref Utils.Timer.PlayboxTimer.OnTimeOut) event.
-> 
->    <code data-lang="csharp">timer.OnTimeOut += (){ Debug.Log("TimeOut"); }</code> 
-> 
-> This event will be triggered only when the timer time expires.
-> 
-> But to start the timer, you must call the [timer.Start();](@ref Utils.Timer.PlayboxTimer.Start) method;
-> 
->    <code data-lang="csharp">timer.Start();</code>
-> 
+## Quick Reference
+**Class Documentation**: [PlayboxTimer Documentation](@ref Utils.Timer.PlayboxTimer)
+
+---
+
+## Creating and Configuring the Timer
+
+Before using **PlayboxTimer**, create an instance:
+
+```csharp
+PlayboxTimer timer = new PlayboxTimer();
+```
+
+### Setting the Initial Time (Optional)
+
+You can set the initial time of the timer in seconds:
+
+```csharp
+timer.initialTime = 5.0f;  // The timer will start with 5 seconds
+```
+
+---
+
+## Working with Events
+
+**PlayboxTimer** supports several callbacks for convenience.
+
+- More about events:  
+  [PlayboxTimer Events](@ref Utils.Timer.PlayboxTimer.OnTimerStart)
+
+### Example Usage of OnTimeOut Event
+
+The `OnTimeOut` event is triggered when the timer finishes counting down:
+
+```csharp
+timer.OnTimeOut += () => { Debug.Log("TimeOut"); };
+```
+
+---
+
+## Starting the Timer
+
+To start the timer, call the `Start()` method:
+
+```csharp
+timer.Start();
+```
+
+---
+
+## Complete Example
+
+```csharp
+// Create a timer
+PlayboxTimer timer = new PlayboxTimer();
+
+// Set initial time (optional)
+timer.initialTime = 5.0f;
+
+// Subscribe to the timeout event
+timer.OnTimeOut += () => { Debug.Log("TimeOut"); };
+
+// Start the timer
+timer.Start();
+```
+
+---
+
+## Notes
+- The `OnTimeOut` event fires once when the countdown reaches zero.
+- To restart the timer after it finishes, you need to call `Start()` again.
+- Other timer events are available for advanced usage (see the documentation linked above).
+
+---

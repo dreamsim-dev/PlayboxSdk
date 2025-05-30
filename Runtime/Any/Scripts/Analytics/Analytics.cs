@@ -316,8 +316,7 @@ namespace Playbox
 
             public static void AppsFlyerPayment(Dictionary<string,string> appsFlyerPaymentValues)
             {
-                if (isAppsFlyerInit)
-                    AppsFlyer.sendEvent("af_purchase", appsFlyerPaymentValues);
+                if (isAppsFlyerInit) AppsFlyer.sendEvent("af_purchase", appsFlyerPaymentValues);
             }
 
             public static void StartProgressionEvent(string eventName)

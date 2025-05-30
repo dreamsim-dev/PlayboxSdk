@@ -1,4 +1,4 @@
-﻿namespace EditorCools
+﻿namespace InspectorButton
 {
     using System;
 
@@ -9,6 +9,7 @@
         public readonly string Row;
         public readonly float Space;
         public readonly bool HasRow;
+        
         public ButtonAttribute(string name = default, string row = default, float space = default)
         {
             Row = row;

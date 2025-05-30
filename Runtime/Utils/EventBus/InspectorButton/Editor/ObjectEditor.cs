@@ -1,6 +1,6 @@
 ﻿#if UNITY_EDITOR
 
-namespace EditorCools.Editor
+namespace InspectorButton.Editor
 {
     using UnityEditor;
     using Object = UnityEngine.Object;

@@ -4,10 +4,16 @@ using UnityEngine;
 
 namespace EventBusSystem
 {
+    /// <summary>
+    /// EventBus is a static class that manages subscription, unsubscription, and broadcasting of events to IGlobalSubscribers.
+    /// </summary>
     public static class EventBus
     {
         private static Dictionary<Type, SubscribersList<IGlobalSubscriber>> _subscribers = new();
 
+        /// <summary>
+        /// Subscribes the specified subscriber to all IGlobalSubscriber interfaces it implements.
+        /// </summary>
         public static void Subscribe(IGlobalSubscriber subscriber)
         {
             List<Type> subscriberTypes = EventBusHelper.GetSubscriberTypes(subscriber);
@@ -25,6 +31,9 @@ namespace EventBusSystem
             
         }
 
+        /// <summary>
+        /// Unsubscribes the specified subscriber from all IGlobalSubscriber interfaces it implements.
+        /// </summary>
         public static void Unsubscribe(IGlobalSubscriber subscriber)
         {
             List<Type> subscriberTypes = EventBusHelper.GetSubscriberTypes(subscriber);
@@ -40,6 +49,9 @@ namespace EventBusSystem
             }
         }
 
+        /// <summary>
+        /// Raises an event for all subscribers of type TSubscriber by invoking the provided action.
+        /// </summary>
         public static void RaiseEvent<TSubscriber>(Action<TSubscriber> action) where TSubscriber : class, IGlobalSubscriber
         {
             if (!_subscribers.ContainsKey(typeof(TSubscriber)))

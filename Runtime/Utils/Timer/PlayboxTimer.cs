@@ -3,42 +3,48 @@
 namespace Utils.Timer
 {
     /// <summary>
-    /// Timer with events
+    /// Represents a timer that provides events for various timer states (start, stop, pause, resume, timeout, elapsed and remaining time).
     /// </summary>
     public class PlayboxTimer
     {
         /// <summary>
-        /// Called when the timer starts
+        /// Occurs when the timer starts.
         /// </summary>
         public event Action OnTimerStart;
+
         /// <summary>
-        /// Called when the timer has been forced to stop
+        /// Occurs when the timer is forcibly stopped.
         /// </summary>
         public event Action OnTimerStopped;
+
         /// <summary>
-        /// Called when the timer has been paused
+        /// Occurs when the timer is paused.
         /// </summary>
         public event Action OnTimerPaused;
+
         /// <summary>
-        /// Called when the timer has been unpaused
+        /// Occurs when the timer is resumed from pause.
         /// </summary>
         public event Action OnTimerResumed;
+
         /// <summary>
-        /// Called when the time is up
+        /// Occurs when the timer reaches the timeout (time runs out).
         /// </summary>
         public event Action OnTimeOut;
+
         /// <summary>
-        /// Refreshes and returns the time elapsed from the beginning
+        /// Occurs regularly to provide the elapsed time since the timer started.
         /// </summary>
         public event Action<float> OnTimeElapsed;
+
         /// <summary>
-        /// Returns the time remaining from the start
+        /// Occurs regularly to provide the remaining time until the timeout.
         /// </summary>
         public event Action<float> OnTimeRemaining;
-        /// <summary>
-        /// The field responsible for the initial time
-        /// </summary>
 
+        /// <summary>
+        /// Gets or sets the initial countdown time of the timer in seconds.
+        /// </summary>
         public float initialTime { get; set; } = 5;
         
         private float timeElapsed;
@@ -47,7 +53,7 @@ namespace Utils.Timer
         private bool isPaused;
         
         /// <summary>
-        /// starts the timer from the beginning
+        /// Starts the timer from the beginning, triggering the <see cref="OnTimerStart"/> event.
         /// </summary>
         public void Start()
         {
@@ -58,7 +64,7 @@ namespace Utils.Timer
         }
         
         /// <summary>
-        /// Forced stop of the timer
+        /// Forces the timer to stop, triggering the <see cref="OnTimerStopped"/> event and resetting the timer state.
         /// </summary>
         public void Stop()
         {
@@ -70,16 +76,18 @@ namespace Utils.Timer
             
             OnTimerStopped?.Invoke();
         }
+
         /// <summary>
-        /// Restarting the timer
+        /// Restarts the timer by stopping and then starting it.
         /// </summary>
         public void Restart()
         {
             Stop();
             Start();
         }
+
         /// <summary>
-        /// Setting the timer to pause
+        /// Pauses the timer, triggering the <see cref="OnTimerPaused"/> event and reporting current time state.
         /// </summary>
         public void Pause()
         {
@@ -89,8 +97,9 @@ namespace Utils.Timer
             OnTimeElapsed?.Invoke(timeElapsed);
             OnTimeRemaining?.Invoke(timeRemaining);
         }
+
         /// <summary>
-        /// Unpausing the timer
+        /// Resumes the timer from the paused state, triggering the <see cref="OnTimerResumed"/> event and updating time state.
         /// </summary>
         public void Resume()
         {
@@ -100,10 +109,11 @@ namespace Utils.Timer
             OnTimeElapsed?.Invoke(timeElapsed);
             OnTimeRemaining?.Invoke(timeRemaining);
         }
+
         /// <summary>
-        /// Method for updating the timer
+        /// Updates the timer by advancing it with the given delta time. Fires <see cref="OnTimeElapsed"/>, <see cref="OnTimeRemaining"/>, and potentially <see cref="OnTimeOut"/>.
         /// </summary>
-        /// <param name="deltaTime">Delta time from <code>Time.deltaTime</code></param>
+        /// <param name="deltaTime">The amount of time to advance the timer, typically <c>Time.deltaTime</c>.</param>
         public void Update(float deltaTime)
         {
             if (isPaused)
@@ -112,7 +122,7 @@ namespace Utils.Timer
             timeElapsed += deltaTime;
             timeRemaining -= deltaTime;
             
-            if(timeRemaining < 0)
+            if (timeRemaining < 0)
                 OnTimeOut?.Invoke();
             
             OnTimeElapsed?.Invoke(timeElapsed);
