@@ -195,6 +195,8 @@ namespace Playbox
             //TO DO: Потом будем пулять в AppsFlyer тоже
             if (isFirebaseInit)
                 FirebaseAnalytics.LogEvent("ad_impression", impressionParameters);
+            
+            //Events.AdImpression(impressionData.NetworkName,revenue,,impressionData.AdUnitIdentifier);
         }
         
         public static class Events
@@ -315,6 +317,26 @@ namespace Playbox
             {
                 if (isAppsFlyerInit)
                     AppsFlyer.sendEvent("af_purchase", appsFlyerPaymentValues);
+            }
+
+            public static void StartProgressionEvent(string eventName)
+            {
+                if (isDTDInit) DTDAnalytics.StartProgressionEvent(eventName);
+            }
+            
+            public static void StartProgressionEvent(string eventName, DTDStartProgressionEventParameters parameters)
+            {
+                if (isDTDInit) DTDAnalytics.StartProgressionEvent(eventName, parameters);
+            }
+            
+            public static void FinishProgressionEvent(string eventName)
+            {
+                if (isDTDInit) DTDAnalytics.FinishProgressionEvent(eventName);
+            }
+            
+            public static void FinishProgressionEvent(string eventName, DTDFinishProgressionEventParameters parameters)
+            {
+                if (isDTDInit) DTDAnalytics.FinishProgressionEvent(eventName);
             }
         }
     }
