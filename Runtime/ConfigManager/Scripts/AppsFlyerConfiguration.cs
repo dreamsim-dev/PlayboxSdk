@@ -3,6 +3,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Playbox.SdkConfigurations
 {
+    /// <summary>
+    /// Provides configuration management for AppsFlyer SDK integration with Playbox, including saving and loading JSON configurations.
+    /// </summary>
     public static class AppsFlyerConfiguration{
     
         private static string ios_key = "";

@@ -2,7 +2,10 @@
 using Newtonsoft.Json.Linq;
 
 namespace Playbox.SdkConfigurations
-{
+{ 
+    /// <summary>
+    /// Provides configuration management for AppLovin SDK integration with Playbox, including saving and loading JSON configurations.
+    /// </summary>
     public static class AppLovinConfiguration{
     
         private static string ios_key = "";

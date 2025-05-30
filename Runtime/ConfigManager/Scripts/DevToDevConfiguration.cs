@@ -4,6 +4,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Playbox.SdkConfigurations
 {
+    /// <summary>
+    /// Provides configuration management for DevToDev analytics integration with Playbox, including log levels, saving, and loading configurations.
+    /// </summary>
     public static class DevToDevConfiguration{
     
         private static string ios_key = "";

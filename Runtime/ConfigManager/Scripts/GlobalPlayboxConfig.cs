@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Playbox.SdkConfigurations
 {
+    /// <summary>
+    /// Manages the global configuration for the Playbox SDK, including loading, saving, and handling subconfigurations.
+    /// </summary>
     public static class GlobalPlayboxConfig 
     {
         private static JObject jsonConfig = new();

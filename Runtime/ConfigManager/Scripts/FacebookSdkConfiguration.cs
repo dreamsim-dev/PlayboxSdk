@@ -3,6 +3,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Playbox.SdkConfigurations
 {
+    /// <summary>
+    /// Provides configuration management for Facebook SDK integration with Playbox, including app details and tokens.
+    /// </summary>
     public static class FacebookSdkConfiguration{
     
         private static string appLabel = "";
