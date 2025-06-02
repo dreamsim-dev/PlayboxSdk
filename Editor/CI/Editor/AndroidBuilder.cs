@@ -19,15 +19,25 @@ namespace Playbox.CI
             
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
 
-            EditorUserBuildSettings.development = false;
-            EditorUserBuildSettings.androidBuildType = AndroidBuildType.Release;
-            
+            bool debug = SmartCma.Validations.HasDevelopmentMode;
+
+            EditorUserBuildSettings.development = debug;
+
+            if (debug)
+            {
+                EditorUserBuildSettings.androidBuildType = AndroidBuildType.Debug;
+            }
+            else
+            {
+                EditorUserBuildSettings.androidBuildType = AndroidBuildType.Release;
+            }
+
             PlayerSettings.Android.useCustomKeystore = true;
             EditorUserBuildSettings.buildAppBundle = SmartCma.Validations.HasStoreBuild;
             
-            SetDebuggableFlag(false);
+            SetDebuggableFlag(debug);
             
-            if(SmartCma.Validations.HasBuildVersion) PlayerSettings.bundleVersion = SmartCma.Arguments.BundleVersion;
+            if(SmartCma.Validations.HasBuildVersion) PlayerSettings.bundleVersion = SmartCma.Arguments.BuildVersion;
             if(SmartCma.Validations.HasSplashScreen) PlayerSettings.SplashScreen.showUnityLogo = SmartCma.Validations.HasSplashScreen;
             if(SmartCma.Validations.HasKeystorePass) PlayerSettings.Android.keystorePass = SmartCma.Arguments.KeystorePass;
             if(SmartCma.Validations.HasKeyaliasName) PlayerSettings.Android.keyaliasName = SmartCma.Arguments.KeyaliasName;

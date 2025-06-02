@@ -48,6 +48,7 @@ namespace Playbox
         {
             if(instance == null) return;
             if(string.IsNullOrEmpty(productID)) return;
+            if(string.IsNullOrEmpty(receipt)) return;
             if(callback == null) return;
         
             if (verificationQueue.ContainsKey(productID) ||

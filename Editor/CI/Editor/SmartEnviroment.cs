@@ -11,8 +11,15 @@ namespace Playbox.CI
             var argIndex = args.FindIndex(x => x == argumentName);
             
             var value = args[argIndex + 1];
-            
-            return value;
+
+            if (argIndex != -1 && argIndex < args.Count)
+            {
+                return args[argIndex];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public static int GetArgumentIntValue(string argumentName, int defaultValue = 0)
@@ -27,6 +34,9 @@ namespace Playbox.CI
 
         public static bool HasArgument(string argumentName)
         {
+            if (string.IsNullOrEmpty(argumentName))
+                return false;
+            
             return Environment.GetCommandLineArgs().Any(arg => arg == argumentName);
         }
     }

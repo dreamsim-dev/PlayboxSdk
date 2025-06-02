@@ -155,6 +155,17 @@ namespace Playbox
 
         public static void LogPurchase(PurchaseEventArgs args)
         {
+            if (args == null)
+            {
+                LogError("Purchase is null");
+                return;
+            }
+            else if(args.purchasedProduct == null)
+            {
+                LogError("Purchase product is null");
+                return;
+            }
+
             string orderId = args.purchasedProduct.transactionID;
             string productId = args.purchasedProduct.definition.id;
             var price = args.purchasedProduct.metadata.localizedPrice;
@@ -167,10 +178,6 @@ namespace Playbox
                 { "af_quantity", "1" },
                 { "af_content_id", productId }
             };
-            
-            JObject obj = JObject.FromObject(eventValues);
-            
-            obj.PlayboxSplashLogUGUI();
             
             InAppVerification.Validate(args.purchasedProduct.definition.id,args.purchasedProduct.receipt,"000", (isValid) =>
             {

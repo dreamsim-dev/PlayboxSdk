@@ -6,5 +6,10 @@ namespace Playbox.Data
     {
         public static string AppVersion => Application.version;
         public static string GameId => Application.identifier;
+
+        public static void SetVersion(string version)
+        {
+            
+        }
     }
 }
