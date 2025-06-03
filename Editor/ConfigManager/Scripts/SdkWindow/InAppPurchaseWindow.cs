@@ -1,4 +1,6 @@
-﻿using Playbox.SdkConfigurations;
+﻿#if UNITY_EDITOR
+
+using Playbox.SdkConfigurations;
 using UnityEditor;
 using UnityEngine;
 
@@ -46,3 +48,4 @@ namespace Playbox.SdkWindow
         }
     }
 }
+#endif
