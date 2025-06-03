@@ -56,9 +56,11 @@ namespace Playbox.CI
             if (target != BuildTarget.iOS)
                 return; 
             
-            ExportOptionsIOS exportOptionsIOS = new ExportOptionsIOS();
-            exportOptionsIOS.BuildVersion = SmartCma.Arguments.BuildVersion;
-            
+            ExportOptionsIOS exportOptionsIOS = new ExportOptionsIOS
+            {
+                BuildVersion = SmartCma.Arguments.BuildVersion
+            };
+
             var deployPlistDestination = Path.Combine(path, exportOptionsIOS.ExportOptionsFileName);
             
             $"[PlayBox] Export options file path: {deployPlistDestination}".PlayboxLog();

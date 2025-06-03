@@ -8,9 +8,9 @@ namespace Playbox.CI
     {
         public string BuildVersion { get; set; } = "0.0.0";
         public string DocumentVersion { get; set; } = "0.1";
-        public string ExportOptionsFileName => deployPlistName;
+        public string ExportOptionsFileName => DeployPlistName;
 
-        private const string deployPlistName = "exportOptions.plist";
+        private const string DeployPlistName = "exportOptions.plist";
 
         private PlistDocument document;
 
