@@ -3,12 +3,14 @@
     "rootNamespace": "",
     "references": [
         "UnityEngine.Purchasing",
+        "UnityEngine.Purchasing.Apple",
         "AppsFlyer",
         "MaxSdk.Scripts",
         "com.devtodev.sdk.analytics",
         "Purchasing.Common",
         "EditorCools",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "UnityEngine.Purchasing.Stores"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

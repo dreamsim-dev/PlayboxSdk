@@ -46,7 +46,7 @@ namespace Playbox.SdkWindow
 
         public virtual void Title()
         {
-            GUILayout.Label(name);
+            //GUILayout.Label(name);
         }
 
         public virtual void Header()

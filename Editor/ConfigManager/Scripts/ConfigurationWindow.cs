@@ -31,6 +31,7 @@ namespace Playbox.SdkWindow
             drawableWindowList.Add(new DevToDevWindow());
             drawableWindowList.Add(new AppLovinWindow());
             drawableWindowList.Add(new FacebookSdkWindow());
+            drawableWindowList.Add(new InAppPurchaseWindow());
         
             GlobalPlayboxConfig.Load();
         

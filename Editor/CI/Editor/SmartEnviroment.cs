@@ -9,12 +9,10 @@ namespace Playbox.CI
         {
             var args = Environment.GetCommandLineArgs().ToList();
             var argIndex = args.FindIndex(x => x == argumentName);
-            
-            var value = args[argIndex + 1];
 
             if (argIndex != -1 && argIndex < args.Count)
             {
-                return args[argIndex];
+                return args[argIndex + 1];
             }
             else
             {
@@ -22,10 +20,9 @@ namespace Playbox.CI
             }
         }
 
-        public static int GetArgumentIntValue(string argumentName, int defaultValue = 0)
-        {
-            return int.TryParse(GetArgumentValue(argumentName), out var result) ? result : defaultValue;
-        }
+        public static int GetArgumentIntValue(string argumentName, int defaultValue = 0) => 
+            int.TryParse(GetArgumentValue(argumentName), out var result) ? result : defaultValue;
+        
         
         public static float GetArgumentFloatValue(string argumentName, float defaultValue = 0)
         {
