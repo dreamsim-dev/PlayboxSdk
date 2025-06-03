@@ -38,13 +38,15 @@ namespace Playbox
                     ApproveInitialization();
                 }
             });
+
+            Application.quitting += DTDAnalytics.StopActivity;
         }
 
         public override void Close()
         {
             base.Close();
             
-            DTDAnalytics.StopActivity();
+            //DTDAnalytics.StopActivity();
         }
     }
 }

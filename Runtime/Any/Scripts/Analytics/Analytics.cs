@@ -35,7 +35,7 @@ namespace Playbox
         private static bool isFSBInit => GetTheKey(nameof(FacebookSdkInitialization));
         private static bool isFirebaseInit => GetTheKey(nameof(FirebaseInitialization));
         
-        private static bool GetTheKey(string key) => MainInitialization.initStatus.ContainsKey(key) ? MainInitialization.initStatus[key] : false;
+        private static bool GetTheKey(string key) => MainInitialization.InitStatus.ContainsKey(key) ? MainInitialization.InitStatus[key] : false;
         
         /// <summary>
         /// Sends the event if the tutorial is completed

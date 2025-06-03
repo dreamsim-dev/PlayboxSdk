@@ -23,8 +23,14 @@ namespace Playbox
         
         private const string objectName = "[Global] MainInitialization";
         
-        public static Dictionary<string,bool> initStatus = new();
-        
+        private static Dictionary<string,bool> initStatus = new();
+
+        public static Dictionary<string, bool> InitStatus
+        {
+            get => initStatus ??= new Dictionary<string, bool>();
+            set => initStatus = value;
+        }
+
         private void Awake()
         {
             Initialization();
@@ -45,12 +51,12 @@ namespace Playbox
             behaviours.Add(AddToGameObject<AppLovinInitialization>(gameObject));
             behaviours.Add(AddToGameObject<InAppVerification>(gameObject, useInAppValidation) ?? null);
             
-            if(isDebugSplash) initStatus[nameof(PlayboxSplashUGUILogger)] = false;
-            initStatus[nameof(FirebaseInitialization)] = false;
-            initStatus[nameof(AppsFlyerInitialization)] = false;
-            initStatus[nameof(DevToDevInitialization)] = false;
-            initStatus[nameof(FacebookSdkInitialization)] = false;
-            initStatus[nameof(AppLovinInitialization)] = false;
+            if(isDebugSplash) InitStatus[nameof(PlayboxSplashUGUILogger)] = false;
+            InitStatus[nameof(FirebaseInitialization)] = false;
+            InitStatus[nameof(AppsFlyerInitialization)] = false;
+            InitStatus[nameof(DevToDevInitialization)] = false;
+            InitStatus[nameof(FacebookSdkInitialization)] = false;
+            InitStatus[nameof(AppLovinInitialization)] = false;
             
             foreach (var item in behaviours)
             {
@@ -58,7 +64,7 @@ namespace Playbox
                     item.GetInitStatus(() =>
                     {
                         item.playboxName.PlayboxInfo("INITIALIZED");
-                        initStatus[item.playboxName] = true;
+                        InitStatus[item.playboxName] = true;
                         
                     });
             }
