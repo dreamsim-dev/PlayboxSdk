@@ -59,7 +59,7 @@ namespace CI.Utils.Extentions
 
         private static string PlayboxLogger(Color color,object text,Action<string> action, string predicate = "Playbox",string description = "", bool isException = false)
         {
-            if (!Debug.isDebugBuild) return "";
+            //if (!Debug.isDebugBuild) return "";
             
             string prfx = string.IsNullOrEmpty(currentPrefix) ? "" : $" <color=#{color}>[{currentPrefix}]</color> ";
             string desct = string.IsNullOrEmpty(description) ? "" : $" [{description}] ";
