@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using CI.Utils.Extentions;
 #if UNITY_EDITOR
-using InspectorButton;
 #endif
 using Playbox.SdkConfigurations;
-using Unity.VisualScripting;
 
 #if UNITY_EDITOR
 using UnityEditor;
