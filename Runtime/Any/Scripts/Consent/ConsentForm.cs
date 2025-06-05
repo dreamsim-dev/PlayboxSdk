@@ -12,7 +12,7 @@ namespace Playbox.Consent
 
         private void Awake()
         {
-            MainInitialization.PreInitialization += st;
+            MainInitialization.PostInitialization += st;
         }
 
         void st()
