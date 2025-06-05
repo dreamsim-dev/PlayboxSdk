@@ -6,9 +6,16 @@ namespace Playbox
 {
     public class AppLovinInitialization : PlayboxBehaviour
     {
+        public bool isChildUser { get; set; } = false;
+        public bool hasUserConsent { get; set; } = true;
+        public bool hasDoNotSell { get; set; } = false;
+
         public override void Initialization()
         {
             base.Initialization();
+            
+            if (isChildUser)
+                return;
             
             AppLovinConfiguration.LoadJsonConfig();
             
@@ -17,7 +24,9 @@ namespace Playbox
 
             MaxSdkCallbacks.OnSdkInitializedEvent += OnSdkInitializedEvent;
             
-            MaxSdk.SetHasUserConsent(true);
+            MaxSdk.SetHasUserConsent(hasUserConsent);
+            MaxSdk.SetDoNotSell(hasDoNotSell);
+            
             MaxSdk.SetSdkKey(AppLovinConfiguration.AdvertisementSdk);
 
             StartCoroutine(initUpd());
