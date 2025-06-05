@@ -4,17 +4,22 @@ using UnityEngine;
 
 namespace Playbox
 {
+    public static class AppLovinConsent
+    {
+        public static bool isChildUser { get; set; } = false;
+        public static bool hasUserConsent { get; set; } = true;
+        public static bool hasDoNotSell { get; set; } = false;
+    }
+
     public class AppLovinInitialization : PlayboxBehaviour
     {
-        public bool isChildUser { get; set; } = false;
-        public bool hasUserConsent { get; set; } = true;
-        public bool hasDoNotSell { get; set; } = false;
 
         public override void Initialization()
         {
+            
             base.Initialization();
             
-            if (isChildUser)
+            if (AppLovinConsent.isChildUser)
                 return;
             
             AppLovinConfiguration.LoadJsonConfig();
@@ -24,8 +29,8 @@ namespace Playbox
 
             MaxSdkCallbacks.OnSdkInitializedEvent += OnSdkInitializedEvent;
             
-            MaxSdk.SetHasUserConsent(hasUserConsent);
-            MaxSdk.SetDoNotSell(hasDoNotSell);
+            MaxSdk.SetHasUserConsent(AppLovinConsent.hasUserConsent);
+            MaxSdk.SetDoNotSell(AppLovinConsent.hasDoNotSell);
             
             MaxSdk.SetSdkKey(AppLovinConfiguration.AdvertisementSdk);
 

@@ -8,7 +8,6 @@
         "MaxSdk.Scripts",
         "com.devtodev.sdk.analytics",
         "Purchasing.Common",
-        "EditorCools",
         "Unity.TextMeshPro",
         "UnityEngine.Purchasing.Stores"
     ],

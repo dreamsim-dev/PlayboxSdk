@@ -13,6 +13,8 @@
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.2.1",
     "com.unity.purchasing": "4.12.2",
-    "com.devtodev.sdk.analytics": "3.9.1"
+    "com.devtodev.sdk.analytics": "3.9.1",
+    "com.google.ads.mobile": "https://github.com/googleads/googleads-mobile-unity.git?path=packages/com.google.ads.mobile"
+    
   }
 }
