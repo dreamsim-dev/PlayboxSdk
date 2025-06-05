@@ -30,8 +30,12 @@ namespace Playbox.Consent
                     {
                         LoadConsentForm();
                     }
-                    Debug.LogError("Consent update failed: " + error.Message);
+                    
                     error.Message.PlayboxSplashLogUGUI();
+                    error.PlayboxError("CONSENT");
+                    
+                    Debug.LogError("Consent update failed: " + error.Message);
+                    
                 });
         }
     
