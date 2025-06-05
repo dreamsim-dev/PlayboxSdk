@@ -59,6 +59,9 @@
 
 ---
 
+### Google Consent 
+- [google ads mobile](https://github.com/googleads/googleads-mobile-unity.git?path=packages/com.google.ads.mobile)
+
 ## 📝 About PlayboxSDK
 
 **PlayboxSDK consists of the following components:**
