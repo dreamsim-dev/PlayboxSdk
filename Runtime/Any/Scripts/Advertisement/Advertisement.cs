@@ -261,13 +261,13 @@ namespace Playbox
             {
                 int adImpressions = PlayerPrefs.GetInt(adImpressionsCount, 0);
                 
-                Analytics.AdRewardCount(adImpressions);
+                Analytics.Events.AdRewardCount(adImpressions);
                 
                 var division = Math.DivRem(adImpressions,30,out var remainder);
                 
                 if (division > 0 && remainder == 0)
                 {
-                    Analytics.AdToCart(adImpressions);
+                    Analytics.Events.AdToCart(adImpressions);
                 }
             }
             else
