@@ -9,7 +9,8 @@
         "com.devtodev.sdk.analytics",
         "Purchasing.Common",
         "Unity.TextMeshPro",
-        "UnityEngine.Purchasing.Stores"
+        "UnityEngine.Purchasing.Stores",
+        ""
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

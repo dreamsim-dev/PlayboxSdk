@@ -4,7 +4,8 @@
     "references": [
         "Playbox",
         "AppsFlyer.Editor",
-        "com.devtodev.sdk.analytics.Editor"
+        "com.devtodev.sdk.analytics.Editor",
+        "GoogleMobileAds.Editor"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
