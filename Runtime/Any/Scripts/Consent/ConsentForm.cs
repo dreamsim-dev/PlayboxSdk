@@ -1,4 +1,6 @@
-﻿namespace Playbox.Consent
+﻿using CI.Utils.Extentions;
+
+namespace Playbox.Consent
 {
     using GoogleMobileAds.Ump.Api;
     using UnityEngine;
@@ -29,6 +31,7 @@
                         LoadConsentForm();
                     }
                     Debug.LogError("Consent update failed: " + error.Message);
+                    error.Message.PlayboxSplashLogUGUI();
                 });
         }
     
