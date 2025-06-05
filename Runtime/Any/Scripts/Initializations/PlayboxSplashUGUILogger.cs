@@ -20,9 +20,14 @@ namespace Playbox
         
         private PlayboxTimer timer;
         private bool isEnabled = false;
-        
-        
-        private void Start()
+
+
+        public override void Initialization()
+        {
+            Init();
+        }
+
+        private void Init()
         {
             SplashEvent += OnText;
             
