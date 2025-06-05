@@ -1,4 +1,5 @@
-﻿using CI.Utils.Extentions;
+﻿using System;
+using CI.Utils.Extentions;
 
 namespace Playbox.Consent
 {
@@ -8,8 +9,13 @@ namespace Playbox.Consent
     public class GoogleUMPManager : MonoBehaviour
     {
         private ConsentForm consentForm;
-    
-        void Start()
+
+        private void Awake()
+        {
+            MainInitialization.PreInitialization += st;
+        }
+
+        void st()
         {
             RequestConsentInfo();
         }
@@ -32,7 +38,7 @@ namespace Playbox.Consent
                     }
                     
                     error.Message.PlayboxSplashLogUGUI();
-                    error.PlayboxError("CONSENT");
+                    error.Message.PlayboxError("CONSENT");
                     
                     Debug.LogError("Consent update failed: " + error.Message);
                     

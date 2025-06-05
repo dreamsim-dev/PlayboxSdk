@@ -49,13 +49,6 @@ namespace CI.Utils.Extentions
         {
             PlayboxSplashUGUILogger.SplashEvent?.Invoke(obj.ToString());
         }
-        
-        public static void PlayboxSplashLog(this object obj)
-        {
-            PlayboxSplashLogger.SplashEvent?.Invoke(obj.ToString());
-            
-          //  PlayboxLogger(Color.black, text,);
-        }
 
         private static string PlayboxLogger(Color color,object text,Action<string> action, string predicate = "Playbox",string description = "", bool isException = false)
         {

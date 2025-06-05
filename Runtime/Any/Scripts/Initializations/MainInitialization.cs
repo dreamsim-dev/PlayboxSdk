@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CI.Utils.Extentions;
 #if UNITY_EDITOR
 using InspectorButton;
 #endif
 using Playbox.SdkConfigurations;
+using Unity.VisualScripting;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -31,6 +33,9 @@ namespace Playbox
             set => initStatus = value;
         }
 
+        public static Action PostInitialization = delegate { };
+        public static Action PreInitialization = delegate { };
+
         private void Awake()
         {
             Initialization();
@@ -38,6 +43,8 @@ namespace Playbox
         
         public override void Initialization()
         {
+            PreInitialization?.Invoke();
+            
             if(Application.isPlaying)
                 DontDestroyOnLoad(gameObject);
             
@@ -74,6 +81,8 @@ namespace Playbox
                 if(item != null)
                     item.Initialization();
             }
+            
+            PostInitialization?.Invoke();
         }
 
         private void OnDestroy()
