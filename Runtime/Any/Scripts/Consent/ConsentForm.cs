@@ -67,9 +67,12 @@ namespace Playbox.Consent
                 if (ConsentInformation.ConsentStatus == ConsentStatus.Required)
                 {
                     ShowConsentForm();
+                    
+                    AppConsent.hasUserConsent = true;
                 }
                 else
                 {
+                    AppConsent.hasUserConsent = false;
                     Debug.Log("Consent not required, status: " + ConsentInformation.ConsentStatus);
                 }
             });

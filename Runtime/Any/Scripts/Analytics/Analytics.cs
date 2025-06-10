@@ -29,13 +29,15 @@ namespace Playbox
     /// </summary>
     public static class Analytics
     {
-        private static bool isAppsFlyerInit => GetTheKey(nameof(AppsFlyerInitialization));
-        private static bool isAppLovinInit => GetTheKey(nameof(AppLovinInitialization));
-        private static bool isDTDInit => GetTheKey(nameof(DevToDevInitialization));
-        private static bool isFSBInit => GetTheKey(nameof(FacebookSdkInitialization));
-        private static bool isFirebaseInit => GetTheKey(nameof(FirebaseInitialization));
+        private static bool isAppsFlyerInit => GetKeyState(nameof(AppsFlyerInitialization));
+        private static bool isAppLovinInit => GetKeyState(nameof(AppLovinInitialization));
+        private static bool isDTDInit => GetKeyState(nameof(DevToDevInitialization));
+        private static bool isFSBInit => GetKeyState(nameof(FacebookSdkInitialization));
+        private static bool isFirebaseInit => GetKeyState(nameof(FirebaseInitialization));
         
-        private static bool GetTheKey(string key) => MainInitialization.InitStatus.ContainsKey(key) ? MainInitialization.InitStatus[key] : false;
+        private static bool GetKeyState(string key) => MainInitialization.InitStatus.ContainsKey(key) ? MainInitialization.InitStatus[key] : false;
+        
+        public static bool isValidSDK(string sdkName) => GetKeyState(sdkName);
         
         /// <summary>
         /// Sends the event if the tutorial is completed

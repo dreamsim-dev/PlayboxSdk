@@ -17,6 +17,7 @@ namespace Playbox
     public class MainInitialization : PlayboxBehaviour
     {
         [SerializeField] private bool useInAppValidation = true;
+        [SerializeField] private bool useLinkGenerator = true;
         [SerializeField] private bool isDebugSplash = false;
         
         private List<PlayboxBehaviour> behaviours = new();
@@ -54,7 +55,8 @@ namespace Playbox
             behaviours.Add(AddToGameObject<DevToDevInitialization>(gameObject));
             behaviours.Add(AddToGameObject<FacebookSdkInitialization>(gameObject));
             behaviours.Add(AddToGameObject<AppLovinInitialization>(gameObject));
-            behaviours.Add(AddToGameObject<InAppVerification>(gameObject, useInAppValidation) ?? null);
+            behaviours.Add(AddToGameObject<InAppVerification>(gameObject, useInAppValidation));
+            behaviours.Add(AddToGameObject<InviteLinkGenerator>(gameObject, useLinkGenerator));
             
             if(isDebugSplash) InitStatus[nameof(PlayboxSplashUGUILogger)] = false;
             InitStatus[nameof(FirebaseInitialization)] = false;
