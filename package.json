@@ -1,7 +1,7 @@
 {
   "name": "dreamsim.playbox",
   "displayName": "Playbox",
-  "author": "Sergiychuck V.M.",
+  "author": "Sergiychuck V.M.(Dreamsim)",
   "version": "0.0.37",
   "description": "Support package for SDK and integration of CI/CD functionality, Advertising, in-app purchases, cross promo, consent.",
   "keywords": [
