@@ -38,7 +38,10 @@ namespace Playbox.Consent
                     }
                     
                     Debug.LogError("Consent update failed: " + error.Message);
-                    
+
+                    if(Application.isEditor)
+                        "PEW PEW!".PlayboxLog("CONSENT");
+
                 });
         }
     
