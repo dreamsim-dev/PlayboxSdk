@@ -37,9 +37,6 @@ namespace Playbox.Consent
                         LoadConsentForm();
                     }
                     
-                    error.Message.PlayboxSplashLogUGUI();
-                    error.Message.PlayboxError("CONSENT");
-                    
                     Debug.LogError("Consent update failed: " + error.Message);
                     
                 });
