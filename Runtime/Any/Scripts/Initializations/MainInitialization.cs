@@ -57,6 +57,7 @@ namespace Playbox
             behaviours.Add(AddToGameObject<AppLovinInitialization>(gameObject));
             behaviours.Add(AddToGameObject<InAppVerification>(gameObject, useInAppValidation));
             behaviours.Add(AddToGameObject<InviteLinkGenerator>(gameObject, useLinkGenerator));
+            behaviours.Add(AddToGameObject<Consent.GoogleUmpManager>(gameObject, useLinkGenerator));
             
             if(isDebugSplash) InitStatus[nameof(PlayboxSplashUGUILogger)] = false;
             InitStatus[nameof(FirebaseInitialization)] = false;

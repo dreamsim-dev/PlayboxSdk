@@ -6,7 +6,7 @@ namespace Playbox.Consent
     using GoogleMobileAds.Ump.Api;
     using UnityEngine;
     
-    public class GoogleUMPManager : MonoBehaviour
+    public class GoogleUmpManager : PlayboxBehaviour
     {
         private ConsentForm consentForm;
 
