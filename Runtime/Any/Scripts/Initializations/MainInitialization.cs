@@ -49,7 +49,7 @@ namespace Playbox
             
             GlobalPlayboxConfig.Load();
             
-            behaviours.Add(AddToGameObject<Consent.GoogleUmpManager>(gameObject, useLinkGenerator));
+            behaviours.Add(AddToGameObject<Consent.GoogleUmpManager>(gameObject));
             if(isDebugSplash) behaviours.Add(AddToGameObject<PlayboxSplashUGUILogger>(gameObject));
             behaviours.Add(AddToGameObject<FirebaseInitialization>(gameObject));
             behaviours.Add(AddToGameObject<AppsFlyerInitialization>(gameObject));
