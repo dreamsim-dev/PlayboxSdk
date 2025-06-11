@@ -1,4 +1,3 @@
-
 # 📦 PlayboxSDK Integration Guide
 *Document in development*
 
