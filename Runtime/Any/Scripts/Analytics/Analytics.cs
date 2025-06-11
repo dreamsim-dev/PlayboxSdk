@@ -204,11 +204,10 @@ namespace Playbox
                 new Parameter("currency", "USD"), 
             };
             
-            //TO DO: Потом будем пулять в AppsFlyer тоже
             if (isFirebaseInit)
                 FirebaseAnalytics.LogEvent("ad_impression", impressionParameters);
             
-            //Events.AdImpression(impressionData.NetworkName,revenue,,impressionData.AdUnitIdentifier);
+            Events.AdImpression(impressionData.NetworkName, impressionData.Revenue, impressionData.Placement, impressionData.AdUnitIdentifier);
         }
         
         public static class Events

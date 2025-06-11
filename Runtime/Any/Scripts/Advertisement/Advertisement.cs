@@ -253,7 +253,6 @@ namespace Playbox
             OnAdReceivedRewardEvent?.Invoke(arg1, reward.ToString());
             
             Load();
-            Analytics.TrackEvent("rewarded_received_display");
 
             const string adImpressionsCount = "ad_impressions_count";
 
@@ -280,7 +279,6 @@ namespace Playbox
         {
             OnFailedDisplay?.Invoke();
             Load();
-            Analytics.TrackEvent("rewarded_failed_display");
         }
 
         private static void OnRewardedAdHiddenEvent(string arg1, MaxSdkBase.AdInfo info)
@@ -289,7 +287,6 @@ namespace Playbox
             OnPlayerClosedAd?.Invoke(UnitId);
             OnAdHiddenEvent?.Invoke(arg1, info.ToString());
             Load();
-            Analytics.TrackEvent("rewarded_hidden_event");
         }
 
         private static void OnRewardedAdClickedEvent(string arg1, MaxSdkBase.AdInfo info)
@@ -301,7 +298,6 @@ namespace Playbox
         {
             OnDisplay?.Invoke();
             OnPlayerOpened?.Invoke(arg1);
-            Analytics.TrackEvent("rewarded_display");
         }
 
         private static void OnRewardedAdLoadFailedEvent(string arg1, MaxSdkBase.ErrorInfo info)
@@ -309,12 +305,10 @@ namespace Playbox
             OnLoadedFailed?.Invoke(info.ToString().PlayboxInfoD(arg1));
             OnAdLoadFailedEvent?.Invoke(arg1, info.ToString());
             Load(1);
-            Analytics.TrackEvent("rewarded_load_failed");
         }
 
         private static void OnRewardedAdLoadedEvent(string arg1, MaxSdkBase.AdInfo info)
         { 
-            Analytics.TrackEvent("rewarded_loaded");
             OnLoaded?.Invoke();
         }
     }
