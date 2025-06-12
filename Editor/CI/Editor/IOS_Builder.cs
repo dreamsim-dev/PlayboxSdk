@@ -45,7 +45,7 @@ namespace Playbox.CI
             
             if(SmartCma.Validations.HasDevelopmentMode)
                 buildOptions = BuildOptions.Development;
-
+            
             BuildPipeline.BuildPlayer(scenes, SmartCma.Arguments.BuildLocation, BuildTarget.iOS, buildOptions);
         }
 
