@@ -1,15 +1,6 @@
 <dependencies>
     <iosPods>
-        <!-- Google Mobile Ads SDK - фиксируем версию 12.6.0 -->
-        <iosPod name="Google-Mobile-Ads-SDK" version="12.6.0" />
-
-        <!-- AppLovin Mediation Google Adapter - версия 12.6.0.0 -->
-        <iosPod name="AppLovinMediationGoogleAdapter" version="12.6.0.0" />
-
-        <!-- (опционально) AppLovin SDK - сюда можно добавить свою версию -->
-        <!-- <iosPod name="AppLovinSDK" version="11.11.3" /> -->
-
-        <!-- (опционально) AppsFlyer SDK, если ты его используешь -->
-        <!-- <iosPod name="AppsFlyerFramework" version="6.15.0" /> -->
+        <iosPod name="Google-Mobile-Ads-SDK" version="12.5.0" />
+        <iosPod name="AppLovinMediationGoogleAdapter" version="12.4.0.0" />
     </iosPods>
 </dependencies>
