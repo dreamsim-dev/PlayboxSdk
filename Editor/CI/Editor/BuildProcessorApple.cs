@@ -18,7 +18,7 @@ namespace Playbox.CI
         [MenuItem("PlayBox/Generate Apple")]
         public static void GenerateApplePodfile()
         {
-            var path = Path.Combine(Application.dataPath,"IOS_Dependencies");
+            var path = Path.Combine(Application.dataPath,"ExternalDependencyManager","Editor");
             
             if(!Directory.Exists(path))
                 Directory.CreateDirectory(path);
