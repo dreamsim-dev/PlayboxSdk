@@ -1,6 +1,7 @@
 <dependencies>
     <iosPods>
         <iosPod name="Google-Mobile-Ads-SDK" version="12.5.0" />
-        <iosPod name="AppLovinMediationGoogleAdapter" version="12.4.0.0" />
+        <iosPod name="AppLovinMediationGoogleAdapter" version="12.5.0.0" />
+        <iosPod name="AppLovinMediationGoogleAdManagerAdapter" version="12.5.0.0" />
     </iosPods>
 </dependencies>
