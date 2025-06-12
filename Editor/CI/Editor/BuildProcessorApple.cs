@@ -18,7 +18,8 @@ namespace Playbox.CI
         {
             if (target != BuildTarget.iOS)
                 return; 
-            
+
+            PlayerSettings.iOS.symlinkLibraries = false;
             EditorUserBuildSettings.buildAppBundle = false;
             AddCapabilities(path);
             ProcessPlist(path);
