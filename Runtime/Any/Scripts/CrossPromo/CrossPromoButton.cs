@@ -36,7 +36,7 @@ namespace Playbox
             properties.Add("campaign", campaign);
             properties.Add("promoted_id", promotedID);
             
-            CrossPromo.RecordCrossPromoImpression(promotedID,campaign, properties);
+            CrossPromo.OpenStore(promotedID,campaign, properties,this);
         }
 
         public void GenerateLink()

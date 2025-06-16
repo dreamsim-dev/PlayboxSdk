@@ -1,4 +1,4 @@
-# Playbox SDK — Quickstart Guide
+# Quickstart Guide
 
 Welcome to Playbox SDK for Unity! This guide covers the minimal steps for correct installation and startup of the SDK.
 
@@ -20,7 +20,6 @@ Before using the SDK, you need to install:
 
 - `Newtonsoft.Json`
 - `UnityWebRequest`
-- `Addressables` (for RemoteConfig)
 - `Unity IAP` (for In-App Purchase)
 
 *UPM will pull dependencies automatically, but it's recommended to verify their presence.*
@@ -33,16 +32,7 @@ Before using the SDK, you need to install:
 
 Create a configuration class:
 
-```csharp
-using Playbox;
-
-public class MyPlayboxConfiguration : PlayboxConfiguration
-{
-    public override string GameId => "YOUR_GAME_ID";
-    public override string AppVersion => Application.version;
-    public override bool IsSandbox => true;
-}
-```
+> Open Playbox->Configuration and fill in the appropriate API fields
 
 ---
 
@@ -53,10 +43,6 @@ public class MyPlayboxConfiguration : PlayboxConfiguration
 1. In Unity Editor select: `Playbox → Initialization → Create`
 
 2. An object with `MainInitialization` component will be created.
-
-3. In the Inspector, drag the created `MyPlayboxConfiguration` to the configuration field.
-
-> Manual initialization in code is not required.
 
 ---
 
@@ -119,31 +105,13 @@ Unity -quit -batchmode -executeMethod BuildCommand \
 
 - EventBus
 - Analytics
-- RemoteConfig
-- A/B Testing
 - In-App Purchases
 - PlayboxTimer
 - Server-Side Validation
 
----
-
-## ❓ FAQ
-
-**Is manual initialization required?** → No. Just create MainInitialization via `Playbox → Initialization → Create`.
-
-**How to change settings?** → Through the created `PlayboxConfiguration` script.
-
-**Do I need to manually add dependencies?** → Only if UPM didn't pull them automatically.
-
-**Is it required to connect all modules?** → No, only use what you need.
-
----
-
 ## 📢 Technical support
 
-- 📧 [support@playbox.network](mailto\:support@playbox.network)
-- 📃 Documentation: [https://playbox.network/docs](https://playbox.network/docs)
-- 🗨️ Slack / Discord
+- 📃 author telegram: [https://t.me/qertysig](https://t.me/qertysig)
 
 ---
 
