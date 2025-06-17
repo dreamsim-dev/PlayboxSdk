@@ -38,7 +38,7 @@ namespace Playbox
         /// <param name="parameters"></param>
         public static void RecordCrossPromoImpression(string promotedID,string campaign, Dictionary<string, string> parameters)
         {
-            if (Analytics.isValidSDK(nameof(AppsFlyer))) AppsFlyer.recordCrossPromoteImpression(promotedID,campaign,parameters);
+            if (Analytics.isAppsFlyerInit) AppsFlyer.recordCrossPromoteImpression(promotedID,campaign,parameters);
         }
         
         public static void GenerateUserInviteLink(Dictionary<string, string> parameters)
@@ -46,12 +46,12 @@ namespace Playbox
             if(inviteLinkGenerator == null)
                 return;
             
-            if (Analytics.isValidSDK(nameof(AppsFlyer))) AppsFlyer.generateUserInviteLink(parameters,inviteLinkGenerator);
+            if (Analytics.isAppsFlyerInit) AppsFlyer.generateUserInviteLink(parameters,inviteLinkGenerator);
         }
 
         public static void OpenStore(string promotedID,string campaign, Dictionary<string, string> parameters, MonoBehaviour monoBehaviour)
         {
-            if (Analytics.isValidSDK(nameof(AppsFlyer))) AppsFlyer.attributeAndOpenStore(promotedID,campaign,parameters, monoBehaviour);
+            if (Analytics.isAppsFlyerInit) AppsFlyer.attributeAndOpenStore(promotedID,campaign,parameters, monoBehaviour);
         }
     }
 }

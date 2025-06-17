@@ -19,7 +19,7 @@ namespace Playbox.CI
             document = new PlistDocument();
             
             document.version = DocumentVersion;
-            document.root.SetString("method","app-store-connect");
+            document.root.SetString("method","app-store");
             document.root.SetBoolean("uploadSymbols",true);
             document.root.SetBoolean("uploadBitcode",false);
             document.root.SetString("destination","upload");

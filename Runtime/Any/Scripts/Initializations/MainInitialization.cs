@@ -19,6 +19,7 @@ namespace Playbox
         [SerializeField] private bool useInAppValidation = true;
         [SerializeField] private bool useLinkGenerator = true;
         [SerializeField] private bool isDebugSplash = false;
+        [SerializeField] private bool usePlayboxIAP = false;
         
         private List<PlayboxBehaviour> behaviours = new();
         
@@ -39,7 +40,15 @@ namespace Playbox
         {
             Initialization();
         }
-        
+
+        public static bool IsValidate<T>() where T : PlayboxBehaviour
+        {
+            if(initStatus == null)
+                return false;
+            
+            return initStatus.ContainsKey(nameof(T));
+        }
+
         public override void Initialization()
         {
             PreInitialization?.Invoke();
@@ -57,6 +66,7 @@ namespace Playbox
             behaviours.Add(AddToGameObject<AppLovinInitialization>(gameObject));
             behaviours.Add(AddToGameObject<InAppVerification>(gameObject, useInAppValidation));
             behaviours.Add(AddToGameObject<InviteLinkGenerator>(gameObject, useLinkGenerator));
+            behaviours.Add(AddToGameObject<IAP>(gameObject, usePlayboxIAP));
             
             if(isDebugSplash) InitStatus[nameof(PlayboxSplashUGUILogger)] = false;
             InitStatus[nameof(FirebaseInitialization)] = false;
@@ -64,6 +74,7 @@ namespace Playbox
             InitStatus[nameof(DevToDevInitialization)] = false;
             InitStatus[nameof(FacebookSdkInitialization)] = false;
             InitStatus[nameof(AppLovinInitialization)] = false;
+            InitStatus[nameof(IAP)] = false;
             
             foreach (var item in behaviours)
             {
