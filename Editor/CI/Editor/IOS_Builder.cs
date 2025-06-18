@@ -12,6 +12,8 @@ namespace Playbox.CI
 {
     public static class IOS
     {
+        public const string TeamID = "AD5J7QFQ52";
+        
         [UsedImplicitly]
         public static void Build()
         {
@@ -22,7 +24,7 @@ namespace Playbox.CI
             PlayerSettings.bundleVersion = SmartCma.Arguments.BuildVersion;
             EditorUserBuildSettings.development = false;
             EditorUserBuildSettings.allowDebugging = false;
-            PlayerSettings.iOS.appleDeveloperTeamID = "AD5J7QFQ52";
+            PlayerSettings.iOS.appleDeveloperTeamID = TeamID;
 
             if (!SmartCma.Validations.HasBuildLocation)
             {

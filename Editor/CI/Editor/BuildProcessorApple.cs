@@ -160,6 +160,7 @@ namespace Playbox.CI
             string targetGuid = project.GetUnityFrameworkTargetGuid();
 
             project.SetBuildProperty(targetGuid, "GCC_TREAT_WARNINGS_AS_ERRORS", "NO");
+            project.SetBuildProperty(targetGuid, "DEVELOPMENT_TEAM", Playbox.CI.IOS.TeamID);
 
             File.WriteAllText(projectPath, project.WriteToString());
         }
