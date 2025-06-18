@@ -30,6 +30,9 @@ namespace Playbox.Consent
             // Обновляем информацию о согласии
             ConsentInformation.Update(requestParameters, (error) =>
                 {
+                    if (error == null)
+                        return;
+                    
                     Debug.Log("Consent info updated");
     
                     if (ConsentInformation.IsConsentFormAvailable())
