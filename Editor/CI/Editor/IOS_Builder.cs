@@ -22,6 +22,7 @@ namespace Playbox.CI
             PlayerSettings.bundleVersion = SmartCma.Arguments.BuildVersion;
             EditorUserBuildSettings.development = false;
             EditorUserBuildSettings.allowDebugging = false;
+            PlayerSettings.iOS.appleDeveloperTeamID = "AD5J7QFQ52";
 
             if (!SmartCma.Validations.HasBuildLocation)
             {
