@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using CI.Utils.Extentions;
+using Unity.Services.Core;
+using Unity.Services.Core.Environments;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
@@ -9,7 +11,15 @@ namespace Playbox
 {
     public class IAP : PlayboxBehaviour, IDetailedStoreListener
     {
+        private string environment = "production";
         public static bool IsInitialized => storeController != null && storeExtensionProvider != null;
+        
+        public static event Action<Product> OnGrantProduct = delegate { };
+        /// <summary>
+        /// The product does not exist or is not available for purchase
+        /// </summary>
+        public static event Action<Product, PurchaseFailureDescription> OnProductFailed = delegate { };
+        public static event Action<Product> OnRevokeProduct = delegate { };
         
         private static IStoreController storeController;
         private static IExtensionProvider storeExtensionProvider;
@@ -38,33 +48,50 @@ namespace Playbox
             {
                 Destroy(this);
             }
-
+            
+            try {
+                var options = new InitializationOptions()
+                    .SetEnvironmentName(environment);
+ 
+                UnityServices.InitializeAsync(options);
+            }
+            catch (Exception exception) {
+               
+            }
+            
             var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
+            
+            ProductCatalog catalog = ProductCatalog.LoadDefaultCatalog();
+
+            foreach (var product in catalog.allProducts)
+            {
+                builder.AddProduct(product.id, product.type);
+                
+                $"Add Product : {product.id} ; type {product.type}".PlayboxInfo("IAP");
+            }
             
             UnityPurchasing.Initialize(this, builder);
         }
         
-        public static void Purchase(Product product, Action<bool> callback, string payload)
-        {
-        }
-        
-        public void BuyProduct(string productId)
+        public static void BuyProduct(string productId)
         {
             if (IsInitialized)
             {
                 Product product = storeController.products.WithID(productId);
+                
                 if (product != null && product.availableToPurchase)
                 {
+                    $"Initiate purchase : {product}.".PlayboxInfo("IAP");
                     storeController.InitiatePurchase(product);
                 }
                 else
                 {
-                    Debug.Log("Продукт не найден или недоступен для покупки.");
+                    "Product not found or not available for purchase.".PlayboxInfo("IAP");
                 }
             }
             else
             {
-                Debug.Log("In-App Purchasing не инициализирован.");
+                "In-App Purchasing is not initialized.".PlayboxInfo("IAP");
             }
         }
 
@@ -80,12 +107,22 @@ namespace Playbox
 
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
         {
-            string productId = purchaseEvent.purchasedProduct.definition.id;
-            Debug.Log($"Покупка завершена: {productId}");
+            Product product = purchaseEvent.purchasedProduct;
             
-            
-
-            return PurchaseProcessingResult.Complete;
+            if (purchaseEvent.purchasedProduct.availableToPurchase)
+            {
+                $"The purchase is complete: {product.definition.id}".PlayboxInfo("IAP");    
+                
+                GrantProduct(product);
+                
+                return PurchaseProcessingResult.Complete;
+            }
+            else
+            {
+                OnProductFailed?.Invoke(product, null);
+                
+                return PurchaseProcessingResult.Complete;
+            }
         }
 
         public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
@@ -100,69 +137,23 @@ namespace Playbox
 
         public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
         {
+            OnProductFailed?.Invoke(product, failureDescription);
         }
         
-        private void GrantProduct(string productId)
+        private void GrantProduct(Product product)
         {
-            Debug.Log($"Начисляем продукт: {productId}");
-            // Добавление контента пользователю
+            Debug.Log($"Grant product: {product.definition.id}");
+            
+            Analytics.LogPurshaseInitiation(product);
+            
+            OnGrantProduct?.Invoke(product);
         }
 
-        private void RevokeProduct(string productId)
+        private void RevokeProduct(Product product)
         {
-            Debug.Log($"Удаляем продукт: {productId}");
-            // Убираем контент (например, снимаем монеты)
+            Debug.Log($"Revoke product: {product}");
+            
+            OnRevokeProduct?.Invoke(product);
         }
     }
-
-    public class IAPRevoker
-    {
-        private IExtensionProvider storeExtensionProvider;
-        
-        public IAPRevoker(IExtensionProvider provider)
-        {
-            storeExtensionProvider = provider;
-        }
-
-        public bool IsRevoked(PurchaseEventArgs purchaseEvent)
-        {
-            if(storeExtensionProvider == null)
-                throw new Exception("Extension provider not initialized.");
-#if UNITY_IOS
-            return IsIOSRevoked(purchaseEvent);
-#endif
-            
-#if UNITY_ANDROID
-            return IsAndroidRevoked(purchaseEvent);
-#endif
-
-            throw new Exception("IAP Revoke is not supported.");
-        }
-
-        private bool IsAndroidRevoked(PurchaseEventArgs purchaseEvent)
-        {
-#if UNITY_ANDROID
-        
-            if (purchaseEvent == null)
-                throw new Exception("purchaseEvent is null.");
-            
-            var receipt = purchaseEvent.purchasedProduct.receipt;
-            
-#endif
-            return false;
-        }
-
-        private bool IsIOSRevoked(PurchaseEventArgs purchaseEvent)
-        {
-#if UNITY_IOS
-            var appleExtensions = storeExtensionProvider.GetExtension<IAppleExtensions>();
-            if (appleExtensions.GetTransactionReceiptForProduct(purchaseEvent.purchasedProduct) == null)
-            {
-                return true;
-            }
-#endif      
-            return false;
-        }
-    }
-
 }

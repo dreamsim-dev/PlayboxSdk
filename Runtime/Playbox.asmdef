@@ -10,7 +10,8 @@
         "Purchasing.Common",
         "Unity.TextMeshPro",
         "UnityEngine.Purchasing.Stores",
-        ""
+        "Unity.Services.Core",
+        "Unity.Services.Core.Environments"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

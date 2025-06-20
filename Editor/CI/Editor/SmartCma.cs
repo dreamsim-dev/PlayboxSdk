@@ -30,6 +30,8 @@
             public static string ProvisionProfileIos => SmartEnviroment.GetArgumentValue(Constants.PROVISION_PROFILE_IOS_SIGN);
             /// <summary>Gets the iOS code signing identity argument.</summary>
             public static string CodeSignIdentity => SmartEnviroment.GetArgumentValue(Constants.CODE_SIGN_IDENTITY);
+            
+            public static string TeamID => SmartEnviroment.GetArgumentValue(Constants.TEAM_ID);
         }
 
         /// <summary>
@@ -67,6 +69,8 @@
             public static bool HasProfileDevelopment => SmartEnviroment.HasArgument(Constants.PROFILE_DEVELOPMENT);
             /// <summary>Returns true if iOS profile distribution argument is present.</summary>
             public static bool HasProfileDistribution => SmartEnviroment.HasArgument(Constants.PROFILE_DISTRIBUTION);
+            
+            public static bool HasTeamID => SmartEnviroment.HasArgument(Constants.TEAM_ID);
         }
 
         /// <summary>
@@ -89,6 +93,7 @@
             public const string CODE_SIGN_IDENTITY = "-code-sign-identity"; // iOS code sign identity
             public const string PROFILE_DEVELOPMENT = "-profile-development"; // Development provisioning profile
             public const string PROFILE_DISTRIBUTION = "-profile-distribution"; // Distribution provisioning profile
+            public const string TEAM_ID = "-team-id"; // teamId for publishing
         }
     }
 }
