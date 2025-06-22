@@ -3,6 +3,10 @@ using Facebook.Unity;
 using Playbox.SdkConfigurations;
 using UnityEngine;
 
+#if UNITY_IOS
+using Unity.Advertisement.IosSupport;
+#endif
+
 namespace Playbox
 {
     public class FacebookSdkInitialization : PlayboxBehaviour
@@ -15,6 +19,12 @@ namespace Playbox
             
             if(!FacebookSdkConfiguration.Active)
                 return;
+
+            FB.Mobile.SetAdvertiserTrackingEnabled(true);
+            
+#if UNITY_IOS
+            ATTrackingStatusBinding.RequestAuthorizationTracking();
+#endif
             
             if (FB.IsInitialized)
             {

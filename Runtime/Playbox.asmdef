@@ -11,7 +11,8 @@
         "Unity.TextMeshPro",
         "UnityEngine.Purchasing.Stores",
         "Unity.Services.Core",
-        "Unity.Services.Core.Environments"
+        "Unity.Services.Core.Environments",
+        "Unity.Advertisement.IosSupport"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
