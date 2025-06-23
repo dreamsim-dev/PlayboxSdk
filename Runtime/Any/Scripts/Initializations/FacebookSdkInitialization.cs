@@ -20,10 +20,6 @@ namespace Playbox
             if(!FacebookSdkConfiguration.Active)
                 return;
             
-#if UNITY_IOS
-            ATTrackingStatusBinding.RequestAuthorizationTracking();
-#endif
-            
             if (FB.IsInitialized)
             {
                 FB.ActivateApp();
@@ -49,6 +45,15 @@ namespace Playbox
         {
             if (FB.IsInitialized)
             {
+#if UNITY_IOS
+               
+                var attStatus = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
+                if (attStatus == ATTrackingStatusBinding.AuthorizationTrackingStatus.NOT_DETERMINED)
+                {
+                    ATTrackingStatusBinding.RequestAuthorizationTracking();
+                }
+#endif
+                
                 FB.ActivateApp();
                 ApproveInitialization();
             }
