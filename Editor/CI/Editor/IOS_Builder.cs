@@ -86,6 +86,11 @@ namespace Playbox.CI
             plist.ReadFromFile(plistPath);
             plist.root.SetBoolean("ITSAppUsesNonExemptEncryption", false);
             
+            const string trackingKey = "NSUserTrackingUsageDescription";
+            const string trackingMessage = "This identifier helps us track app installs and show personalized ads";
+
+            plist.root.SetString(trackingKey, trackingMessage);
+            
             File.WriteAllText(plistPath, plist.WriteToString());
         }
     }
