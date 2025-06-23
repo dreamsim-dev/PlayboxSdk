@@ -14,13 +14,11 @@ namespace Playbox
         public override void Initialization()
         {
             base.Initialization();
-
+            
             FacebookSdkConfiguration.LoadJsonConfig();
             
             if(!FacebookSdkConfiguration.Active)
                 return;
-
-            FB.Mobile.SetAdvertiserTrackingEnabled(true);
             
 #if UNITY_IOS
             ATTrackingStatusBinding.RequestAuthorizationTracking();
