@@ -125,7 +125,6 @@ namespace Playbox.CI
             var project = new PBXProject();
             project.ReadFromString(File.ReadAllText(projectPath));
             var mainTargetGuid = project.GetUnityMainTargetGuid();
-            var frameworkTargetGuid = project.GetUnityFrameworkTargetGuid();
             var manager = new ProjectCapabilityManager(projectPath,
                 EntitlementsFileName,
                 null,

@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using AppsFlyerSDK;
-using CI.Utils.Extentions;
 using DevToDev.Analytics;
-using DevToDev.AntiCheat;
-using Facebook.Unity;
 using Firebase.Analytics;
-using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Purchasing;
 
@@ -155,24 +151,20 @@ namespace Playbox
             if (isAppsFlyerInit)
                 AppsFlyer.sendEvent("af_initiated_checkout",new());
         }
-
-        public static void LogPurchase(PurchaseEventArgs args)
+        
+        public static void LogPurchase(Product purchasedProduct)
         {
-            if (args == null)
-            {
-                LogError("Purchase is null");
-                return;
-            }
-            else if(args.purchasedProduct == null)
+            
+            if(purchasedProduct == null)
             {
                 LogError("Purchase product is null");
                 return;
             }
 
-            string orderId = args.purchasedProduct.transactionID;
-            string productId = args.purchasedProduct.definition.id;
-            var price = args.purchasedProduct.metadata.localizedPrice;
-            string currency = args.purchasedProduct.metadata.isoCurrencyCode;
+            string orderId = purchasedProduct.transactionID;
+            string productId = purchasedProduct.definition.id;
+            var price = purchasedProduct.metadata.localizedPrice;
+            string currency = purchasedProduct.metadata.isoCurrencyCode;
             
             Dictionary<string, string> eventValues = new ()
             {
@@ -182,7 +174,7 @@ namespace Playbox
                 { "af_content_id", productId }
             };
             
-            InAppVerification.Validate(args.purchasedProduct.definition.id,args.purchasedProduct.receipt,"000", (isValid) =>
+            InAppVerification.Validate(purchasedProduct.definition.id,purchasedProduct.receipt,"000", (isValid) =>
             {
                 if (isValid)
                 {
@@ -190,6 +182,19 @@ namespace Playbox
                     Events.AppsFlyerPayment(eventValues);
                 }
             });
+        }
+
+        public static void LogPurchase(PurchaseEventArgs args)
+        {
+            if (args == null)
+            {
+                LogError("Purchase is null");
+               
+            }
+            else
+            {
+                LogPurchase(args.purchasedProduct);
+            }
         }
 
         public static void TrackAd(MaxSdkBase.AdInfo impressionData)
