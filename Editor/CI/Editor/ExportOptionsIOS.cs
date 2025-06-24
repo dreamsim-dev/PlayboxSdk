@@ -24,20 +24,18 @@ namespace Playbox.CI
             document.root.SetBoolean("uploadBitcode",false);
             document.root.SetString("destination","upload");
             document.root.SetString("appVersion",BuildVersion);
-            
-            
-            // Ручная подпись
-            document.root.SetString("signingStyle",        "manual");
-            document.root.SetString("signingCertificate",  "Apple Distribution: APS DATA LLC (AD5J7QFQ52)");
-            document.root.SetString("teamID",              "AD5J7QFQ52");
 
-            // Привязка provisioning profile к bundle identifier
+            if (SmartCLA.Validations.HasIosManualSign)
+            {
+                document.root.SetString("signingStyle", "manual");
+            }
+            
+            document.root.SetString("signingCertificate", "Apple Distribution: APS DATA LLC (AD5J7QFQ52)");
+            document.root.SetString("teamID", "AD5J7QFQ52");
             
             var profiles = document.root.CreateDict("provisioningProfiles");
-            profiles.SetString(
-                Playbox.Data.Playbox.GameId,   // ваш Bundle ID
-                SmartCma.Arguments.ProvisionProfileIos                 // имя provisioning profile
-            );
+            
+            profiles.SetString(Playbox.Data.Playbox.GameId, SmartCLA.Arguments.ProvisionProfileIos);
         }
 
         public override string ToString()

@@ -13,8 +13,7 @@ namespace Playbox
         
         [SerializeField]
         private string campaign = "dreamsim";
-
-
+        
         private void OnEnable()
         {
             CrossPromo.OnInviteLinkGenerated += s =>

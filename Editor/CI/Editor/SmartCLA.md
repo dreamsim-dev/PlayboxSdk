@@ -1,10 +1,10 @@
-﻿# SmartCma Documentation
+﻿# SmartCLA Documentation
 
 Playbox CI static helper for build arguments, validations, and constants.
 
 ---
 
-## SmartCma.Arguments
+## SmartCLA.Arguments
 
 Properties for retrieving command-line argument values:
 - **BuildLocation**: Build output location
@@ -20,7 +20,7 @@ Properties for retrieving command-line argument values:
 
 ---
 
-## SmartCma.Validations
+## SmartCLA.Validations
 
 Properties to check presence of specific arguments:
 - **HasDevelopmentMode**: Checks if debug mode is enabled
@@ -41,7 +41,7 @@ Properties to check presence of specific arguments:
 
 ---
 
-## SmartCma.Constants
+## SmartCLA.Constants
 
 Constant argument names used for command-line parsing:
 - `-debug`: Enable debug mode

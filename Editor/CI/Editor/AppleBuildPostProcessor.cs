@@ -1,8 +1,7 @@
 ﻿#if UNITY_EDITOR && UNITY_IOS
 
 using System.IO;
-using System.Text;
-using System.Xml;
+using CI.Utils.Extentions;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -10,70 +9,25 @@ using UnityEditor.iOS.Xcode;
 
 namespace Playbox.CI
 {
-    public class BuildProcessorApple : MonoBehaviour
+    public class AppleBuildPostProcessor : MonoBehaviour
     {
         private const string EntitlementsFileName =
             "Entitlements.entitlements";
 
-        [MenuItem("PlayBox/Generate Apple")]
-        public static void GenerateApplePodfile()
+        [PostProcessBuild(0)]
+        public static void SetBuildSettings(BuildTarget buildTarget, string buildPath)
         {
-            var path = Path.Combine(Application.dataPath,"ExternalDependencyManager","Editor");
+            if (buildTarget != BuildTarget.iOS)
+                return; 
             
-            if(!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-            
-            var pathFile = Path.Combine(path, "Dependencies.xml");
-
-            var settings = new XmlWriterSettings
-            {
-                Indent = true,
-                Encoding = Encoding.UTF8,
-                NewLineOnAttributes = false
-            };
-            
-            using (XmlWriter writer = XmlWriter.Create(pathFile, settings))
-            {
-                writer.WriteStartDocument();
-                writer.WriteStartElement("dependencies");
-
-                writer.WriteStartElement("iosPods");
-
-                writer.WriteStartElement("iosPod");
-                writer.WriteAttributeString("name", "Google-Mobile-Ads-SDK");
-                writer.WriteAttributeString("version", "12.5.0");
-                writer.WriteEndElement();
-
-                writer.WriteStartElement("iosPod");
-                writer.WriteAttributeString("name", "AppLovinMediationGoogleAdapter");
-                writer.WriteAttributeString("version", "12.5.0.0");
-                writer.WriteEndElement();
-
-                writer.WriteStartElement("iosPod");
-                writer.WriteAttributeString("name", "AppLovinMediationGoogleAdManagerAdapter");
-                writer.WriteAttributeString("version", "12.5.0.0");
-                writer.WriteEndElement();
-
-                writer.WriteEndElement(); 
-                writer.WriteEndElement();
-                writer.WriteEndDocument();
-            }
-            
-            
-            AssetDatabase.Refresh();
-
-            Debug.Log("Dependencies.xml succes generated!");
-
+            EditorUserBuildSettings.symlinkSources = false;
+            EditorUserBuildSettings.buildAppBundle = false;
         }
 
         [PostProcessBuild(999)]
         public static void DoPostProcess(BuildTarget target, string path)
         {
-            if (target != BuildTarget.iOS)
-                return; 
             
-            EditorUserBuildSettings.symlinkSources = false;
-            EditorUserBuildSettings.buildAppBundle = false;
             AddCapabilities(path);
             ProcessPlist(path);
             FixFirebase(path);
@@ -129,20 +83,20 @@ namespace Playbox.CI
             project.SetBuildProperty(mainTarget, "CLANG_ENABLE_MODULES", "YES");
             project.SetBuildProperty(mainTarget, "ENABLE_BITCODE", "NO");
 
-            if (SmartCma.Validations.HasIosManualSign)
+            if (SmartCLA.Validations.HasIosManualSign)
             {
                 project.SetBuildProperty(mainTarget, "CODE_SIGN_STYLE", "Manual");
                 project.SetBuildProperty(unityFrameworkTarget, "CODE_SIGN_STYLE", "Manual");
             }
 
-            if (SmartCma.Validations.HasProvisionProfileIos)
+            if (SmartCLA.Validations.HasProvisionProfileIos)
             {
-                project.SetBuildProperty(mainTarget, "PROVISIONING_PROFILE_SPECIFIER", SmartCma.Arguments.ProvisionProfileIos);
+                project.SetBuildProperty(mainTarget, "PROVISIONING_PROFILE_SPECIFIER", SmartCLA.Arguments.ProvisionProfileIos);
             }
             
-            if (SmartCma.Validations.HasCodeSignIdentity)
+            if (SmartCLA.Validations.HasCodeSignIdentity)
             {
-                project.SetBuildProperty(mainTarget, "CODE_SIGN_IDENTITY", SmartCma.Arguments.CodeSignIdentity);
+                project.SetBuildProperty(mainTarget, "CODE_SIGN_IDENTITY", SmartCLA.Arguments.CodeSignIdentity);
             }
             
             File.WriteAllText(projectPath, project.WriteToString());
@@ -196,10 +150,16 @@ namespace Playbox.CI
 
         private static void FixFirebase(string path)
         {
+            var filePath = "GoogleService-Info.plist";
+            
             var projPath = path + "/Unity-iPhone.xcodeproj/project.pbxproj";
             var proj = new PBXProject();
             
             proj.ReadFromFile(projPath);
+            
+            if(!File.Exists(filePath))
+                throw new FileNotFoundException("Could not find file: " + filePath);
+            
             proj.AddFileToBuild(proj.GetUnityMainTargetGuid(), proj.AddFile("GoogleService-Info.plist", "GoogleService-Info.plist"));
             proj.WriteToFile(projPath);
         }
@@ -231,6 +191,43 @@ namespace Playbox.CI
             project.SetBuildProperty(targetGuid, "CODE_SIGN_ENTITLEMENTS[config=Release]", "Unity-iPhone/Release.entitlements");
             
             project.WriteToFile(projectPath);
+        }
+        
+        [PostProcessBuild]
+        public static void SetNonExemptEncryptionKey(BuildTarget target,
+            string path)
+        {
+            if (target != BuildTarget.iOS)
+                return; 
+            
+            var plistPath = Path.Combine(path, "Info.plist");
+            
+            var plist = new PlistDocument();
+            
+            plist.ReadFromFile(plistPath);
+            plist.root.SetBoolean("ITSAppUsesNonExemptEncryption", false);
+            
+            const string trackingKey = "NSUserTrackingUsageDescription";
+            const string trackingMessage = "This identifier helps us track app installs and show personalized ads";
+
+            plist.root.SetString(trackingKey, trackingMessage);
+            
+            File.WriteAllText(plistPath, plist.WriteToString());
+        }
+        
+        [PostProcessBuild]
+        public static void CopyExportOptionsPlist(BuildTarget target, string path)
+        {
+            if (target != BuildTarget.iOS)
+                return; 
+            
+            ExportOptionsIOS exportOptionsIOS = new ExportOptionsIOS
+            {
+                BuildVersion = SmartCLA.Arguments.BuildVersion
+            };
+
+            var deployPlistDestination = Path.Combine(path, exportOptionsIOS.ExportOptionsFileName);
+            File.WriteAllText(deployPlistDestination, exportOptionsIOS.ToString());
         }
     }
 }

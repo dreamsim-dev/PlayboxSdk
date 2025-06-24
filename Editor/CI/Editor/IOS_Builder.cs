@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR && UNITY_IOS
 
+using System;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEditor;
@@ -20,79 +21,42 @@ namespace Playbox.CI
             var scenes = EditorBuildSettings.scenes.Select(x => x.path)
                 .ToArray();
          
-            PlayerSettings.iOS.buildNumber = SmartCma.Arguments.BuildNumber.ToString();
-            PlayerSettings.bundleVersion = SmartCma.Arguments.BuildVersion;
+            PlayerSettings.iOS.buildNumber = SmartCLA.Arguments.BuildNumber.ToString();
+            PlayerSettings.bundleVersion = SmartCLA.Arguments.BuildVersion;
             EditorUserBuildSettings.development = false;
             EditorUserBuildSettings.allowDebugging = false;
 
-            PlayerSettings.iOS.appleDeveloperTeamID = SmartCma.Arguments.TeamID ?? TeamID; // for testing
-
-            if (!SmartCma.Validations.HasBuildLocation)
-            {
-                "No build location provided".PlayboxException();
-            }
+            PlayerSettings.iOS.appleDeveloperTeamID = SmartCLA.Arguments.TeamID ?? TeamID;
 
             PlayerSettings.iOS.iOSManualProvisioningProfileType = ProvisioningProfileType.Automatic;
             
-            if (SmartCma.Validations.HasProfileDevelopment)
+            if (SmartCLA.Validations.HasProfileDevelopment)
             {
                 PlayerSettings.iOS.iOSManualProvisioningProfileType = ProvisioningProfileType.Development;
             }
-            if (SmartCma.Validations.HasProfileDistribution)
+            if (SmartCLA.Validations.HasProfileDistribution)
             {
                 PlayerSettings.iOS.iOSManualProvisioningProfileType = ProvisioningProfileType.Distribution;
             }
             
-            PlayerSettings.iOS.appleEnableAutomaticSigning = !SmartCma.Validations.HasIosManualSign;
+            PlayerSettings.iOS.appleEnableAutomaticSigning = !SmartCLA.Validations.HasIosManualSign;
             
             BuildOptions buildOptions = BuildOptions.None;
             
-            if(SmartCma.Validations.HasDevelopmentMode)
+            if(SmartCLA.Validations.HasDevelopmentMode)
                 buildOptions = BuildOptions.Development;
             
-            BuildPipeline.BuildPlayer(scenes, SmartCma.Arguments.BuildLocation, BuildTarget.iOS, buildOptions);
-        }
-
-        [PostProcessBuild]
-        public static void CopyExportOptionsPlist(BuildTarget target,
-            string path)
-        {
-            if (target != BuildTarget.iOS)
-                return; 
             
-            ExportOptionsIOS exportOptionsIOS = new ExportOptionsIOS
+            if (SmartCLA.Validations.HasBuildLocation)
             {
-                BuildVersion = SmartCma.Arguments.BuildVersion
-            };
-
-            var deployPlistDestination = Path.Combine(path, exportOptionsIOS.ExportOptionsFileName);
-            
-            $"[PlayBox] Export options file path: {deployPlistDestination}".PlayboxLog();
-            
-            File.WriteAllText(deployPlistDestination, exportOptionsIOS.ToString());
+                BuildPipeline.BuildPlayer(scenes, SmartCLA.Arguments.BuildLocation, BuildTarget.iOS, buildOptions);
+            }
+            else
+            {
+                throw new Exception("Assembly path is not specified");
+            }
         }
-
-        [PostProcessBuild]
-        public static void SetNonExemptEncryptionKey(BuildTarget target,
-            string path)
-        {
-            if (target != BuildTarget.iOS)
-                return; 
-            
-            var plistPath = Path.Combine(path, "Info.plist");
-            
-            var plist = new PlistDocument();
-            
-            plist.ReadFromFile(plistPath);
-            plist.root.SetBoolean("ITSAppUsesNonExemptEncryption", false);
-            
-            const string trackingKey = "NSUserTrackingUsageDescription";
-            const string trackingMessage = "This identifier helps us track app installs and show personalized ads";
-
-            plist.root.SetString(trackingKey, trackingMessage);
-            
-            File.WriteAllText(plistPath, plist.WriteToString());
-        }
+        
     }
 }
 #endif

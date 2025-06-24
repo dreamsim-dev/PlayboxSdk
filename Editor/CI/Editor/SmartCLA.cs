@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides static access to build arguments, validations, and constants for Playbox CI (Continuous Integration).
     /// </summary>
-    public static class SmartCma
+    public static class SmartCLA
     {
         /// <summary>
         /// Contains properties to retrieve command-line argument values for the build.
