@@ -16,7 +16,10 @@ namespace Playbox
             
             if(!AppsFlyerConfiguration.Active)
                 return;
-
+            
+            AppsFlyer.setSharingFilterForPartners(new string[] { });
+            
+            AppsFlyer.enableTCFDataCollection(true);
       
 #if UNITY_IOS
 
