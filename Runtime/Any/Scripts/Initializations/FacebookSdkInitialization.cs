@@ -53,7 +53,6 @@ namespace Playbox
                     ATTrackingStatusBinding.RequestAuthorizationTracking();
                 }
 #endif
-                
                 FB.ActivateApp();
                 ApproveInitialization();
             }
