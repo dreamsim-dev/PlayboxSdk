@@ -49,9 +49,13 @@ namespace Playbox
             if (Analytics.isAppsFlyerInit) AppsFlyer.generateUserInviteLink(parameters,inviteLinkGenerator);
         }
 
-        public static void OpenStore(string promotedID,string campaign, Dictionary<string, string> parameters, MonoBehaviour monoBehaviour)
+        public static void OpenStore(string promotedID, string campaign, Dictionary<string, string> parameters,
+            MonoBehaviour monoBehaviour)
         {
-            if (Analytics.isAppsFlyerInit) AppsFlyer.attributeAndOpenStore(promotedID,campaign,parameters, monoBehaviour);
+            if (Analytics.isAppsFlyerInit)
+            {
+                AppsFlyer.attributeAndOpenStore(promotedID, campaign, parameters, monoBehaviour);
+            }
         }
     }
 }

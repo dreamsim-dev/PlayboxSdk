@@ -9,6 +9,9 @@ namespace Playbox
     public class CrossPromoButton: MonoBehaviour
     {
         [SerializeField]
+        private string Link = "";
+        
+        [SerializeField]
         private string promotedID = "world.dreamsim.slumdogbillionaire";
         
         [SerializeField]
@@ -25,6 +28,7 @@ namespace Playbox
             {
                 s.PlayboxInfo("LINK");
                 s.PlayboxSplashLogUGUI();
+                Application.OpenURL(s);
             };
         }
 
