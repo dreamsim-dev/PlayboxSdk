@@ -46,7 +46,7 @@ namespace Playbox
             if(initStatus == null)
                 return false;
             
-            return initStatus.ContainsKey(nameof(T));
+            return initStatus.ContainsKey(typeof(T).Name);
         }
 
         public override void Initialization()
