@@ -19,7 +19,7 @@ namespace Playbox.CI
             
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
 
-            bool debug = SmartCma.Validations.HasDevelopmentMode;
+            bool debug = SmartCLA.Validations.HasDevelopmentMode;
 
             EditorUserBuildSettings.development = debug;
 
@@ -33,16 +33,16 @@ namespace Playbox.CI
             }
 
             PlayerSettings.Android.useCustomKeystore = true;
-            EditorUserBuildSettings.buildAppBundle = SmartCma.Validations.HasStoreBuild;
+            EditorUserBuildSettings.buildAppBundle = SmartCLA.Validations.HasStoreBuild;
             
             SetDebuggableFlag(debug);
             
-            if(SmartCma.Validations.HasBuildVersion) PlayerSettings.bundleVersion = SmartCma.Arguments.BuildVersion;
-            if(SmartCma.Validations.HasSplashScreen) PlayerSettings.SplashScreen.showUnityLogo = SmartCma.Validations.HasSplashScreen;
-            if(SmartCma.Validations.HasKeystorePass) PlayerSettings.Android.keystorePass = SmartCma.Arguments.KeystorePass;
-            if(SmartCma.Validations.HasKeyaliasName) PlayerSettings.Android.keyaliasName = SmartCma.Arguments.KeyaliasName;
-            if(SmartCma.Validations.HasKeyaliasPass) PlayerSettings.Android.keyaliasPass = SmartCma.Arguments.KeyaliasPass;
-            if(SmartCma.Validations.HasBuildNumber) PlayerSettings.Android.bundleVersionCode = SmartCma.Arguments.BuildNumber;
+            if(SmartCLA.Validations.HasBuildVersion) PlayerSettings.bundleVersion = SmartCLA.Arguments.BuildVersion;
+            if(SmartCLA.Validations.HasSplashScreen) PlayerSettings.SplashScreen.showUnityLogo = SmartCLA.Validations.HasSplashScreen;
+            if(SmartCLA.Validations.HasKeystorePass) PlayerSettings.Android.keystorePass = SmartCLA.Arguments.KeystorePass;
+            if(SmartCLA.Validations.HasKeyaliasName) PlayerSettings.Android.keyaliasName = SmartCLA.Arguments.KeyaliasName;
+            if(SmartCLA.Validations.HasKeyaliasPass) PlayerSettings.Android.keyaliasPass = SmartCLA.Arguments.KeyaliasPass;
+            if(SmartCLA.Validations.HasBuildNumber) PlayerSettings.Android.bundleVersionCode = SmartCLA.Arguments.BuildNumber;
             
             PlayerSettings.bundleVersion.PlayboxLog("bundleVersion");
             PlayerSettings.SplashScreen.showUnityLogo.PlayboxLog("showUnityLogo");
@@ -51,13 +51,13 @@ namespace Playbox.CI
             PlayerSettings.Android.keyaliasPass.PlayboxLog("keyaliasPass");
             PlayerSettings.Android.bundleVersionCode.PlayboxLog("bundleVersionCode");
             
-            if (SmartCma.Validations.HasKeystorePath)
+            if (SmartCLA.Validations.HasKeystorePath)
             {
-                PlayerSettings.Android.keystoreName = SmartCma.Arguments.KeystorePath;
-                $"KeystorePath set to {SmartCma.Arguments.KeystorePath}".PlayboxInfo("Keystore Path");
+                PlayerSettings.Android.keystoreName = SmartCLA.Arguments.KeystorePath;
+                $"KeystorePath set to {SmartCLA.Arguments.KeystorePath}".PlayboxInfo("Keystore Path");
             }
 
-            if (!SmartCma.Validations.HasBuildLocation)
+            if (!SmartCLA.Validations.HasBuildLocation)
             {
                 "No build location provided".PlayboxException("Argument Error");
             }
@@ -66,11 +66,11 @@ namespace Playbox.CI
             
             BuildOptions buildOptions = BuildOptions.None;
             
-            if(SmartCma.Validations.HasDevelopmentMode)
+            if(SmartCLA.Validations.HasDevelopmentMode)
                 buildOptions = BuildOptions.Development;
                 
             
-            BuildPipeline.BuildPlayer(scenes, SmartCma.Arguments.BuildLocation, BuildTarget.Android, buildOptions);
+            BuildPipeline.BuildPlayer(scenes, SmartCLA.Arguments.BuildLocation, BuildTarget.Android, buildOptions);
         }
         
         private static void SetDebuggableFlag(bool enabled)
