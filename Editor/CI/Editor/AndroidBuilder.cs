@@ -33,12 +33,12 @@ namespace Playbox.CI
             }
 
             PlayerSettings.Android.useCustomKeystore = true;
+            PlayerSettings.SplashScreen.showUnityLogo = false;
             EditorUserBuildSettings.buildAppBundle = SmartCLA.Validations.HasStoreBuild;
             
             SetDebuggableFlag(debug);
             
             if(SmartCLA.Validations.HasBuildVersion) PlayerSettings.bundleVersion = SmartCLA.Arguments.BuildVersion;
-            if(SmartCLA.Validations.HasSplashScreen) PlayerSettings.SplashScreen.showUnityLogo = SmartCLA.Validations.HasSplashScreen;
             if(SmartCLA.Validations.HasKeystorePass) PlayerSettings.Android.keystorePass = SmartCLA.Arguments.KeystorePass;
             if(SmartCLA.Validations.HasKeyaliasName) PlayerSettings.Android.keyaliasName = SmartCLA.Arguments.KeyaliasName;
             if(SmartCLA.Validations.HasKeyaliasPass) PlayerSettings.Android.keyaliasPass = SmartCLA.Arguments.KeyaliasPass;
