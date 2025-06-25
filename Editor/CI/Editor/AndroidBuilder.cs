@@ -33,7 +33,7 @@ namespace Playbox.CI
             }
 
             PlayerSettings.Android.useCustomKeystore = true;
-            PlayerSettings.SplashScreen.showUnityLogo = false;
+            PlayerSettings.SplashScreen.showUnityLogo = SmartCLA.Validations.HasSplashScreen;
             EditorUserBuildSettings.buildAppBundle = SmartCLA.Validations.HasStoreBuild;
             
             SetDebuggableFlag(debug);
