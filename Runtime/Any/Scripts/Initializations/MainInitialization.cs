@@ -51,8 +51,6 @@ namespace Playbox
 
         public override void Initialization()
         {
-            PreInitialization?.Invoke();
-            
             if(Application.isPlaying)
                 DontDestroyOnLoad(gameObject);
             
@@ -60,10 +58,12 @@ namespace Playbox
             
             if(isDebugSplash) behaviours.Add(AddToGameObject<PlayboxSplashUGUILogger>(gameObject));
             behaviours.Add(AddToGameObject<FirebaseInitialization>(gameObject));
-            behaviours.Add(AddToGameObject<AppsFlyerInitialization>(gameObject));
             behaviours.Add(AddToGameObject<DevToDevInitialization>(gameObject));
-            behaviours.Add(AddToGameObject<FacebookSdkInitialization>(gameObject));
             behaviours.Add(AddToGameObject<AppLovinInitialization>(gameObject));
+            PreInitialization?.Invoke();
+            behaviours.Add(AddToGameObject<AppsFlyerInitialization>(gameObject));
+            behaviours.Add(AddToGameObject<FacebookSdkInitialization>(gameObject));
+            
             behaviours.Add(AddToGameObject<InAppVerification>(gameObject, useInAppValidation));
             behaviours.Add(AddToGameObject<InviteLinkGenerator>(gameObject, useLinkGenerator));
             behaviours.Add(AddToGameObject<IAP>(gameObject, usePlayboxIAP));
