@@ -6,6 +6,7 @@ namespace Playbox
 {
     public class PlayboxBehaviour : MonoBehaviour
     {
+        [SerializeField]
         protected bool isInitialized = false;
         protected Action initCallback = delegate { };
 
