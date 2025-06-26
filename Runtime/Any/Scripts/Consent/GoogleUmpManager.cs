@@ -1,33 +1,26 @@
-﻿using System;
-using CI.Utils.Extentions;
+﻿using CI.Utils.Extentions;
 
 namespace Playbox.Consent
 {
     using GoogleMobileAds.Ump.Api;
     using UnityEngine;
     
-    public class GoogleUmpManager : PlayboxBehaviour
+    public static class GoogleUmpManager
     {
-        private ConsentForm consentForm;
-
-        private void Awake()
+        private static ConsentForm consentForm;
+        
+        public static void SubscribeToPreInit()
         {
-            MainInitialization.PreInitialization += st;
+            MainInitialization.PreInitialization += RequestConsentInfo;
         }
-
-        void st()
-        {
-            RequestConsentInfo();
-        }
-    
-        void RequestConsentInfo()
+        
+        static void RequestConsentInfo()
         {
             ConsentRequestParameters requestParameters = new ConsentRequestParameters
             {
                 TagForUnderAgeOfConsent = false
             };
-    
-            // Обновляем информацию о согласии
+            
             ConsentInformation.Update(requestParameters, (error) =>
                 {
                     if (error == null)
@@ -48,7 +41,7 @@ namespace Playbox.Consent
                 });
         }
     
-        void LoadConsentForm()
+        static void LoadConsentForm()
         {
             ConsentForm.Load((form, error) =>
             {
@@ -81,7 +74,7 @@ namespace Playbox.Consent
             });
         }
     
-        void ShowConsentForm()
+        static void ShowConsentForm()
         {
             consentForm.Show(error => Debug.Log("Consent form closed.") );
         }

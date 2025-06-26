@@ -39,6 +39,7 @@ namespace Playbox
             Crashlytics.IsCrashlyticsCollectionEnabled = true;
             
             ApproveInitialization();
+            
         }
     }
 }

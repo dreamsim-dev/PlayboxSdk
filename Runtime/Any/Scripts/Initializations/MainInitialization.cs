@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CI.Utils.Extentions;
+using Playbox.Consent;
 #if UNITY_EDITOR
 #endif
 using Playbox.SdkConfigurations;
@@ -38,6 +39,7 @@ namespace Playbox
 
         private void Awake()
         {
+            GoogleUmpManager.SubscribeToPreInit();
             Initialization();
         }
 
