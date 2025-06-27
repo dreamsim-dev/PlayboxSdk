@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Playbox.SdkConfigurations;
 using AppsFlyerSDK;
+using Unity.Advertisement.IosSupport;
 using UnityEngine;
 
 
