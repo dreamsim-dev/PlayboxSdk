@@ -17,6 +17,10 @@ namespace Playbox
             if(!AppsFlyerConfiguration.Active)
                 return;
             
+#if UNITY_IOS
+            AppsFlyer.waitForATTUserAuthorizationWithTimeoutInterval(60);
+#endif
+            
             AppsFlyer.setSharingFilterForPartners(new string[] { });
             
             AppsFlyer.enableTCFDataCollection(true);
