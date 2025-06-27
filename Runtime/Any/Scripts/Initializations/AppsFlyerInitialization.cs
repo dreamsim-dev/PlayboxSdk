@@ -17,10 +17,6 @@ namespace Playbox
             if(!AppsFlyerConfiguration.Active)
                 return;
             
-            AppsFlyer.setSharingFilterForPartners(new string[] { });
-            
-            AppsFlyer.enableTCFDataCollection(true);
-            
             AppsFlyerConsent consent = new AppsFlyerConsent(
                             true,
                         true,
@@ -46,6 +42,10 @@ namespace Playbox
             
             AppsFlyer.initSDK(AppsFlyerConfiguration.AndroidKey, AppsFlyerConfiguration.AndroidAppId);
 #endif 
+            
+            AppsFlyer.setSharingFilterForPartners(new string[] { });
+            
+            AppsFlyer.enableTCFDataCollection(true);
             
             AppsFlyer.startSDK();
 
