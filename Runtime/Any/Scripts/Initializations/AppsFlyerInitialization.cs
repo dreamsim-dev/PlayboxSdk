@@ -17,10 +17,6 @@ namespace Playbox
             if(!AppsFlyerConfiguration.Active)
                 return;
             
-#if UNITY_IOS
-            AppsFlyer.waitForATTUserAuthorizationWithTimeoutInterval(60);
-#endif
-            
             AppsFlyer.setSharingFilterForPartners(new string[] { });
             
             AppsFlyer.enableTCFDataCollection(true);
@@ -32,10 +28,20 @@ namespace Playbox
                     true);
             
             AppsFlyer.setConsentData(consent);
+            
+#if UNITY_IOS
+            AppsFlyer.waitForATTUserAuthorizationWithTimeoutInterval(60);
+#endif
       
 #if UNITY_IOS
+                var attStatus = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
+                if (attStatus == ATTrackingStatusBinding.AuthorizationTrackingStatus.NOT_DETERMINED)
+                {
+                    ATTrackingStatusBinding.RequestAuthorizationTracking();
+                }
 
              AppsFlyer.initSDK(AppsFlyerConfiguration.IOSKey, AppsFlyerConfiguration.IOSAppId);
+            
 #elif UNITY_ANDROID
             
             AppsFlyer.initSDK(AppsFlyerConfiguration.AndroidKey, AppsFlyerConfiguration.AndroidAppId);
