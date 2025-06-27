@@ -1,7 +1,11 @@
 ﻿using System.Collections;
 using Playbox.SdkConfigurations;
 using AppsFlyerSDK;
+
+#if UNITY_IOS
 using Unity.Advertisement.IosSupport;
+#endif
+
 using UnityEngine;
 
 
@@ -36,7 +40,7 @@ namespace Playbox
                     ATTrackingStatusBinding.RequestAuthorizationTracking();
                 }
 
-             AppsFlyer.initSDK(AppsFlyerConfiguration.IOSKey, AppsFlyerConfiguration.IOSAppId);
+                AppsFlyer.initSDK(AppsFlyerConfiguration.IOSKey, AppsFlyerConfiguration.IOSAppId);
             
 #elif UNITY_ANDROID
             

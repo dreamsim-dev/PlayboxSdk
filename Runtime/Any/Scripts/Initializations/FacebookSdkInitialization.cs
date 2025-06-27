@@ -3,10 +3,6 @@ using Facebook.Unity;
 using Playbox.SdkConfigurations;
 using UnityEngine;
 
-#if UNITY_IOS
-using Unity.Advertisement.IosSupport;
-#endif
-
 namespace Playbox
 {
     public class FacebookSdkInitialization : PlayboxBehaviour
