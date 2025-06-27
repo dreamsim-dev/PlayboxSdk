@@ -24,12 +24,11 @@ namespace Playbox
                     true);
             
             AppsFlyer.setConsentData(consent);
-            
-#if UNITY_IOS
-            AppsFlyer.waitForATTUserAuthorizationWithTimeoutInterval(60);
-#endif
       
 #if UNITY_IOS
+
+                AppsFlyer.waitForATTUserAuthorizationWithTimeoutInterval(60);
+
                 var attStatus = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
                 if (attStatus == ATTrackingStatusBinding.AuthorizationTrackingStatus.NOT_DETERMINED)
                 {
