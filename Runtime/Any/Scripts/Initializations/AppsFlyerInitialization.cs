@@ -39,9 +39,9 @@ namespace Playbox
             
             AppsFlyer.startSDK();
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
             AppsFlyer.setIsDebug(true);      
-#endif
+//#endif
             
             StartCoroutine(initUpd());
 
