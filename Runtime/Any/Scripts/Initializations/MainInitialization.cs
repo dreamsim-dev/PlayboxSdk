@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AppsFlyerSDK;
 using CI.Utils.Extentions;
 using Playbox.Consent;
 #if UNITY_EDITOR
