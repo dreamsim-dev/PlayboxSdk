@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using AppsFlyerSDK;
+using CI.Utils.Extentions;
 using DevToDev.Analytics;
 using Firebase.Analytics;
 using UnityEngine;
@@ -85,8 +86,8 @@ namespace Playbox
             if(isDTDInit)
                     DTDAnalytics.CustomEvent(eventName, arguments.ToCustomParameters());
             
-            if (isFirebaseInit)
-                    FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
+            //if (isFirebaseInit)
+            //        FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
         }
 
         public static void TrackEvent(string eventName, KeyValuePair<string,string> eventPair)
@@ -97,8 +98,8 @@ namespace Playbox
             if(isDTDInit)
                 DTDAnalytics.CustomEvent(eventName, arguments.ToList().ToCustomParameters());
      
-            if (isFirebaseInit)
-                FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
+            //if (isFirebaseInit)
+            //    FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
         }
         
         [Obsolete("Move to 'Events' subclass")]
@@ -121,8 +122,8 @@ namespace Playbox
 
         public static void TrackEvent(string eventName)
         {
-            if (isFirebaseInit)
-                FirebaseAnalytics.LogEvent(eventName);
+            //if (isFirebaseInit)
+            //    FirebaseAnalytics.LogEvent(eventName);
             
             if (isDTDInit)
                 DTDAnalytics.CustomEvent(eventName);
@@ -131,14 +132,9 @@ namespace Playbox
         
         public static void Log(string message)
         {
-            if (isFirebaseInit)
-                FirebaseAnalytics.LogEvent(message);
-        }
-        
-        public static void LogError(string error)
-        {
-            if (isFirebaseInit)
-                Firebase.Crashlytics.Crashlytics.Log(error);
+          //  if (isFirebaseInit)
+          //      FirebaseAnalytics.LogEvent(message);
+            message.PlayboxInfo("Analytics");
         }
 
         public static void LogPurshaseInitiation(UnityEngine.Purchasing.Product product)
@@ -157,7 +153,6 @@ namespace Playbox
             
             if(purchasedProduct == null)
             {
-                LogError("Purchase product is null");
                 return;
             }
 
@@ -186,12 +181,7 @@ namespace Playbox
 
         public static void LogPurchase(PurchaseEventArgs args)
         {
-            if (args == null)
-            {
-                LogError("Purchase is null");
-               
-            }
-            else
+            if (args != null)
             {
                 LogPurchase(args.purchasedProduct);
             }
@@ -210,8 +200,8 @@ namespace Playbox
                 new Parameter("currency", "USD"), 
             };
             
-            if (isFirebaseInit)
-                FirebaseAnalytics.LogEvent("ad_impression", impressionParameters);
+            //if (isFirebaseInit)
+            //    FirebaseAnalytics.LogEvent("ad_impression", impressionParameters);
             
             Events.AdImpression(impressionData.NetworkName, impressionData.Revenue, impressionData.Placement, impressionData.AdUnitIdentifier);
         }

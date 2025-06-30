@@ -199,15 +199,6 @@ namespace Playbox
         }
 
         /// <summary>
-        /// Custom advertising analytics.
-        /// Кастомная рекламная аналитика.
-        /// </summary>
-        public static void Log(string message)
-        {
-            Analytics.TrackEvent(message.PlayboxInfoD("ADS"));
-        }
-
-        /// <summary>
         /// Returns the ready state of the advertisement.
         /// Возвращает состояние готовности рекламы.
         /// <inheritdoc cref="AdReadyStatus"/>>

@@ -73,8 +73,6 @@ namespace Playbox
 #endif
             
             Advertisement.OnSdkInitializedEvent?.Invoke(sdkConfiguration.ToString());
-            
-            Advertisement.Log("AppLovinInitialization");
         }
         
     }

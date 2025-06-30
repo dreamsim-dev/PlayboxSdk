@@ -64,7 +64,7 @@ namespace Playbox
             
             GlobalPlayboxConfig.Load();
             
-            if(isDebugSplash) behaviours.Add(AddToGameObject<PlayboxSplashUGUILogger>(gameObject));
+            behaviours.Add(AddToGameObject<PlayboxSplashUGUILogger>(gameObject, isDebugSplash));
             behaviours.Add(AddToGameObject<FirebaseInitialization>(gameObject));
             behaviours.Add(AddToGameObject<DevToDevInitialization>(gameObject));
             behaviours.Add(AddToGameObject<AppLovinInitialization>(gameObject));
@@ -76,7 +76,7 @@ namespace Playbox
             behaviours.Add(AddToGameObject<InviteLinkGenerator>(gameObject, useLinkGenerator));
             behaviours.Add(AddToGameObject<IAP>(gameObject, usePlayboxIAP));
             
-            if(isDebugSplash) InitStatus[nameof(PlayboxSplashUGUILogger)] = false;
+            InitStatus[nameof(PlayboxSplashUGUILogger)] = false;
             InitStatus[nameof(FirebaseInitialization)] = false;
             InitStatus[nameof(AppsFlyerInitialization)] = false;
             InitStatus[nameof(DevToDevInitialization)] = false;
