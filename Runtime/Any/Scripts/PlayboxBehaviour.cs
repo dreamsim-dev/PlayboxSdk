@@ -11,15 +11,19 @@ namespace Playbox
         protected Action initCallback = delegate { };
 
         public string playboxName => GetType().Name;
+        public bool ConsentDependency = false;
         
-        public static PlayboxBehaviour AddToGameObject<T>(GameObject target, bool hasAdd = true) where T : PlayboxBehaviour
+        public static PlayboxBehaviour AddToGameObject<T>(GameObject target, bool hasAdd = true, bool hasConsentDependency = false) where T : PlayboxBehaviour
         {
             if (target == null)
                 throw new ArgumentNullException(nameof(target));
 
             if (hasAdd)
             {
-                return target.gameObject.AddComponent<T>();
+                var component = target.gameObject.AddComponent<T>();
+                component.ConsentDependency = hasConsentDependency;
+                
+                return component;
             }
             else
             {

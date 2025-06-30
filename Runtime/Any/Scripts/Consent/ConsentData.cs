@@ -15,6 +15,8 @@ namespace Playbox.Consent
         public static bool HasUserConsent = true;
         public static bool HasDoNotSell = false;
 
+        private static Action<bool> consentCallback;
+
         public static void ConsentAllow()
         {
             IsConsentComplete = true;
@@ -25,6 +27,8 @@ namespace Playbox.Consent
             IsChildUser = false;
             HasUserConsent = true;
             HasDoNotSell = true;
+            
+            consentCallback?.Invoke(true);
         }
 
         public static void ConsentDeny()
@@ -37,11 +41,15 @@ namespace Playbox.Consent
             IsChildUser = false;
             HasUserConsent = false;
             HasDoNotSell = false;
+            
+            consentCallback?.Invoke(false);
         }
 
         public static void ShowConsent(MonoBehaviour mono, Action<bool> callback)
         {
                 
+            consentCallback += (a) => callback?.Invoke(a);
+            
 #if PBX_DEVELOPMENT || UNITY_IOS
             
             IOSConsent.ShowConsentUI(mono);

@@ -4,10 +4,6 @@ using AppsFlyerSDK;
 using System;
 using Playbox.Consent;
 
-#if UNITY_IOS
-using Unity.Advertisement.IosSupport;
-#endif
-
 using UnityEngine;
 
 

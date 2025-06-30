@@ -63,6 +63,7 @@ namespace Playbox.Consent
                     ShowConsentForm();
 
                     ConsentData.ConsentAllow();
+                    
                 }
                 else
                 {

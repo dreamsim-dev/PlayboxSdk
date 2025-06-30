@@ -19,8 +19,26 @@ namespace Playbox.Consent
 
             mono.StartCoroutine(IosATTStatus(60, status =>
             {
+                if (status == ATTrackingStatusBinding.AuthorizationTrackingStatus.AUTHORIZED)
+                {
+                    ConsentData.ConsentAllow();
+      
+                }
+
+                if (status == ATTrackingStatusBinding.AuthorizationTrackingStatus.DENIED)
+                {
+                    ConsentData.ConsentDeny();
+                }
                 
+                if (status == ATTrackingStatusBinding.AuthorizationTrackingStatus.RESTRICTED)
+                {
+                    ConsentData.ConsentDeny();
+                }
                 
+                if (status == ATTrackingStatusBinding.AuthorizationTrackingStatus.NOT_DETERMINED)
+                {
+                    ConsentData.ConsentDeny();
+                }
             }));
         }
 
