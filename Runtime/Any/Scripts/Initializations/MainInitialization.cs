@@ -46,6 +46,9 @@ namespace Playbox
 
         public static bool IsValidate<T>() where T : PlayboxBehaviour
         {
+            if(initStatus == null)
+                return false;
+            
             initStatus.TryGetValue(typeof(T).Name, out bool validate);
                 return validate;
         }
