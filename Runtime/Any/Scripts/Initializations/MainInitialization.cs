@@ -103,8 +103,7 @@ namespace Playbox
             
             ConsentData.ShowConsent(this, b =>
             {
-                if (b)
-                {
+                
                     foreach (var item in behaviours)
                     {
                         if (item != null)
@@ -113,8 +112,8 @@ namespace Playbox
                                     item.Initialization();
                         }
                     }
-                }
-                Debug.Log("Consent Initialized");
+                    Debug.Log("Consent Initialized");
+                
             });
             
             PostInitialization?.Invoke();
