@@ -122,8 +122,8 @@ namespace Playbox
 
         public static void TrackEvent(string eventName)
         {
-            //if (isFirebaseInit)
-            //    FirebaseAnalytics.LogEvent(eventName);
+            if (isFirebaseInit)
+                FirebaseAnalytics.LogEvent(eventName);
             
             if (isDTDInit)
                 DTDAnalytics.CustomEvent(eventName);

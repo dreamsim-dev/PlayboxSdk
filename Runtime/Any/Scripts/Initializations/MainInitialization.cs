@@ -46,15 +46,8 @@ namespace Playbox
 
         public static bool IsValidate<T>() where T : PlayboxBehaviour
         {
-            if(initStatus == null)
-                return false;
-            
-            if(initStatus.ContainsKey(typeof(T).Name))
-                return initStatus[typeof(T).Name];
-            else
-            {
-                return false;
-            } 
+            initStatus.TryGetValue(typeof(T).Name, out bool validate);
+                return validate;
         }
 
         public override void Initialization()
