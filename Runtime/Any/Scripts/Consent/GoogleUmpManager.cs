@@ -28,12 +28,10 @@ namespace Playbox.Consent
                     ConsentData.ConsentAllow();
                     return;
             }
-
-          
-
+            
             ConsentInformation.Update(requestParameters, (error) =>
                 {
-                    if (error == null)
+                    if (error != null)
                         return;
                     
                     Debug.Log("Consent info updated");
