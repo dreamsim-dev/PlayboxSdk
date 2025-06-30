@@ -1,5 +1,4 @@
-﻿
-#if PBX_DEVELOPMENT || UNITY_IOS
+﻿#if PBX_DEVELOPMENT || UNITY_IOS
 using System;
 using System.Collections;
 using Unity.Advertisement.IosSupport;

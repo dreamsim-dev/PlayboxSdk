@@ -18,7 +18,19 @@ namespace Playbox.Consent
             {
                 TagForUnderAgeOfConsent = false
             };
-            
+
+            switch (ConsentInformation.ConsentStatus)
+            {
+                case ConsentStatus.NotRequired:
+                    ConsentData.ConsentAllow();
+                    return;
+                case ConsentStatus.Obtained:
+                    ConsentData.ConsentAllow();
+                    return;
+            }
+
+          
+
             ConsentInformation.Update(requestParameters, (error) =>
                 {
                     if (error == null)
@@ -61,13 +73,10 @@ namespace Playbox.Consent
                 if (ConsentInformation.ConsentStatus == ConsentStatus.Required)
                 {
                     ShowConsentForm();
-
-                    ConsentData.ConsentAllow();
-                    
                 }
                 else
                 {
-                    ConsentData.ConsentDeny();
+                    ConsentData.ConsentAllow();
                     Debug.Log("Consent not required, status: " + ConsentInformation.ConsentStatus);
                 }
             });
@@ -75,7 +84,25 @@ namespace Playbox.Consent
     
         static void ShowConsentForm()
         {
-            consentForm.Show(error => Debug.Log("Consent form closed.") );
+            consentForm.Show(error =>
+            {
+                if (error != null)
+                {
+                    Debug.LogError("Consent form show failed: " + error.Message);
+                    ConsentData.ConsentDeny();
+                    return;
+                }
+                
+                var status = ConsentInformation.ConsentStatus;
+                
+                Debug.Log("Consent form completed, status: " + status);
+
+                if (status == ConsentStatus.Obtained)
+                    ConsentData.ConsentAllow();
+                else
+                    ConsentData.ConsentDeny();
+                
+            });
         }
     }
     
