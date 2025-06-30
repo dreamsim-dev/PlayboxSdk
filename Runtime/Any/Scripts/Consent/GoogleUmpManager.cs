@@ -18,16 +18,6 @@ namespace Playbox.Consent
             {
                 TagForUnderAgeOfConsent = false
             };
-
-            switch (ConsentInformation.ConsentStatus)
-            {
-                case ConsentStatus.NotRequired:
-                    ConsentData.ConsentAllow();
-                    return;
-                case ConsentStatus.Obtained:
-                    ConsentData.ConsentAllow();
-                    return;
-            }
             
             ConsentInformation.Update(requestParameters, (error) =>
                 {
