@@ -1,11 +1,13 @@
-﻿using System;
+﻿
+#if PBX_DEVELOPMENT || UNITY_IOS
+using System;
 using System.Collections;
 using Unity.Advertisement.IosSupport;
 using UnityEngine;
 
 namespace Playbox.Consent
 {
-#if PBX_DEVELOPMENT || UNITY_IOS
+
     
     public class IOSConsent
     {
@@ -63,5 +65,6 @@ namespace Playbox.Consent
             action?.Invoke(finalStatus);
         }
     }
-#endif
 }
+
+#endif
