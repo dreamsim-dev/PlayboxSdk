@@ -40,7 +40,6 @@ namespace Playbox
 
         private void Awake()
         {
-            GoogleUmpManager.SubscribeToPreInit();
             Initialization();
         }
 
@@ -58,13 +57,15 @@ namespace Playbox
             if(Application.isPlaying)
                 DontDestroyOnLoad(gameObject);
             
+            PreInitialization?.Invoke();
+            
             GlobalPlayboxConfig.Load();
+            
             
             behaviours.Add(AddToGameObject<PlayboxSplashUGUILogger>(gameObject, isDebugSplash));
             behaviours.Add(AddToGameObject<FirebaseInitialization>(gameObject));
             behaviours.Add(AddToGameObject<DevToDevInitialization>(gameObject));
             behaviours.Add(AddToGameObject<AppLovinInitialization>(gameObject));
-            PreInitialization?.Invoke();
             behaviours.Add(AddToGameObject<AppsFlyerInitialization>(gameObject));
             behaviours.Add(AddToGameObject<FacebookSdkInitialization>(gameObject));
             
@@ -91,11 +92,17 @@ namespace Playbox
                     });
             }
             
-            foreach (var item in behaviours)
+            ConsentData.ShowConsent(this, b =>
             {
-                if(item != null)
-                    item.Initialization();
-            }
+                if (b)
+                {
+                    foreach (var item in behaviours)
+                    {
+                        if (item != null)
+                            item.Initialization();
+                    }
+                }
+            });
             
             PostInitialization?.Invoke();
         }

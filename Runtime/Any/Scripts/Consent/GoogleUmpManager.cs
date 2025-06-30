@@ -1,7 +1,10 @@
-﻿using CI.Utils.Extentions;
+﻿using System;
+using CI.Utils.Extentions;
 
 namespace Playbox.Consent
 {
+#if  PBX_DEVELOPMENT || UNITY_ANDROID
+    
     using GoogleMobileAds.Ump.Api;
     using UnityEngine;
     
@@ -9,12 +12,7 @@ namespace Playbox.Consent
     {
         private static ConsentForm consentForm;
         
-        public static void SubscribeToPreInit()
-        {
-            MainInitialization.PreInitialization += RequestConsentInfo;
-        }
-        
-        static void RequestConsentInfo()
+        public static void RequestConsentInfo()
         {
             ConsentRequestParameters requestParameters = new ConsentRequestParameters
             {
@@ -63,12 +61,12 @@ namespace Playbox.Consent
                 if (ConsentInformation.ConsentStatus == ConsentStatus.Required)
                 {
                     ShowConsentForm();
-                    
-                    AppConsent.hasUserConsent = true;
+
+                    ConsentData.ConsentAllow();
                 }
                 else
                 {
-                    AppConsent.hasUserConsent = false;
+                    ConsentData.ConsentDeny();
                     Debug.Log("Consent not required, status: " + ConsentInformation.ConsentStatus);
                 }
             });
@@ -79,4 +77,7 @@ namespace Playbox.Consent
             consentForm.Show(error => Debug.Log("Consent form closed.") );
         }
     }
+    
+#endif
+    
 }
