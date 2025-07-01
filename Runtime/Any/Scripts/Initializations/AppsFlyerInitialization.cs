@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using Playbox.SdkConfigurations;
 using AppsFlyerSDK;
-
-#if UNITY_IOS
-using Unity.Advertisement.IosSupport;
-#endif
+using System;
+using Playbox.Consent;
 
 using UnityEngine;
 
@@ -21,25 +19,18 @@ namespace Playbox
             
             if(!AppsFlyerConfiguration.Active)
                 return;
-            
-            AppsFlyerConsent consent = new AppsFlyerConsent(
-                            true,
-                        true,
-                true,
-                    true);
-            
-            AppsFlyer.setConsentData(consent);
-      
+            if (ConsentData.IsConsentComplete)
+            {
+                AppsFlyerConsent consent = new AppsFlyerConsent(
+                    ConsentData.Gdpr,
+                    ConsentData.ConsentForData,
+                    ConsentData.ConsentForAdsPersonalized,
+                    ConsentData.ConsentForAdStogare);
+
+                AppsFlyer.setConsentData(consent);
+            }
+
 #if UNITY_IOS
-
-                AppsFlyer.waitForATTUserAuthorizationWithTimeoutInterval(60);
-
-                var attStatus = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
-                if (attStatus == ATTrackingStatusBinding.AuthorizationTrackingStatus.NOT_DETERMINED)
-                {
-                    ATTrackingStatusBinding.RequestAuthorizationTracking();
-                }
-
                 AppsFlyer.initSDK(AppsFlyerConfiguration.IOSKey, AppsFlyerConfiguration.IOSAppId);
             
 #elif UNITY_ANDROID
@@ -52,10 +43,10 @@ namespace Playbox
             AppsFlyer.enableTCFDataCollection(true);
             
             AppsFlyer.startSDK();
-
-//#if UNITY_EDITOR
+            
             AppsFlyer.setIsDebug(true);      
-//#endif
+
+
             
             StartCoroutine(initUpd());
 

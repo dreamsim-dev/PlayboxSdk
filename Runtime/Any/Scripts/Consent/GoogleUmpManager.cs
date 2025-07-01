@@ -1,7 +1,10 @@
-﻿using CI.Utils.Extentions;
+﻿using System;
+using CI.Utils.Extentions;
 
 namespace Playbox.Consent
 {
+#if  PBX_DEVELOPMENT || UNITY_ANDROID
+    
     using GoogleMobileAds.Ump.Api;
     using UnityEngine;
     
@@ -9,12 +12,7 @@ namespace Playbox.Consent
     {
         private static ConsentForm consentForm;
         
-        public static void SubscribeToPreInit()
-        {
-            MainInitialization.PreInitialization += RequestConsentInfo;
-        }
-        
-        static void RequestConsentInfo()
+        public static void RequestConsentInfo()
         {
             ConsentRequestParameters requestParameters = new ConsentRequestParameters
             {
@@ -23,7 +21,7 @@ namespace Playbox.Consent
             
             ConsentInformation.Update(requestParameters, (error) =>
                 {
-                    if (error == null)
+                    if (error != null)
                         return;
                     
                     Debug.Log("Consent info updated");
@@ -63,12 +61,10 @@ namespace Playbox.Consent
                 if (ConsentInformation.ConsentStatus == ConsentStatus.Required)
                 {
                     ShowConsentForm();
-                    
-                    AppConsent.hasUserConsent = true;
                 }
                 else
                 {
-                    AppConsent.hasUserConsent = false;
+                    ConsentData.ConsentAllow();
                     Debug.Log("Consent not required, status: " + ConsentInformation.ConsentStatus);
                 }
             });
@@ -76,7 +72,28 @@ namespace Playbox.Consent
     
         static void ShowConsentForm()
         {
-            consentForm.Show(error => Debug.Log("Consent form closed.") );
+            consentForm.Show(error =>
+            {
+                if (error != null)
+                {
+                    Debug.LogError("Consent form show failed: " + error.Message);
+                    ConsentData.ConsentDeny();
+                    return;
+                }
+                
+                var status = ConsentInformation.ConsentStatus;
+                
+                Debug.Log("Consent form completed, status: " + status);
+
+                if (status == ConsentStatus.Obtained)
+                    ConsentData.ConsentAllow();
+                else
+                    ConsentData.ConsentDeny();
+                
+            });
         }
     }
+    
+#endif
+    
 }

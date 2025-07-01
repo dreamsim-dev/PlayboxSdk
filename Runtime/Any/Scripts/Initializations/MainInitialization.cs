@@ -40,7 +40,6 @@ namespace Playbox
 
         private void Awake()
         {
-            GoogleUmpManager.SubscribeToPreInit();
             Initialization();
         }
 
@@ -58,18 +57,20 @@ namespace Playbox
             if(Application.isPlaying)
                 DontDestroyOnLoad(gameObject);
             
+            PreInitialization?.Invoke();
+            
             GlobalPlayboxConfig.Load();
+            
             
             behaviours.Add(AddToGameObject<PlayboxSplashUGUILogger>(gameObject, isDebugSplash));
             behaviours.Add(AddToGameObject<FirebaseInitialization>(gameObject));
             behaviours.Add(AddToGameObject<DevToDevInitialization>(gameObject));
-            behaviours.Add(AddToGameObject<AppLovinInitialization>(gameObject));
-            PreInitialization?.Invoke();
-            behaviours.Add(AddToGameObject<AppsFlyerInitialization>(gameObject));
-            behaviours.Add(AddToGameObject<FacebookSdkInitialization>(gameObject));
+            behaviours.Add(AddToGameObject<AppLovinInitialization>(gameObject,true,true));
+            behaviours.Add(AddToGameObject<AppsFlyerInitialization>(gameObject,true,true));
+            behaviours.Add(AddToGameObject<FacebookSdkInitialization>(gameObject,true,true));
             
             behaviours.Add(AddToGameObject<InAppVerification>(gameObject, useInAppValidation));
-            behaviours.Add(AddToGameObject<InviteLinkGenerator>(gameObject, useLinkGenerator));
+            behaviours.Add(AddToGameObject<InviteLinkGenerator>(gameObject, useLinkGenerator, true));
             behaviours.Add(AddToGameObject<IAP>(gameObject, usePlayboxIAP));
             
             InitStatus[nameof(PlayboxSplashUGUILogger)] = false;
@@ -93,9 +94,27 @@ namespace Playbox
             
             foreach (var item in behaviours)
             {
-                if(item != null)
-                    item.Initialization();
+                if (item != null)
+                {
+                    if (!item.ConsentDependency)
+                            item.Initialization();
+                }
             }
+            
+            ConsentData.ShowConsent(this, b =>
+            {
+                
+                    foreach (var item in behaviours)
+                    {
+                        if (item != null)
+                        {
+                            if (item.ConsentDependency)
+                                    item.Initialization();
+                        }
+                    }
+                    Debug.Log("Consent Initialized");
+                
+            });
             
             PostInitialization?.Invoke();
         }
