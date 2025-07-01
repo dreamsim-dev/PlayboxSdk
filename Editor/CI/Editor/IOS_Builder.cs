@@ -31,6 +31,8 @@ namespace Playbox.CI
 
             PlayerSettings.iOS.iOSManualProvisioningProfileType = ProvisioningProfileType.Automatic;
             
+            PlayerSettings.SplashScreen.showUnityLogo = false;
+            
             if (SmartCLA.Validations.HasProfileDevelopment)
             {
                 PlayerSettings.iOS.iOSManualProvisioningProfileType = ProvisioningProfileType.Development;
