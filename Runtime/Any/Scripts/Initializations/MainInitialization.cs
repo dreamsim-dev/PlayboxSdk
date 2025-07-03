@@ -103,7 +103,6 @@ namespace Playbox
             
             ConsentData.ShowConsent(this, b =>
             {
-                
                     foreach (var item in behaviours)
                     {
                         if (item != null)

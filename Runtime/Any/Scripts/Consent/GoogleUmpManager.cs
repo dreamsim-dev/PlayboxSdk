@@ -24,9 +24,25 @@ namespace Playbox.Consent
                     
                     Debug.Log("Consent info updated");
     
-                    if (ConsentInformation.IsConsentFormAvailable())
+                    
+                    switch (ConsentInformation.ConsentStatus)
                     {
-                        LoadConsentForm();
+                        case ConsentStatus.NotRequired:
+                        case ConsentStatus.Obtained:
+                            ConsentData.ConsentAllow(); 
+                            break;
+
+                        case ConsentStatus.Required:
+                            if (ConsentInformation.IsConsentFormAvailable())
+                                LoadConsentForm(); 
+                            else
+                                ConsentData.ConsentDeny();
+                            break;
+
+                        case ConsentStatus.Unknown:
+                        default:
+                            ConsentData.ConsentAllow(); 
+                            break;
                     }
                     
                     if(error != null)
@@ -44,11 +60,21 @@ namespace Playbox.Consent
             {
                 if (form != null)
                 {
-                    consentForm = form;
-
                     if (ConsentInformation.ConsentStatus == ConsentStatus.Required)
                     {
-                        ShowConsentForm();
+                        form.Show(error =>
+                        {
+                            var status = ConsentInformation.ConsentStatus;
+                
+                            Debug.Log("Consent form completed, status: " + status);
+
+                            if (status == ConsentStatus.Obtained)
+                                ConsentData.ConsentAllow();
+                            if (status == ConsentStatus.NotRequired)
+                            {
+                                ConsentData.ConsentDeny();
+                            }
+                        });
                     }
                     else
                     {
@@ -56,22 +82,6 @@ namespace Playbox.Consent
                         Debug.Log("Consent not required, status: " + ConsentInformation.ConsentStatus);
                     }
                 }
-            });
-        }
-    
-        static void ShowConsentForm()
-        {
-            consentForm.Show(error =>
-            {
-                var status = ConsentInformation.ConsentStatus;
-                
-                Debug.Log("Consent form completed, status: " + status);
-
-                if (status == ConsentStatus.Obtained)
-                    ConsentData.ConsentAllow();
-                else
-                    ConsentData.ConsentDeny();
-                
             });
         }
     }
