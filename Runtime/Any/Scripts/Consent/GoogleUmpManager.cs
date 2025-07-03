@@ -21,8 +21,6 @@ namespace Playbox.Consent
             
             ConsentInformation.Update(requestParameters, (error) =>
                 {
-                    if (error != null)
-                        return;
                     
                     Debug.Log("Consent info updated");
     
@@ -31,7 +29,8 @@ namespace Playbox.Consent
                         LoadConsentForm();
                     }
                     
-                    Debug.LogError("Consent update failed: " + error.Message);
+                    if(error != null)
+                        Debug.LogError("Consent update failed: " + error.Message);
 
                     if(Application.isEditor)
                         "PEW PEW!".PlayboxLog("CONSENT");
@@ -74,21 +73,14 @@ namespace Playbox.Consent
         {
             consentForm.Show(error =>
             {
-                if (error != null)
-                {
-                    Debug.LogError("Consent form show failed: " + error.Message);
-                    ConsentData.ConsentDeny();
-                    return;
-                }
-                
                 var status = ConsentInformation.ConsentStatus;
                 
                 Debug.Log("Consent form completed, status: " + status);
 
-                if (status == ConsentStatus.Obtained)
+                //if (status == ConsentStatus.Obtained)
                     ConsentData.ConsentAllow();
-                else
-                    ConsentData.ConsentDeny();
+                //else
+                //    ConsentData.ConsentDeny();
                 
             });
         }
