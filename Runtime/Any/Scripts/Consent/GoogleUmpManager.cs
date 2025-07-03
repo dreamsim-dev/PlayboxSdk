@@ -10,8 +10,6 @@ namespace Playbox.Consent
     
     public static class GoogleUmpManager
     {
-        private static ConsentForm consentForm;
-        
         public static void RequestConsentInfo()
         {
             ConsentRequestParameters requestParameters = new ConsentRequestParameters
@@ -21,9 +19,6 @@ namespace Playbox.Consent
             
             ConsentInformation.Update(requestParameters, (error) =>
                 {
-                    
-                    Debug.Log("Consent info updated");
-    
                     
                     switch (ConsentInformation.ConsentStatus)
                     {
@@ -54,7 +49,7 @@ namespace Playbox.Consent
                 });
         }
     
-        static void LoadConsentForm()
+        private static void LoadConsentForm()
         {
             ConsentForm.Load((form, error) =>
             {
@@ -62,7 +57,7 @@ namespace Playbox.Consent
                 {
                     if (ConsentInformation.ConsentStatus == ConsentStatus.Required)
                     {
-                        form.Show(error =>
+                        form.Show(_ =>
                         {
                             var status = ConsentInformation.ConsentStatus;
                 

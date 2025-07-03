@@ -111,8 +111,6 @@ namespace Playbox
                                     item.Initialization();
                         }
                     }
-                    Debug.Log("Consent Initialized");
-                
             });
             
             PostInitialization?.Invoke();
