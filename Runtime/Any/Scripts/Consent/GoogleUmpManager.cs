@@ -42,29 +42,19 @@ namespace Playbox.Consent
         {
             ConsentForm.Load((form, error) =>
             {
-                
-                if (error != null)
+                if (form != null)
                 {
-                    Debug.LogError("Consent form load failed: " + error.Message);
-                    return;
-                }
-    
-                if (form == null)
-                {
-                    Debug.LogError("Consent form is null!");
-                    return;
-                }
-    
-                consentForm = form;
-    
-                if (ConsentInformation.ConsentStatus == ConsentStatus.Required)
-                {
-                    ShowConsentForm();
-                }
-                else
-                {
-                    ConsentData.ConsentAllow();
-                    Debug.Log("Consent not required, status: " + ConsentInformation.ConsentStatus);
+                    consentForm = form;
+
+                    if (ConsentInformation.ConsentStatus == ConsentStatus.Required)
+                    {
+                        ShowConsentForm();
+                    }
+                    else
+                    {
+                        ConsentData.ConsentAllow();
+                        Debug.Log("Consent not required, status: " + ConsentInformation.ConsentStatus);
+                    }
                 }
             });
         }
@@ -77,10 +67,10 @@ namespace Playbox.Consent
                 
                 Debug.Log("Consent form completed, status: " + status);
 
-                //if (status == ConsentStatus.Obtained)
+                if (status == ConsentStatus.Obtained)
                     ConsentData.ConsentAllow();
-                //else
-                //    ConsentData.ConsentDeny();
+                else
+                    ConsentData.ConsentDeny();
                 
             });
         }
