@@ -54,6 +54,8 @@ namespace Playbox
 
         public override void Initialization()
         {
+            Utils.MainThreadDispatcher.Init();
+
             if(Application.isPlaying)
                 DontDestroyOnLoad(gameObject);
             
@@ -103,6 +105,7 @@ namespace Playbox
             
             ConsentData.ShowConsent(this, b =>
             {
+                Utils.MainThreadDispatcher.Enqueue(() => {
                     foreach (var item in behaviours)
                     {
                         if (item != null)
@@ -111,6 +114,7 @@ namespace Playbox
                                     item.Initialization();
                         }
                     }
+                });
             });
             
             PostInitialization?.Invoke();
