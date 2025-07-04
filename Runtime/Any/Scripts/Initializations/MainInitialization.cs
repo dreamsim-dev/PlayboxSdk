@@ -40,6 +40,8 @@ namespace Playbox
 
         private void Awake()
         {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            
             Initialization();
         }
 
@@ -54,16 +56,14 @@ namespace Playbox
 
         public override void Initialization()
         {
+            GlobalPlayboxConfig.Load();
+            
             Utils.MainThreadDispatcher.Init();
             
-
             if(Application.isPlaying)
                 DontDestroyOnLoad(gameObject);
             
             PreInitialization?.Invoke();
-            
-            GlobalPlayboxConfig.Load();
-            
             
             behaviours.Add(AddToGameObject<PlayboxSplashUGUILogger>(gameObject, isDebugSplash));
             behaviours.Add(AddToGameObject<FirebaseInitialization>(gameObject));
@@ -75,7 +75,7 @@ namespace Playbox
             
             behaviours.Add(AddToGameObject<InAppVerification>(gameObject, useInAppValidation));
             //behaviours.Add(AddToGameObject<InviteLinkGenerator>(gameObject, useLinkGenerator, true));
-            behaviours.Add(AddToGameObject<IAP>(gameObject, usePlayboxIAP));
+            //behaviours.Add(AddToGameObject<IAP>(gameObject, usePlayboxIAP));
             
             InitStatus[nameof(PlayboxSplashUGUILogger)] = false;
             InitStatus[nameof(FirebaseInitialization)] = false;
@@ -83,6 +83,7 @@ namespace Playbox
             InitStatus[nameof(DevToDevInitialization)] = false;
             InitStatus[nameof(FacebookSdkInitialization)] = false;
             InitStatus[nameof(AppLovinInitialization)] = false;
+            InitStatus[nameof(InAppVerification)] = false;
             InitStatus[nameof(IAP)] = false;
             
             foreach (var item in behaviours)
@@ -129,16 +130,6 @@ namespace Playbox
                 if(item != null)
                     item.Close();   
             }
-        }
-
-        private void OnEnable()
-        {
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
-        
-        private void OnDisable()
-        {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
         
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

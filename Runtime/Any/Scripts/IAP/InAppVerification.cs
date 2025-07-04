@@ -10,7 +10,7 @@ namespace Playbox
 {
     public class InAppVerification : PlayboxBehaviour
     {
-        [SerializeField] private bool isSandbox => InAppVerificationCongifuration.IsSandbox;
+        private bool isSandbox => InAppVerificationCongifuration.IsSandbox;
 
         [SerializeField] private float verifyUpdateRate = 1;
 
@@ -36,12 +36,9 @@ namespace Playbox
             }
         
             DontDestroyOnLoad(gameObject);
-        }
-
-        private void Start()
-        {
+            
+            isInitialized = true;
             StartCoroutine(UpdatePurchases());
-
         }
         
         public static void Validate(string productID,string receipt ,string saveId, Action<bool> callback)
