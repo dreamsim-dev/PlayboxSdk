@@ -1,13 +1,12 @@
 ﻿#if PBX_DEVELOPMENT || UNITY_IOS
 using System;
 using System.Collections;
+using AppsFlyerSDK;
 using Unity.Advertisement.IosSupport;
 using UnityEngine;
 
 namespace Playbox.Consent
 {
-
-    
     public class IOSConsent
     {
         public static void ShowConsentUI(MonoBehaviour mono)

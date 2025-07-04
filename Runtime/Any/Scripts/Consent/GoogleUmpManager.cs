@@ -3,7 +3,7 @@ using CI.Utils.Extentions;
 
 namespace Playbox.Consent
 {
-#if  PBX_DEVELOPMENT || UNITY_ANDROID
+#if PBX_DEVELOPMENT || UNITY_ANDROID
     
     using GoogleMobileAds.Ump.Api;
     using UnityEngine;
