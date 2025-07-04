@@ -86,6 +86,8 @@ namespace Playbox
             InitStatus[nameof(InAppVerification)] = false;
             InitStatus[nameof(IAP)] = false;
             
+            string debugString = "";
+            
             foreach (var item in behaviours)
             {
                 if(item != null)
@@ -103,6 +105,7 @@ namespace Playbox
                 {
                     if (!item.ConsentDependency)
                     {
+                        debugString += $"\n{item.playboxName}";
                         item.playboxName.PlayboxSplashLogUGUI();
                         item.Initialization();
                     }
@@ -118,6 +121,7 @@ namespace Playbox
                         {
                             if (item.ConsentDependency)
                             {
+                                debugString += $"\n{item.playboxName}";
                                 item.playboxName.PlayboxSplashLogUGUI();
                                 item.Initialization();
                             }
