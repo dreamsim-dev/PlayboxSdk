@@ -29,8 +29,6 @@ namespace Playbox.Consent
             HasUserConsent = true;
             HasDoNotSell = true;
             
-            "Consent Allow".PlayboxSplashLogUGUI();
-            
             consentCallback?.Invoke(true);
         }
 
@@ -44,8 +42,6 @@ namespace Playbox.Consent
             IsChildUser = false;
             HasUserConsent = false;
             HasDoNotSell = false;
-            
-            "Consent Deny".PlayboxSplashLogUGUI();
             
             consentCallback?.Invoke(false);
         }
