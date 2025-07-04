@@ -45,6 +45,8 @@ namespace Playbox
         {
             isInitialized = true;
             initCallback.Invoke();
+            
+            initCallback = null;
         }
 
         public virtual void Close()

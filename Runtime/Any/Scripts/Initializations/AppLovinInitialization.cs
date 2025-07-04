@@ -68,6 +68,8 @@ namespace Playbox
             Advertisement.RegisterReward(AppLovinConfiguration.AndroidKey, this);
 #endif
             
+            Debug.Log("AppLovin initialized");
+            
             Advertisement.OnSdkInitializedEvent?.Invoke(sdkConfiguration.ToString());
         }
         
