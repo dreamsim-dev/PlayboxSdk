@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using CI.Utils.Extentions;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace Playbox.Consent
         public static bool HasUserConsent = true;
         public static bool HasDoNotSell = false;
 
-        private static Action<bool> consentCallback;
+        private static Action consentCallback;
 
         public static void ConsentAllow()
         {
@@ -29,7 +30,7 @@ namespace Playbox.Consent
             HasUserConsent = true;
             HasDoNotSell = true;
             
-            consentCallback?.Invoke(true);
+            //consentCallback?.Invoke(true);
         }
 
         public static void ConsentDeny()
@@ -43,13 +44,26 @@ namespace Playbox.Consent
             HasUserConsent = false;
             HasDoNotSell = false;
             
-            consentCallback?.Invoke(false);
+            //consentCallback?.Invoke(false);
         }
 
-        public static void ShowConsent(MonoBehaviour mono, Action<bool> callback)
+        static IEnumerator consentUpdate(Action consentComplete)
         {
-                
-            consentCallback += (a) => callback?.Invoke(a);
+            while (true)
+            {
+                if (IsConsentComplete)
+                {
+                    consentComplete?.Invoke();
+                    yield break;
+                }
+
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+
+        public static void ShowConsent(MonoBehaviour mono, Action callback)
+        {
+            mono.StartCoroutine(consentUpdate(callback));
             
 #if PBX_DEVELOPMENT || UNITY_IOS
             

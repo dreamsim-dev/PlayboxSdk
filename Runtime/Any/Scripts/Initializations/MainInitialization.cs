@@ -114,9 +114,8 @@ namespace Playbox
                 }
             }
             
-            ConsentData.ShowConsent(this, b =>
+            ConsentData.ShowConsent(this, () =>
             {
-                
                     foreach (var item in behaviours)
                     {
                         if (item != null)
@@ -127,7 +126,6 @@ namespace Playbox
                             }
                         }
                     }
-                
             });
             
             PostInitialization?.Invoke();

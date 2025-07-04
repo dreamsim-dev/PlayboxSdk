@@ -16,7 +16,7 @@ namespace Playbox
         private GUIStyle style = new GUIStyle();
         private Texture2D texture;
 
-        private float splashTime = 5;
+        private float splashTime = 8;
         
         private PlayboxTimer timer;
         private bool isEnabled = false;
