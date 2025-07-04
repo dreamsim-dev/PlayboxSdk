@@ -94,6 +94,10 @@ namespace Playbox
                     item.GetInitStatus(() =>
                     {
                         item.playboxName.PlayboxInfo("INITIALIZED");
+                        
+                        debugString += $"\n{item.playboxName}";
+                        debugString.PlayboxSplashLogUGUI();
+                        
                         InitStatus[item.playboxName] = true;
                         
                     });
@@ -105,8 +109,6 @@ namespace Playbox
                 {
                     if (!item.ConsentDependency)
                     {
-                        debugString += $"\n{item.playboxName}";
-                        item.playboxName.PlayboxSplashLogUGUI();
                         item.Initialization();
                     }
                 }
@@ -121,8 +123,6 @@ namespace Playbox
                         {
                             if (item.ConsentDependency)
                             {
-                                debugString += $"\n{item.playboxName}";
-                                item.playboxName.PlayboxSplashLogUGUI();
                                 item.Initialization();
                             }
                         }
