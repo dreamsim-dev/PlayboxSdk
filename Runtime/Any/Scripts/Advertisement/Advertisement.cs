@@ -301,6 +301,7 @@ namespace Playbox
         private static void OnRewardedAdLoadedEvent(string arg1, MaxSdkBase.AdInfo info)
         { 
             OnLoaded?.Invoke();
+            Debug.Log("On Rewarded Ad Loaded");
         }
     }
 }
