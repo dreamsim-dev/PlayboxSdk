@@ -72,6 +72,7 @@ namespace Playbox
 
         public void onConversionDataSuccess(string conversionData)
         {
+            #if UNITY_IOS
             Dictionary<string, object> data = AppsFlyer.CallbackStringToDictionary(conversionData);
             
             if (data.TryGetValue("af_status", out var status))
@@ -85,6 +86,9 @@ namespace Playbox
                 Debug.Log("Media source: " + source);
                 media_source = (string)source;
             }
+
+            StartCoroutine(PostLog());
+            #endif
         }
 
         public void onConversionDataFail(string error)
