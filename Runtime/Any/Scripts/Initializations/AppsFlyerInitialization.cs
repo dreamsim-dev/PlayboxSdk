@@ -109,8 +109,9 @@ namespace Playbox
         private IEnumerator PostLog()
         {
             yield return new WaitForSeconds(10);
-            Analytics.Events.LogFirebase("af_status",af_status);
-            Analytics.Events.LogFirebase("media_source",media_source);
+            
+            Analytics.Events.FirebaseEvent("af_status",af_status);
+            Analytics.Events.FirebaseEvent("media_source",media_source);
         }
     }
 }

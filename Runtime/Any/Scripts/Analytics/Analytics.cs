@@ -346,11 +346,19 @@ namespace Playbox
                 if (isDTDInit) DTDAnalytics.FinishProgressionEvent(eventName, parameters);
             }
 
-            public static void LogFirebase(string eventName, string message)
+            public static void CrashlyticsLog(string eventName, string message)
             {
                 if (isFirebaseInit)
                 {
                     Crashlytics.Log($"{eventName} : {message}");
+                }
+            }
+            
+            public static void FirebaseEvent(string eventName, string message)
+            {
+                if (isFirebaseInit)
+                {
+                    FirebaseAnalytics.LogEvent($"{eventName} : {message}");
                 }
             }
         }
