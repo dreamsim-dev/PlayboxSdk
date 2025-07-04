@@ -6,6 +6,7 @@ using AppsFlyerSDK;
 using CI.Utils.Extentions;
 using DevToDev.Analytics;
 using Firebase.Analytics;
+using Firebase.Crashlytics;
 using UnityEngine;
 using UnityEngine.Purchasing;
 
@@ -343,6 +344,14 @@ namespace Playbox
             public static void FinishProgressionEvent(string eventName, DTDFinishProgressionEventParameters parameters)
             {
                 if (isDTDInit) DTDAnalytics.FinishProgressionEvent(eventName, parameters);
+            }
+
+            public static void LogFirebase(string eventName, string message)
+            {
+                if (isFirebaseInit)
+                {
+                    Crashlytics.Log($"{eventName} : {message}");
+                }
             }
         }
     }

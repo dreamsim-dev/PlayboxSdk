@@ -74,7 +74,7 @@ namespace Playbox
             behaviours.Add(AddToGameObject<FacebookSdkInitialization>(gameObject,true,true));
             
             behaviours.Add(AddToGameObject<InAppVerification>(gameObject, useInAppValidation));
-            behaviours.Add(AddToGameObject<InviteLinkGenerator>(gameObject, useLinkGenerator, true));
+            //behaviours.Add(AddToGameObject<InviteLinkGenerator>(gameObject, useLinkGenerator, true));
             behaviours.Add(AddToGameObject<IAP>(gameObject, usePlayboxIAP));
             
             InitStatus[nameof(PlayboxSplashUGUILogger)] = false;
