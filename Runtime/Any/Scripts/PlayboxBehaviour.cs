@@ -37,7 +37,7 @@ namespace Playbox
 
         public virtual void GetInitStatus(Action OnInitComplete)
         {
-            initCallback += () => OnInitComplete?.Invoke();
+            initCallback = OnInitComplete;
         }
 
         public bool IsInitialization() => isInitialized;

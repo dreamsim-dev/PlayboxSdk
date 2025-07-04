@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using AppsFlyerSDK;
 using CI.Utils.Extentions;
 using Playbox.Consent;
@@ -103,6 +105,20 @@ namespace Playbox
                     });
             }
             
+            ConsentData.ShowConsent(this, () =>
+            {
+                foreach (var item in behaviours)
+                {
+                    if (item != null)
+                    {
+                        if (item.ConsentDependency)
+                        {
+                            item.Initialization();
+                        }
+                    }
+                }
+            });
+            
             foreach (var item in behaviours)
             {
                 if (item != null)
@@ -113,20 +129,6 @@ namespace Playbox
                     }
                 }
             }
-            
-            ConsentData.ShowConsent(this, () =>
-            {
-                    foreach (var item in behaviours)
-                    {
-                        if (item != null)
-                        {
-                            if (item.ConsentDependency)
-                            {
-                                item.Initialization();
-                            }
-                        }
-                    }
-            });
             
             PostInitialization?.Invoke();
         }
