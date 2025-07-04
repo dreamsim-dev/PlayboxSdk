@@ -23,12 +23,12 @@ namespace Playbox
 
             MaxSdkCallbacks.OnSdkInitializedEvent += OnSdkInitializedEvent;
             
-            if(ConsentData.IsConsentComplete)
-                MaxSdk.SetHasUserConsent(ConsentData.HasUserConsent);
+            MaxSdk.SetHasUserConsent(ConsentData.HasUserConsent);
             
             //MaxSdk.SetDoNotSell(AppLovinConsent.hasDoNotSell);
             
             MaxSdk.SetSdkKey(AppLovinConfiguration.AdvertisementSdk);
+            MaxSdk.InitializeSdk();
 
             StartCoroutine(initUpd());
 
