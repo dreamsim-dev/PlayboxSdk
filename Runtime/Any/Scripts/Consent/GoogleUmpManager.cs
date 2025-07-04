@@ -71,11 +71,6 @@ namespace Playbox.Consent
                             }
                         });
                     }
-                    else
-                    {
-                        ConsentData.ConsentAllow();
-                        Debug.Log("Consent not required, status: " + ConsentInformation.ConsentStatus);
-                    }
                 }
             });
         }
