@@ -102,7 +102,10 @@ namespace Playbox
                 if (item != null)
                 {
                     if (!item.ConsentDependency)
-                            item.Initialization();
+                    {
+                        item.playboxName.PlayboxSplashLogUGUI();
+                        item.Initialization();
+                    }
                 }
             }
             
@@ -114,7 +117,10 @@ namespace Playbox
                         if (item != null)
                         {
                             if (item.ConsentDependency)
-                                    item.Initialization();
+                            {
+                                item.playboxName.PlayboxSplashLogUGUI();
+                                item.Initialization();
+                            }
                         }
                     }
                 });
