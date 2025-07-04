@@ -19,60 +19,24 @@ namespace Playbox.Consent
             
             ConsentInformation.Update(requestParameters, (error) =>
                 {
-                    
-                    switch (ConsentInformation.ConsentStatus)
+                    if (error != null)
                     {
-                        case ConsentStatus.NotRequired:
-                        case ConsentStatus.Obtained:
-                            ConsentData.ConsentAllow(); 
-                            break;
-
-                        case ConsentStatus.Required:
-                            if (ConsentInformation.IsConsentFormAvailable())
-                                LoadConsentForm(); 
-                            else
-                                ConsentData.ConsentDeny();
-                            break;
-
-                        case ConsentStatus.Unknown:
-                        default:
-                            ConsentData.ConsentAllow(); 
-                            break;
+                        Debug.LogError("Consent form error: " + error.Message);
+                        return;
                     }
                     
-                    if(error != null)
-                        Debug.LogError("Consent update failed: " + error.Message);
-
-                    if(Application.isEditor)
-                        "PEW PEW!".PlayboxLog("CONSENT");
-
-                });
-        }
-    
-        private static void LoadConsentForm()
-        {
-            ConsentForm.Load((form, error) =>
-            {
-                if (form != null)
-                {
-                    if (ConsentInformation.ConsentStatus == ConsentStatus.Required)
+                    ConsentForm.LoadAndShowConsentFormIfRequired((err) =>
                     {
-                        form.Show(_ =>
+                        if (ConsentInformation.CanRequestAds())
                         {
-                            var status = ConsentInformation.ConsentStatus;
-                
-                            Debug.Log("Consent form completed, status: " + status);
-
-                            if (status == ConsentStatus.Obtained)
-                                ConsentData.ConsentAllow();
-                            if (status == ConsentStatus.NotRequired)
-                            {
-                                ConsentData.ConsentDeny();
-                            }
-                        });
-                    }
-                }
-            });
+                            ConsentData.ConsentAllow();
+                        }
+                        else
+                        {
+                            ConsentData.ConsentDeny();
+                        }
+                    });
+                });
         }
     }
     
