@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using CI.Utils.Extentions;
 using UnityEngine;
 
@@ -130,6 +131,8 @@ namespace Playbox
             
             InitCallback();
             Load();
+
+            aInitialization.StartCoroutine(rewardUpdate());
         }
 
         /// <summary>
@@ -223,6 +226,16 @@ namespace Playbox
             else
             {
                 return AdReadyStatus.NotReady;
+            }
+        }
+
+        static IEnumerator rewardUpdate()
+        {
+            while (true)
+            {
+                if(!isReady())
+                    Load();
+                yield return new WaitForSecondsRealtime(0.1f);
             }
         }
 
