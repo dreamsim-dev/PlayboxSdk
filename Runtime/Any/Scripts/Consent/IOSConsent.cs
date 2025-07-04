@@ -12,6 +12,8 @@ namespace Playbox.Consent
     {
         public static void ShowConsentUI(MonoBehaviour mono)
         {
+            AppsFlyer.waitForATTUserAuthorizationWithTimeoutInterval(65);
+
             var attStatus = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
             if (attStatus == ATTrackingStatusBinding.AuthorizationTrackingStatus.NOT_DETERMINED)
             {

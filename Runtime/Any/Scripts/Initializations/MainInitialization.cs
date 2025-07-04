@@ -55,6 +55,7 @@ namespace Playbox
         public override void Initialization()
         {
             Utils.MainThreadDispatcher.Init();
+            
 
             if(Application.isPlaying)
                 DontDestroyOnLoad(gameObject);
@@ -67,6 +68,7 @@ namespace Playbox
             behaviours.Add(AddToGameObject<PlayboxSplashUGUILogger>(gameObject, isDebugSplash));
             behaviours.Add(AddToGameObject<FirebaseInitialization>(gameObject));
             behaviours.Add(AddToGameObject<DevToDevInitialization>(gameObject));
+            
             behaviours.Add(AddToGameObject<AppLovinInitialization>(gameObject,true,true));
             behaviours.Add(AddToGameObject<AppsFlyerInitialization>(gameObject,true,true));
             behaviours.Add(AddToGameObject<FacebookSdkInitialization>(gameObject,true,true));
@@ -174,7 +176,6 @@ namespace Playbox
                     findable.AddComponent<MainInitialization>();   
                 }
             }
-            
         }
         
         [MenuItem("PlayBox/Initialization/Remove")]
@@ -186,7 +187,6 @@ namespace Playbox
             {
                 DestroyImmediate(go);
             }
-
         }
 #endif
     }

@@ -19,16 +19,15 @@ namespace Playbox
             
             if(!AppsFlyerConfiguration.Active)
                 return;
-            if (ConsentData.IsConsentComplete)
-            {
-                AppsFlyerConsent consent = new AppsFlyerConsent(
+            
+            AppsFlyerConsent consent = new AppsFlyerConsent(
                     ConsentData.Gdpr,
                     ConsentData.ConsentForData,
                     ConsentData.ConsentForAdsPersonalized,
                     ConsentData.ConsentForAdStogare);
 
-                AppsFlyer.setConsentData(consent);
-            }
+            AppsFlyer.setConsentData(consent);
+            
 
 #if UNITY_IOS
                 AppsFlyer.initSDK(AppsFlyerConfiguration.IOSKey, AppsFlyerConfiguration.IOSAppId);
