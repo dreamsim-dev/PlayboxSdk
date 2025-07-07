@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AppsFlyerSDK;
 using CI.Utils.Extentions;
+using Firebase.Crashlytics;
 using Playbox.Consent;
 #if UNITY_EDITOR
 #endif
@@ -43,8 +44,17 @@ namespace Playbox
         private void Awake()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
-            
-            Initialization();
+            try
+            {
+                Initialization();
+            }
+            catch (Exception e)
+            {
+                if (IsValidate<FirebaseInitialization> ())
+                {
+                    Crashlytics.LogException(e);
+                }
+            }
         }
 
         public static bool IsValidate<T>() where T : PlayboxBehaviour
