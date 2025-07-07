@@ -144,6 +144,9 @@ namespace Playbox.CI
             
             nsAppTransportSecurity.AsDict().values.Remove("NSAllowsArbitraryLoadsInWebContent");
             
+            if (plist.root.values.ContainsKey("UIRequiredDeviceCapabilities"))
+                plist.root.values.Remove("UIRequiredDeviceCapabilities");
+            
             File.WriteAllText(plistPath, plist.WriteToString());
         }
 
