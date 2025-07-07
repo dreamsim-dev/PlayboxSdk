@@ -69,7 +69,7 @@ namespace Playbox
             
             behaviours.Add(AddToGameObject<PlayboxSplashUGUILogger>(gameObject, isDebugSplash));
             behaviours.Add(AddToGameObject<FirebaseInitialization>(gameObject));
-            behaviours.Add(AddToGameObject<DevToDevInitialization>(gameObject));
+            behaviours.Add(AddToGameObject<DevToDevInitialization>(gameObject,true,true));
             
             behaviours.Add(AddToGameObject<AppLovinInitialization>(gameObject,true,true));
             behaviours.Add(AddToGameObject<AppsFlyerInitialization>(gameObject,true,true));
