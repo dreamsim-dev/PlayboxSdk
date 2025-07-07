@@ -12,7 +12,7 @@ namespace Playbox
     {
         private bool isSandbox => InAppVerificationCongifuration.IsSandbox;
 
-        [SerializeField] private float verifyUpdateRate = 1;
+        [SerializeField] private float verifyUpdateRate = 0.5f;
 
         private const string uri = "https://api.playbox.network/verify";
         private const string uriStatus = "https://api.playbox.network/verify/status"; // uriStatus{ticket_id}
