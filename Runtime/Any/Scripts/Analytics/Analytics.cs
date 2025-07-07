@@ -149,9 +149,8 @@ namespace Playbox
                 AppsFlyer.sendEvent("af_initiated_checkout",new());
         }
         
-        public static void LogPurchase(Product purchasedProduct)
+        public static void LogPurchase(Product purchasedProduct, Action<bool> onValidate  = null)
         {
-            
             if(purchasedProduct == null)
             {
                 return;
@@ -172,6 +171,8 @@ namespace Playbox
             
             InAppVerification.Validate(purchasedProduct.definition.id,purchasedProduct.receipt,"000", (isValid) =>
             {
+                onValidate?.Invoke(isValid);
+                
                 if (isValid)
                 {
                     Events.RealCurrencyPayment(orderId, (double)price, productId, currency);
@@ -180,11 +181,11 @@ namespace Playbox
             });
         }
 
-        public static void LogPurchase(PurchaseEventArgs args)
+        public static void LogPurchase(PurchaseEventArgs args, Action<bool> onValidate  = null)
         {
             if (args != null)
             {
-                LogPurchase(args.purchasedProduct);
+                LogPurchase(args.purchasedProduct, onValidate);
             }
         }
 
