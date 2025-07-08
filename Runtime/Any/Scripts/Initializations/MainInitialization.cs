@@ -87,7 +87,7 @@ namespace Playbox
             
             behaviours.Add(AddToGameObject<InAppVerification>(gameObject, useInAppValidation));
             //behaviours.Add(AddToGameObject<InviteLinkGenerator>(gameObject, useLinkGenerator, true));
-            //behaviours.Add(AddToGameObject<IAP>(gameObject, usePlayboxIAP));
+            behaviours.Add(AddToGameObject<IAP>(gameObject, usePlayboxIAP,true));
             
             InitStatus[nameof(PlayboxSplashUGUILogger)] = false;
             InitStatus[nameof(FirebaseInitialization)] = false;
