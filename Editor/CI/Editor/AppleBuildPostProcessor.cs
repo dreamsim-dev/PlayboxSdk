@@ -20,7 +20,7 @@ namespace Playbox.CI
             if (buildTarget != BuildTarget.iOS)
                 return; 
             
-            EditorUserBuildSettings.symlinkSources = false;
+            EditorUserBuildSettings.symlinkSources = true;
             EditorUserBuildSettings.buildAppBundle = false;
         }
 
