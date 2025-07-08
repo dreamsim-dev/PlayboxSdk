@@ -47,14 +47,14 @@ namespace Playbox
             if(string.IsNullOrEmpty(productID)) return;
             if(string.IsNullOrEmpty(receipt)) return;
             if(callback == null) return;
-        
-            if (verificationQueue.ContainsKey(productID) ||
-                (keyBuffer.FindIndex((kv)=> kv.ProductId == productID) > -1))
-            {
-                "purchase already exists".PlayboxWarning();
-            
-                return;
-            }
+
+            // if (verificationQueue.ContainsKey(productID) ||
+            //     (keyBuffer.FindIndex((kv)=> kv.ProductId == productID) > -1))
+            // {
+            //     "purchase already exists".PlayboxWarning();
+            //
+            //     return;
+            // }
 
             instance.SendRequest(productID, receipt,saveId,callback);
         }
@@ -71,7 +71,7 @@ namespace Playbox
             unityWebRequest.SetRequestHeader("Content-Type", "application/json");
             unityWebRequest.SetRequestHeader("x-api-token", xApiToken);
         
-            JObject sendObject = new JObject();
+            JObject sendObject = new();
         
             sendObject["product_id"] = productID;
             sendObject["game_id"] = Data.Playbox.GameId;
