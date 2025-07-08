@@ -44,7 +44,7 @@ namespace Playbox
         protected void ApproveInitialization()
         {
             isInitialized = true;
-            initCallback.Invoke();
+            initCallback?.Invoke();
             
             initCallback = null;
         }

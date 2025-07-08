@@ -70,8 +70,6 @@ namespace Playbox
         {
             GlobalPlayboxConfig.Load();
             
-            Utils.MainThreadDispatcher.Init();
-            
             if(Application.isPlaying)
                 DontDestroyOnLoad(gameObject);
             
