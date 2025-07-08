@@ -41,9 +41,14 @@ namespace Playbox
         public static Action PostInitialization = delegate { };
         public static Action PreInitialization = delegate { };
 
+
         private void Awake()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void Start()
+        {
             try
             {
                 Initialization();

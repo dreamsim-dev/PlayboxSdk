@@ -12,15 +12,7 @@ namespace Playbox.Consent
         public static void ShowConsentUI(MonoBehaviour mono)
         {
 
-            var attStatus = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
-            if (attStatus == ATTrackingStatusBinding.AuthorizationTrackingStatus.NOT_DETERMINED)
-            {
-                ATTrackingStatusBinding.RequestAuthorizationTracking();
-            }
-
-            AppsFlyer.waitForATTUserAuthorizationWithTimeoutInterval(30);
-
-            mono.StartCoroutine(IosATTStatus(20, status =>
+            mono.StartCoroutine(IosATTStatus(10, status =>
             {
                 if (status == ATTrackingStatusBinding.AuthorizationTrackingStatus.AUTHORIZED)
                 {
@@ -47,6 +39,22 @@ namespace Playbox.Consent
 
         private static IEnumerator IosATTStatus(float timeout, Action<ATTrackingStatusBinding.AuthorizationTrackingStatus> action)
         {
+            yield return new WaitForSeconds(0.4f);
+            
+#if UNITY_EDITOR
+            
+            action?.Invoke(ATTrackingStatusBinding.AuthorizationTrackingStatus.AUTHORIZED);
+            
+            yield break;
+#endif
+            var attStatus = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
+            if (attStatus == ATTrackingStatusBinding.AuthorizationTrackingStatus.NOT_DETERMINED)
+            {
+                ATTrackingStatusBinding.RequestAuthorizationTracking();
+            }
+
+            AppsFlyer.waitForATTUserAuthorizationWithTimeoutInterval(20);
+            
             float elapsed = 0f;
             
             while (elapsed < timeout)
