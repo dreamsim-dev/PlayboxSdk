@@ -19,6 +19,7 @@ namespace Playbox.Consent
 
         private static Action consentCallback;
 
+        // ReSharper disable Unity.PerformanceAnalysis
         public static void ConsentAllow()
         {
             IsConsentComplete = true;
@@ -29,10 +30,12 @@ namespace Playbox.Consent
             IsChildUser = false;
             HasUserConsent = true;
             HasDoNotSell = true;
-            
+
+            "Consent Allow".PlayboxInfo();
             //consentCallback?.Invoke(true);
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         public static void ConsentDeny()
         {
             IsConsentComplete = false;
@@ -44,6 +47,7 @@ namespace Playbox.Consent
             HasUserConsent = false;
             HasDoNotSell = false;
             
+            "Consent Deny".PlayboxInfo();
             //consentCallback?.Invoke(false);
         }
 

@@ -1,12 +1,12 @@
 ﻿using System;
 
-public class PurchaseValidator
+public class PurchaseData
 {
     private string productId;
     private string ticketId;
     private string _saveIndentifier;
     
-    public Action<bool> OnCallback;
+    public Action<bool> OnValidateCallback;
 
     public string ProductId
     {

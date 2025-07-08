@@ -26,16 +26,17 @@ namespace Playbox
         
         public static IAP Instance { get; private set; }
         
+        public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
+        {
+            Init(controller, extensions);
+        }
         
         private void Init(IStoreController storeController, IExtensionProvider extension)
         {
             IAP.storeController = storeController;
             IAP.storeExtensionProvider = extension;
-
-            if (IsInitialized)
-            {
-                ApproveInitialization();
-            }
+            
+            ApproveInitialization();
         }
 
         public override void Initialization()
@@ -75,34 +76,22 @@ namespace Playbox
         
         public static void BuyProduct(string productId)
         {
-            if (IsInitialized)
-            {
-                Product product = storeController.products.WithID(productId);
+            if (!IsInitialized)
+                "In-App Purchasing is not initialized.".PlayboxInfo("IAP");
+            
+            Product product = storeController.products.WithID(productId);
                 
-                if (product != null && product.availableToPurchase)
-                {
-                    $"Initiate purchase : {product}.".PlayboxInfo("IAP");
-                    storeController.InitiatePurchase(product);
-                }
-                else
-                {
-                    "Product not found or not available for purchase.".PlayboxInfo("IAP");
-                }
+            if (product is { availableToPurchase: true })
+            {
+                $"Initiate purchase : {product}.".PlayboxInfo("IAP");
+                storeController.InitiatePurchase(product);
+                Analytics.LogPurshaseInitiation(product);
             }
             else
             {
-                "In-App Purchasing is not initialized.".PlayboxInfo("IAP");
+                "Product not found or not available for purchase.".PlayboxInfo("IAP");
             }
-        }
-
-        public void OnInitializeFailed(InitializationFailureReason error)
-        {
-            $"Purchase failed: {error}".PlayboxError("IAP");
-        }
-
-        public void OnInitializeFailed(InitializationFailureReason error, string message)
-        {
-            $"Purchase failed: {error} | {message}".PlayboxError("IAP");
+            
         }
 
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
@@ -113,38 +102,31 @@ namespace Playbox
             {
                 $"The purchase is complete: {product.definition.id}".PlayboxInfo("IAP");    
                 
-                GrantProduct(product);
+                Analytics.LogPurchase(product, (b) =>
+                {
+                    if (b)
+                    {
+                        $"Validate Purchase {product.definition.id}".PlayboxInfo("IAP");
+                    }
+                    else
+                    {
+                        $"Unvalidate Purchase {product.definition.id}".PlayboxInfo("IAP");
+                    }
+                });
                 
-                return PurchaseProcessingResult.Complete;
+                GrantProduct(product);
             }
             else
             {
                 OnProductFailed?.Invoke(product, null);
-                
-                return PurchaseProcessingResult.Complete;
             }
-        }
-
-        public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
-        {
-            product.PlayboxInfo("Purchased Failed");
-        }
-
-        public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
-        {
-            Init(controller, extensions);
-        }
-
-        public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
-        {
-            OnProductFailed?.Invoke(product, failureDescription);
+            
+            return PurchaseProcessingResult.Complete;
         }
         
         private void GrantProduct(Product product)
         {
             Debug.Log($"Grant product: {product.definition.id}");
-            
-            Analytics.LogPurshaseInitiation(product);
             
             OnGrantProduct?.Invoke(product);
         }
@@ -154,6 +136,26 @@ namespace Playbox
             Debug.Log($"Revoke product: {product}");
             
             OnRevokeProduct?.Invoke(product);
+        }
+        
+        public void OnInitializeFailed(InitializationFailureReason error)
+        {
+            $"Purchase failed: {error}".PlayboxError("IAP");
+        }
+
+        public void OnInitializeFailed(InitializationFailureReason error, string message)
+        {
+            $"Purchase failed: {error} | {message}".PlayboxError("IAP");
+        }
+        
+        public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
+        {
+            OnProductFailed?.Invoke(product, failureDescription);
+        }
+        
+        public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
+        {
+            product.PlayboxInfo("Purchased Failed");
         }
     }
 }

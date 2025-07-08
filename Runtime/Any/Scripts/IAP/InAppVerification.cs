@@ -18,9 +18,9 @@ namespace Playbox
         private const string uriStatus = "https://api.playbox.network/verify/status"; // uriStatus{ticket_id}
         private const string xApiToken = "plx_api_Rm8qTXe7Pzw94v1FujgEKsWD";
 
-        private static Dictionary<string, PurchaseValidator> verificationQueue = new(); // ticket_id and requestAction
+        private static Dictionary<string, PurchaseData> verificationQueue = new(); // ticket_id and requestAction
 
-        private static List<PurchaseValidator> keyBuffer = new();
+        private static List<PurchaseData> keyBuffer = new();
         
         private static InAppVerification instance;
 
@@ -64,10 +64,50 @@ namespace Playbox
             StartCoroutine(Request(productID,receipt, saveId, callback));
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         public IEnumerator Request(string productID,string receipt, string saveId, Action<bool> callback)
         {
-            UnityWebRequest unityWebRequest = new UnityWebRequest(uri, "POST");
+            UnityWebRequest sendPurchaseRequest = new UnityWebRequest(uri, "POST");
         
+            var sendObject = CreateSendObjectJson(productID, receipt, sendPurchaseRequest);
+
+            var bodyRaw = System.Text.Encoding.UTF8.GetBytes(sendObject.ToString());
+
+            sendPurchaseRequest.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            sendPurchaseRequest.downloadHandler = new DownloadHandlerBuffer();
+        
+            yield return sendPurchaseRequest.SendWebRequest();
+
+            if (sendPurchaseRequest.result == UnityWebRequest.Result.ProtocolError ||
+                sendPurchaseRequest.result == UnityWebRequest.Result.ConnectionError || 
+                sendPurchaseRequest.result == UnityWebRequest.Result.DataProcessingError)
+            {
+                $"Request Failed: {sendPurchaseRequest.error}".PlayboxError();
+            }
+
+            if (sendPurchaseRequest.isDone)
+            {
+                sendPurchaseRequest.downloadHandler.text.PlayboxInfo();
+            
+                JObject outObject = JObject.Parse(sendPurchaseRequest.downloadHandler.text);
+            
+                string ticketID = outObject["ticket_id"]?.ToString();
+            
+                PurchaseData data = new PurchaseData
+                {
+                    ProductId = productID,
+                    TicketId = ticketID,
+                    SaveIndentifier = saveId,
+                    OnValidateCallback = callback
+                };            
+   
+                keyBuffer.Add(data);
+            }
+        
+        }
+
+        private JObject CreateSendObjectJson(string productID, string receipt, UnityWebRequest unityWebRequest)
+        {
             unityWebRequest.SetRequestHeader("Content-Type", "application/json");
             unityWebRequest.SetRequestHeader("x-api-token", xApiToken);
         
@@ -84,51 +124,16 @@ namespace Playbox
 #elif UNITY_IOS
             sendObject["platform"] = "ios";
 #endif
-
-        
-            sendObject.ToString().PlayboxInfo();
-        
-            var bodyRaw = System.Text.Encoding.UTF8.GetBytes(sendObject.ToString());
-
-            unityWebRequest.uploadHandler = new UploadHandlerRaw(bodyRaw);
-            unityWebRequest.downloadHandler = new DownloadHandlerBuffer();
-        
-            yield return unityWebRequest.SendWebRequest();
-
-            if (unityWebRequest.result == UnityWebRequest.Result.ProtocolError ||
-                unityWebRequest.result == UnityWebRequest.Result.ConnectionError || 
-                unityWebRequest.result == UnityWebRequest.Result.DataProcessingError)
-            {
-                $"Request Failed: {unityWebRequest.error}".PlayboxError();
-            }
-
-            if (unityWebRequest.isDone)
-            {
-                unityWebRequest.downloadHandler.text.PlayboxInfo();
             
-                JObject outObject = JObject.Parse(unityWebRequest.downloadHandler.text);
-            
-                string ticketID = outObject["ticket_id"]?.ToString();
-            
-                PurchaseValidator validator = new PurchaseValidator
-                {
-                    ProductId = productID,
-                    TicketId = ticketID,
-                    SaveIndentifier = saveId,
-                    OnCallback = callback
-                };            
-   
-                keyBuffer.Add(validator);
-            }
-        
+            return sendObject;
         }
-    
+
         private IEnumerator UpdatePurchases() {
 
+            List<string> removeFromListByTicket = new();
+            
             while (true)
             {
-                List<string> removesProductId = new();
-
                 foreach (var item in keyBuffer)
                 {
                     verificationQueue.Add(item.TicketId, item);
@@ -141,88 +146,86 @@ namespace Playbox
                     yield return GetStatus(item, b => { 
                         if(b)
                         {
-                            removesProductId.Add(item.Key);
+                            removeFromListByTicket.Add(item.Key);
                         }
                     });
                 }
 
-                foreach (var item in removesProductId)
+                foreach (var item in removeFromListByTicket)
                 {
                     verificationQueue.Remove(item);
                 }
             
-                removesProductId.Clear();
+                removeFromListByTicket.Clear();
             
                 yield return new WaitForSeconds(verifyUpdateRate);
             }
         }
         
-        private IEnumerator GetStatus(KeyValuePair<string,PurchaseValidator> item, Action<bool> remove)
+        // ReSharper disable Unity.PerformanceAnalysis
+        private IEnumerator GetStatus(KeyValuePair<string,PurchaseData> purchaseDataItem, Action<bool> removeFromQueueCallback)
         {
-            UnityWebRequest unityWebRequest = new UnityWebRequest($"{uriStatus}/{item.Key}", "GET");
+            
+            UnityWebRequest getStausRequest = new UnityWebRequest($"{uriStatus}/{purchaseDataItem.Key}", "GET");
         
-            unityWebRequest.SetRequestHeader("Content-Type", "application/json");
-            unityWebRequest.SetRequestHeader("x-api-token", xApiToken);
+            getStausRequest.SetRequestHeader("Content-Type", "application/json");
+            getStausRequest.SetRequestHeader("x-api-token", xApiToken);
         
-            unityWebRequest.downloadHandler = new DownloadHandlerBuffer();
+            getStausRequest.downloadHandler = new DownloadHandlerBuffer();
         
-            yield return unityWebRequest.SendWebRequest();
-        
-            if (unityWebRequest.result == UnityWebRequest.Result.ProtocolError ||
-                unityWebRequest.result == UnityWebRequest.Result.ConnectionError || 
-                unityWebRequest.result == UnityWebRequest.Result.DataProcessingError)
+            yield return getStausRequest.SendWebRequest();
+
+            if (getStausRequest.result == UnityWebRequest.Result.ProtocolError ||
+                getStausRequest.result == UnityWebRequest.Result.ConnectionError ||
+                getStausRequest.result == UnityWebRequest.Result.DataProcessingError)
             {
-                $"Request Failed: {unityWebRequest.error}".PlayboxError();
+                $"Request Failed: {getStausRequest.error}".PlayboxError();
             }
             
-            if (unityWebRequest.isDone)
+            if (getStausRequest.isDone)
             {
-                unityWebRequest.downloadHandler.text.PlayboxInfo();
-            
-                JObject json = JObject.Parse(unityWebRequest.downloadHandler.text);
-
-                json["status"]!.ToString().PlayboxInfo();
-            
-                remove?.Invoke(json["status"].ToString() != "pending");
-
-                switch (IAPResponseStatus.GetStatusByString(json["status"].ToString()))
+                JObject json = JObject.Parse(getStausRequest.downloadHandler.text);
+                
+                string status = json["status"]?.ToString();
+                
+                switch (VerificationStatusHelper.GetStatusByString(status))
                 {
-                    case IAPResponseStatus.EIAPResponseStatus.none:
+                    case VerificationStatusHelper.EStatus.none:
                         
-                        remove?.Invoke(true);
+                        removeFromQueueCallback?.Invoke(true);
                     
                         break;
                 
-                    case IAPResponseStatus.EIAPResponseStatus.pending:
+                    case VerificationStatusHelper.EStatus.pending:
                     
-                        remove?.Invoke(false);
-                    
-                        break;
-                
-                    case IAPResponseStatus.EIAPResponseStatus.verified:
-                    
-                        item.Value.OnCallback?.Invoke(true);
-                        remove?.Invoke(true);
+                        removeFromQueueCallback?.Invoke(false);
                     
                         break;
                 
-                    case IAPResponseStatus.EIAPResponseStatus.unverified:
+                    case VerificationStatusHelper.EStatus.verified:
                     
-                        item.Value.OnCallback?.Invoke(false);
-                        remove?.Invoke(true);
+                        "Validation succeeded".PlayboxError();
+                        purchaseDataItem.Value.OnValidateCallback?.Invoke(true);
+                        removeFromQueueCallback?.Invoke(true);
+                    
                         break;
                 
-                    case IAPResponseStatus.EIAPResponseStatus.error:
+                    case VerificationStatusHelper.EStatus.unverified:
+                    
+                        "Validation failed".PlayboxError();
+                        purchaseDataItem.Value.OnValidateCallback?.Invoke(false);
+                        removeFromQueueCallback?.Invoke(true);
                         
-                        remove?.Invoke(true);
                         break;
                 
-                    case IAPResponseStatus.EIAPResponseStatus.timeout:
+                    case VerificationStatusHelper.EStatus.error:
                         
-                        remove?.Invoke(true);
+                        removeFromQueueCallback?.Invoke(true);
                         break;
                 
-                    default:
+                    case VerificationStatusHelper.EStatus.timeout:
+                        
+                        removeFromQueueCallback?.Invoke(true);
                         break;
                 }
             

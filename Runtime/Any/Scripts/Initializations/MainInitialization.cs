@@ -41,9 +41,14 @@ namespace Playbox
         public static Action PostInitialization = delegate { };
         public static Action PreInitialization = delegate { };
 
+
         private void Awake()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void Start()
+        {
             try
             {
                 Initialization();
@@ -70,8 +75,6 @@ namespace Playbox
         {
             GlobalPlayboxConfig.Load();
             
-            Utils.MainThreadDispatcher.Init();
-            
             if(Application.isPlaying)
                 DontDestroyOnLoad(gameObject);
             
@@ -87,7 +90,7 @@ namespace Playbox
             
             behaviours.Add(AddToGameObject<InAppVerification>(gameObject, useInAppValidation));
             //behaviours.Add(AddToGameObject<InviteLinkGenerator>(gameObject, useLinkGenerator, true));
-            //behaviours.Add(AddToGameObject<IAP>(gameObject, usePlayboxIAP));
+            behaviours.Add(AddToGameObject<IAP>(gameObject, usePlayboxIAP,true));
             
             InitStatus[nameof(PlayboxSplashUGUILogger)] = false;
             InitStatus[nameof(FirebaseInitialization)] = false;
