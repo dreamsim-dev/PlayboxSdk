@@ -9,44 +9,47 @@ namespace Playbox.Consent
 {
     public class IOSConsent
     {
-        public static void ShowConsentUI(MonoBehaviour mono)
+        public static void ShowATTUI(MonoBehaviour mono, Action onComplete)
         {
 
             mono.StartCoroutine(IosATTStatus(10, status =>
             {
                 if (status == ATTrackingStatusBinding.AuthorizationTrackingStatus.AUTHORIZED)
                 {
-                    ConsentData.ConsentAllow();
-      
+                    onComplete?.Invoke();
                 }
 
                 if (status == ATTrackingStatusBinding.AuthorizationTrackingStatus.DENIED)
                 {
-                    ConsentData.ConsentDeny();
+              
                 }
                 
                 if (status == ATTrackingStatusBinding.AuthorizationTrackingStatus.RESTRICTED)
                 {
-                    ConsentData.ConsentDeny();
+                    
                 }
                 
                 if (status == ATTrackingStatusBinding.AuthorizationTrackingStatus.NOT_DETERMINED)
                 {
-                    ConsentData.ConsentDeny();
+                    
                 }
+                
+                onComplete?.Invoke();
             }));
         }
 
         private static IEnumerator IosATTStatus(float timeout, Action<ATTrackingStatusBinding.AuthorizationTrackingStatus> action)
         {
+            Time.timeScale = 0;
             yield return new WaitForSeconds(0.4f);
             
 #if UNITY_EDITOR
             
             action?.Invoke(ATTrackingStatusBinding.AuthorizationTrackingStatus.AUTHORIZED);
-            
+            Time.timeScale = 1;
             yield break;
 #endif
+            
             var attStatus = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
             if (attStatus == ATTrackingStatusBinding.AuthorizationTrackingStatus.NOT_DETERMINED)
             {
@@ -65,11 +68,13 @@ namespace Playbox.Consent
                     break;
                 }
 
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSecondsRealtime(0.5f);
                 elapsed += 0.5f;
             }
 
             var finalStatus = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
+            
+            Time.timeScale = 1;
             
             action?.Invoke(finalStatus);
         }

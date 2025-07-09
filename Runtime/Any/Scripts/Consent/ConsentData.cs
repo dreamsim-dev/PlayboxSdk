@@ -64,20 +64,32 @@ namespace Playbox.Consent
                 yield return new WaitForSeconds(0.1f);
             }
         }
-
+        
+        // ReSharper disable Unity.PerformanceAnalysis
         public static void ShowConsent(MonoBehaviour mono, Action callback)
         {
-            mono.StartCoroutine(consentUpdate(callback));
-            
+            mono.StartCoroutine(consentUpdate(() =>
+            {
+                
 #if PBX_DEVELOPMENT || UNITY_IOS
-            
-            IOSConsent.ShowConsentUI(mono);
-            
-#endif  
-#if PBX_DEVELOPMENT || UNITY_ANDROID
+
+                bool isATTComplete = false;
+                
+                IOSConsent.ShowATTUI(mono, () =>
+                {
+                    isATTComplete = true;
+                    callback?.Invoke();
+                    
+                });
+                
+                if (isATTComplete)
+                    return;
+#endif
+                
+                callback?.Invoke();
+            }));
             
             GoogleUmpManager.RequestConsentInfo();
-#endif
             
         }
     }
