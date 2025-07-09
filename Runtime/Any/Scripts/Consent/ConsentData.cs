@@ -44,6 +44,7 @@ namespace Playbox.Consent
             ConsentForAdsPersonalized = true;
             ConsentForAdStogare = true;
             IsChildUser = false;
+            HasUserConsent = true;
             HasDoNotSell = true;
             
             "Consent Deny".PlayboxInfo();
