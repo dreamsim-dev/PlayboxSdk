@@ -28,6 +28,8 @@ namespace Playbox
 #endif
             DTDAnalytics.SetLogLevel(DevToDevConfiguration.LOGLevel);
             
+            DTDAnalytics.SetTrackingAvailability(true);
+            
             //DTDAnalytics.CoppaControlEnable();
             DTDAnalytics.StartActivity();
 
