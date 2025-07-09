@@ -153,6 +153,8 @@ namespace Playbox
         {
             if(purchasedProduct == null)
             {
+                if(isFirebaseInit)
+                    Crashlytics.LogException(new Exception("[PlayboxLogging] purchasedProduct is null"));
                 return;
             }
 
@@ -185,6 +187,10 @@ namespace Playbox
         {
             if (args != null)
             {
+                if(isFirebaseInit)
+                    Crashlytics.LogException(new Exception("[PlayboxLogging] purchase Args is null"));
+                    
+                    
                 LogPurchase(args.purchasedProduct, onValidate);
             }
         }
