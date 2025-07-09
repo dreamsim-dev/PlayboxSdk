@@ -38,14 +38,13 @@ namespace Playbox.Consent
         // ReSharper disable Unity.PerformanceAnalysis
         public static void ConsentDeny()
         {
-            IsConsentComplete = false;
-            Gdpr = false;
-            ConsentForData = false;
-            ConsentForAdsPersonalized = false;
-            ConsentForAdStogare = false;
+            IsConsentComplete = true;
+            Gdpr = true;
+            ConsentForData = true;
+            ConsentForAdsPersonalized = true;
+            ConsentForAdStogare = true;
             IsChildUser = false;
-            HasUserConsent = false;
-            HasDoNotSell = false;
+            HasDoNotSell = true;
             
             "Consent Deny".PlayboxInfo();
             //consentCallback?.Invoke(false);
