@@ -10,6 +10,8 @@ namespace Playbox.Consent
     {
         public static void RequestConsentInfo()
         {
+            "Consent Info Prod".PlayboxInfo();
+            
             ConsentRequestParameters requestParameters = new ConsentRequestParameters
             {
                 TagForUnderAgeOfConsent = false
@@ -44,15 +46,16 @@ namespace Playbox.Consent
                             ConsentData.ConsentDeny();
                             return;
                         }
-                    
-                        ConsentData.ConsentDeny();
-                        return;
                     });
+                    
+                    ConsentData.ConsentDeny();
                 });
         }
         
         public static void RequestConsentInfoDebug(ConsentDebugSettings consentDebugSettings)
         {
+            "Consent Info Debug".PlayboxInfo();
+            
             ConsentRequestParameters requestParameters = new ConsentRequestParameters
             {
                 TagForUnderAgeOfConsent = false,

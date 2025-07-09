@@ -63,25 +63,13 @@ namespace Playbox.Consent
 
         static IEnumerator consentUpdate(Action consentComplete)
         {
-            PlayboxTimer timer = new PlayboxTimer();
-            timer.initialTime = 60;
-
-            timer.OnTimeOut += () =>
-            {
-                ConsentDeny();
-                
-            };
-
-            timer.Start();
+            "Starting Consent Update".PlayboxInfo();
             
             while (true)
             {
                 if (IsConsentComplete)
                 {
                     consentComplete?.Invoke();
-                    
-                    timer.Stop();
-                    
                     yield break;
                 }
 
@@ -92,12 +80,13 @@ namespace Playbox.Consent
         // ReSharper disable Unity.PerformanceAnalysis
         public static void ShowConsent(MonoBehaviour mono, Action callback, bool isDebug = false)
         {
+            if(isDebug)
+                GoogleUmpManager.RequestConsentInfoDebug(debugSettings);
+            else
+                GoogleUmpManager.RequestConsentInfo();
+            
             mono.StartCoroutine(consentUpdate(() =>
             {
-                if(isDebug)
-                    GoogleUmpManager.RequestConsentInfoDebug(debugSettings);
-                else
-                    GoogleUmpManager.RequestConsentInfo();
                 
 #if PBX_DEVELOPMENT || UNITY_IOS
 
