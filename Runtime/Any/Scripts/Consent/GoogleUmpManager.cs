@@ -17,13 +17,12 @@ namespace Playbox.Consent
             
             ConsentInformation.Update(requestParameters, (error) =>
                 {
-                    Time.timeScale = 0;
                     
                     if (error != null)
                     {
                         Debug.LogError("Consent form error: " + error.Message);
                         
-                        Time.timeScale = 1;
+                      
                         return;
                     }
                     
@@ -32,13 +31,10 @@ namespace Playbox.Consent
                         if (ConsentInformation.CanRequestAds())
                         {
                             ConsentData.ConsentAllow();
-                            
-                            Time.timeScale = 1;
                         }
                         else
                         {
                             ConsentData.ConsentDeny();
-                            Time.timeScale = 1;
                         }
                     });
                 });
@@ -54,13 +50,11 @@ namespace Playbox.Consent
             
             ConsentInformation.Update(requestParameters, (error) =>
             {
-                Time.timeScale = 0;
                     
                 if (error != null)
                 {
                     Debug.LogError("Consent form error: " + error.Message);
-                        
-                    Time.timeScale = 1;
+                    
                     return;
                 }
                     
@@ -69,13 +63,11 @@ namespace Playbox.Consent
                     if (ConsentInformation.CanRequestAds())
                     {
                         ConsentData.ConsentAllow();
-                            
-                        Time.timeScale = 1;
+                        
                     }
                     else
                     {
                         ConsentData.ConsentDeny();
-                        Time.timeScale = 1;
                     }
                 });
             });

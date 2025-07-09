@@ -40,13 +40,13 @@ namespace Playbox.Consent
 
         private static IEnumerator IosATTStatus(float timeout, Action<ATTrackingStatusBinding.AuthorizationTrackingStatus> action)
         {
-            Time.timeScale = 0;
+            
             yield return new WaitForSeconds(0.4f);
             
 #if UNITY_EDITOR
             
             action?.Invoke(ATTrackingStatusBinding.AuthorizationTrackingStatus.AUTHORIZED);
-            Time.timeScale = 1;
+            
             yield break;
 #endif
             
@@ -74,7 +74,6 @@ namespace Playbox.Consent
 
             var finalStatus = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
             
-            Time.timeScale = 1;
             
             action?.Invoke(finalStatus);
         }
