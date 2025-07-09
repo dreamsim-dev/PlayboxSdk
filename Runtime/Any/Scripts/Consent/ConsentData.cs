@@ -3,6 +3,7 @@ using System.Collections;
 using CI.Utils.Extentions;
 using GoogleMobileAds.Ump.Api;
 using UnityEngine;
+using Utils.Timer;
 
 namespace Playbox.Consent
 {
@@ -62,11 +63,25 @@ namespace Playbox.Consent
 
         static IEnumerator consentUpdate(Action consentComplete)
         {
+            PlayboxTimer timer = new PlayboxTimer();
+            timer.initialTime = 60;
+
+            timer.OnTimeOut += () =>
+            {
+                ConsentDeny();
+                
+            };
+
+            timer.Start();
+            
             while (true)
             {
                 if (IsConsentComplete)
                 {
                     consentComplete?.Invoke();
+                    
+                    timer.Stop();
+                    
                     yield break;
                 }
 
