@@ -11,6 +11,8 @@ namespace Playbox
         protected Action initCallback = delegate { };
 
         public string playboxName => GetType().Name;
+        
+        [HideInInspector]
         public bool ConsentDependency = false;
         
         public static PlayboxBehaviour AddToGameObject<T>(GameObject target, bool hasAdd = true, bool hasConsentDependency = false) where T : PlayboxBehaviour
