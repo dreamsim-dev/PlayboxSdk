@@ -21,21 +21,32 @@ namespace Playbox.Consent
                     if (error != null)
                     {
                         Debug.LogError("Consent form error: " + error.Message);
-                        
-                      
+                    
+                        ConsentData.ConsentDeny();
                         return;
                     }
                     
                     ConsentForm.LoadAndShowConsentFormIfRequired((err) =>
                     {
+                        if (error != null)
+                        {
+                            ConsentData.ConsentDeny();
+                            return;
+                        }
+
                         if (ConsentInformation.CanRequestAds())
                         {
                             ConsentData.ConsentAllow();
+                            return;
                         }
                         else
                         {
                             ConsentData.ConsentDeny();
+                            return;
                         }
+                    
+                        ConsentData.ConsentDeny();
+                        return;
                     });
                 });
         }
@@ -55,20 +66,31 @@ namespace Playbox.Consent
                 {
                     Debug.LogError("Consent form error: " + error.Message);
                     
+                    ConsentData.ConsentDeny();
                     return;
                 }
                     
                 ConsentForm.LoadAndShowConsentFormIfRequired((err) =>
                 {
+                    if (error != null)
+                    {
+                        ConsentData.ConsentDeny();
+                        return;
+                    }
+
                     if (ConsentInformation.CanRequestAds())
                     {
                         ConsentData.ConsentAllow();
-                        
+                        return;
                     }
                     else
                     {
                         ConsentData.ConsentDeny();
+                        return;
                     }
+                    
+                    ConsentData.ConsentDeny();
+                    return;
                 });
             });
         }
