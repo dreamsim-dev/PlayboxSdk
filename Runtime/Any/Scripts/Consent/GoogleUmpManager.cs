@@ -43,5 +43,42 @@ namespace Playbox.Consent
                     });
                 });
         }
+        
+        public static void RequestConsentInfoDebug(ConsentDebugSettings consentDebugSettings)
+        {
+            ConsentRequestParameters requestParameters = new ConsentRequestParameters
+            {
+                TagForUnderAgeOfConsent = false,
+                ConsentDebugSettings =  consentDebugSettings
+            };
+            
+            ConsentInformation.Update(requestParameters, (error) =>
+            {
+                Time.timeScale = 0;
+                    
+                if (error != null)
+                {
+                    Debug.LogError("Consent form error: " + error.Message);
+                        
+                    Time.timeScale = 1;
+                    return;
+                }
+                    
+                ConsentForm.LoadAndShowConsentFormIfRequired((err) =>
+                {
+                    if (ConsentInformation.CanRequestAds())
+                    {
+                        ConsentData.ConsentAllow();
+                            
+                        Time.timeScale = 1;
+                    }
+                    else
+                    {
+                        ConsentData.ConsentDeny();
+                        Time.timeScale = 1;
+                    }
+                });
+            });
+        }
     }
 }

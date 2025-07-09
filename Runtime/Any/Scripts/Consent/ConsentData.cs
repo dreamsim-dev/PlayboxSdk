@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using CI.Utils.Extentions;
+using GoogleMobileAds.Ump.Api;
 using UnityEngine;
 
 namespace Playbox.Consent
@@ -16,8 +17,16 @@ namespace Playbox.Consent
         public static bool IsChildUser = false;
         public static bool HasUserConsent = true;
         public static bool HasDoNotSell = false;
+        
+        private static ConsentDebugSettings debugSettings = new ConsentDebugSettings();
 
         private static Action consentCallback;
+
+        public static ConsentDebugSettings DebugSettings
+        {
+            get => debugSettings;
+            set => debugSettings = value;
+        }
 
         // ReSharper disable Unity.PerformanceAnalysis
         public static void ConsentAllow()
@@ -66,10 +75,14 @@ namespace Playbox.Consent
         }
         
         // ReSharper disable Unity.PerformanceAnalysis
-        public static void ShowConsent(MonoBehaviour mono, Action callback)
+        public static void ShowConsent(MonoBehaviour mono, Action callback, bool isDebug = false)
         {
             mono.StartCoroutine(consentUpdate(() =>
             {
+                if(isDebug)
+                    GoogleUmpManager.RequestConsentInfoDebug(debugSettings);
+                else
+                    GoogleUmpManager.RequestConsentInfo();
                 
 #if PBX_DEVELOPMENT || UNITY_IOS
 
@@ -88,8 +101,6 @@ namespace Playbox.Consent
                 
                 callback?.Invoke();
             }));
-            
-            GoogleUmpManager.RequestConsentInfo();
             
         }
     }
