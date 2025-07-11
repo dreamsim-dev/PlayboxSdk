@@ -130,6 +130,8 @@ namespace Playbox
                         }
                     }
                 }
+                
+                PostInitialization?.Invoke();
             });
             
             foreach (var item in behaviours)
@@ -142,8 +144,6 @@ namespace Playbox
                     }
                 }
             }
-            
-            PostInitialization?.Invoke();
         }
 
         private void OnDestroy()

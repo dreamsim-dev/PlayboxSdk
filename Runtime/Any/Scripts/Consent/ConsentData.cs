@@ -18,6 +18,7 @@ namespace Playbox.Consent
         public static bool ConsentForData = false;
         public static bool ConsentForAdsPersonalized = false;
         public static bool ConsentForAdStogare = false;
+        public static string AdvertisingId = "";
 
         public static bool IsChildUser = false;
         public static bool HasUserConsent = true;
@@ -114,6 +115,8 @@ namespace Playbox.Consent
                 
                 Application.RequestAdvertisingIdentifierAsync((advertisingId, trackingEnabled, errorMsg) =>
                 {
+                    AdvertisingId = advertisingId;
+                    
 #if UNITY_IOS
                     TrackingEnabled = ATTrackingStatusBinding.GetAuthorizationTrackingStatus()
                                       == ATTrackingStatusBinding.AuthorizationTrackingStatus.AUTHORIZED;
