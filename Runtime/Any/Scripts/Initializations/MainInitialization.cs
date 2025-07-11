@@ -49,6 +49,7 @@ namespace Playbox
             PostInitialization += () =>
             {
                 OnPostInitializatioon?.Invoke();
+                OnPostInitializatioon = null;
             };
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
