@@ -38,10 +38,6 @@ namespace Playbox.Consent
                     "ATT: NOT_DETERMINED".PlayboxSplashLogUGUI();
                 }
                 
-#if UNITY_EDITOR
-                onComplete?.Invoke();
-                "ATT: EDITOR".PlayboxSplashLogUGUI();
-#endif
             }));
         }
 
@@ -49,7 +45,14 @@ namespace Playbox.Consent
         {
             
             yield return new WaitForSeconds(0.4f);
-            
+
+            if (Application.isEditor)
+            {
+                action?.Invoke(ATTrackingStatusBinding.AuthorizationTrackingStatus.AUTHORIZED);
+                "ATT: EDITOR".PlayboxSplashLogUGUI();
+                
+                yield break;
+            }
             
             var attStatus = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
             if (attStatus == ATTrackingStatusBinding.AuthorizationTrackingStatus.NOT_DETERMINED)
