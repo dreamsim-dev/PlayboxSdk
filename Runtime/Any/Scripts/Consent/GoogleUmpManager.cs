@@ -19,7 +19,6 @@ namespace Playbox.Consent
             
             ConsentInformation.Update(requestParameters, (error) =>
                 {
-                    
                     if (error != null)
                     {
                         Debug.LogError("Consent form error: " + error.Message);
@@ -27,7 +26,6 @@ namespace Playbox.Consent
                         ConsentData.ConsentDeny();
                         return;
                     }
-                    
                     ConsentForm.LoadAndShowConsentFormIfRequired((err) =>
                     {
                         if (error != null)
@@ -47,8 +45,6 @@ namespace Playbox.Consent
                             return;
                         }
                     });
-                    
-                    ConsentData.ConsentDeny();
                 });
         }
         
@@ -64,7 +60,6 @@ namespace Playbox.Consent
             
             ConsentInformation.Update(requestParameters, (error) =>
             {
-                    
                 if (error != null)
                 {
                     Debug.LogError("Consent form error: " + error.Message);
@@ -80,7 +75,6 @@ namespace Playbox.Consent
                         ConsentData.ConsentDeny();
                         return;
                     }
-
                     if (ConsentInformation.CanRequestAds())
                     {
                         ConsentData.ConsentAllow();
@@ -91,9 +85,6 @@ namespace Playbox.Consent
                         ConsentData.ConsentDeny();
                         return;
                     }
-                    
-                    ConsentData.ConsentDeny();
-                    return;
                 });
             });
         }
