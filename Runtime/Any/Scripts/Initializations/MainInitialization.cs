@@ -110,8 +110,8 @@ namespace Playbox
                     {
                         item.playboxName.PlayboxInfo("INITIALIZED");
                         
-                        debugString += $"\n{item.playboxName}";
-                        debugString.PlayboxSplashLogUGUI();
+                        //debugString += $"\n{item.playboxName}";
+                        //debugString.PlayboxSplashLogUGUI();
                         
                         InitStatus[item.playboxName] = true;
                         
