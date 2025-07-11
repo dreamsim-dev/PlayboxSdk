@@ -37,12 +37,10 @@ namespace Playbox.Consent
                         if (ConsentInformation.CanRequestAds())
                         {
                             ConsentData.ConsentAllow();
-                            return;
                         }
                         else
                         {
                             ConsentData.ConsentDeny();
-                            return;
                         }
                     });
                 });
@@ -78,12 +76,10 @@ namespace Playbox.Consent
                     if (ConsentInformation.CanRequestAds())
                     {
                         ConsentData.ConsentAllow();
-                        return;
                     }
                     else
                     {
                         ConsentData.ConsentDeny();
-                        return;
                     }
                 });
             });
