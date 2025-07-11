@@ -78,7 +78,6 @@ namespace Playbox.Consent
 
             var finalStatus = ATTrackingStatusBinding.GetAuthorizationTrackingStatus();
             
-            
             action?.Invoke(finalStatus);
         }
     }

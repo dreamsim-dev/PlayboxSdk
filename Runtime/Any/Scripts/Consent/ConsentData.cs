@@ -5,6 +5,10 @@ using GoogleMobileAds.Ump.Api;
 using UnityEngine;
 using Utils.Timer;
 
+#if UNITY_IOS
+using Unity.Advertisement.IosSupport;
+#endif
+
 namespace Playbox.Consent
 {
     public class ConsentData
@@ -102,6 +106,25 @@ namespace Playbox.Consent
                 if (isATTComplete)
                     return;
 #endif
+                
+                //block for getting tracking status
+                
+                bool requestDone = false;
+                bool TrackingEnabled = false;
+                
+                Application.RequestAdvertisingIdentifierAsync((advertisingId, trackingEnabled, errorMsg) =>
+                {
+#if UNITY_IOS
+                    TrackingEnabled = ATTrackingStatusBinding.GetAuthorizationTrackingStatus()
+                                      == ATTrackingStatusBinding.AuthorizationTrackingStatus.AUTHORIZED;
+                    requestDone = true;
+#endif
+                    
+#if UNITY_ANDROID
+                    TrackingEnabled = trackingEnabled;
+                    requestDone = true;
+#endif
+                });
                 
                 callback?.Invoke();
             }));
