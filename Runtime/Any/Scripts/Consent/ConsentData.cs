@@ -132,7 +132,6 @@ namespace Playbox.Consent
 #if UNITY_ANDROID || UNITY_EDITOR
                 callback?.Invoke();
 #endif
-                
             }));
             
         }
