@@ -15,13 +15,13 @@ namespace Playbox
             
             if(!FacebookSdkConfiguration.Active)
                 return;
-
-            FB.Mobile.SetAdvertiserIDCollectionEnabled(true);
-            FB.Mobile.SetAdvertiserTrackingEnabled(true);
+            
             
             if (FB.IsInitialized)
             {
                 FB.ActivateApp();
+                FB.Mobile.SetAdvertiserIDCollectionEnabled(true);
+                FB.Mobile.SetAdvertiserTrackingEnabled(true);
             }
             else
             {
