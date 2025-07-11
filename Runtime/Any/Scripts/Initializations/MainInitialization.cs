@@ -15,6 +15,7 @@ using UnityEditor;
 #endif
 
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace Playbox
@@ -25,6 +26,7 @@ namespace Playbox
         [SerializeField] private bool useLinkGenerator = true;
         [SerializeField] private bool isDebugSplash = false;
         [SerializeField] private bool usePlayboxIAP = false;
+        [SerializeField] private UnityEvent OnPostInitializatioon;
         
         private List<PlayboxBehaviour> behaviours = new();
         
@@ -44,6 +46,10 @@ namespace Playbox
 
         private void Awake()
         {
+            PostInitialization += () =>
+            {
+                OnPostInitializatioon?.Invoke();
+            };
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
