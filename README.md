@@ -58,8 +58,13 @@
 
 ---
 
-#### 📦 Google Consent 
+#### 📦 Google Mobile Ads(For consent on IOS,Android)
 - [google ads mobile](https://github.com/googleads/googleads-mobile-unity.git?path=packages/com.google.ads.mobile)
+
+---
+
+#### 📦 IOS 14 Advertising support(ATT)
+- > Get from Unity Registry
 
 ---
 
