@@ -63,6 +63,11 @@
 
 ---
 
+---
+- And lastly just install the package via google upm :
+- > https://github.com/dreamsim-dev/PlayboxSdk.git#main
+---
+
 ## 📝 About PlayboxSDK
 
 **PlayboxSDK consists of the following components:**
