@@ -39,34 +39,6 @@ namespace Playbox
         }
         
         /// <summary>
-        /// Sends the event if the tutorial is completed
-        /// </summary>
-        [Obsolete("Move to 'Events' subclass")]
-        public static void TutorialCompleted()
-        {
-            Events.TutorialCompleted();
-        }
-        
-        /// <summary>
-        /// Is sent every 30 ad views
-        /// </summary>
-        [Obsolete("Move to 'Events' subclass")]
-        public static void AdToCart(int count) // more than 30 ad impressions
-        {
-            Events.AdToCart(count);
-        }
-        
-        /// <summary>
-        /// Sends the number of video ad views
-        /// </summary>
-        ///
-        [Obsolete("Move to 'Events' subclass")]
-        public static void AdRewardCount(int count) // ad views
-        {
-            Events.AdRewardCount(count);
-        }
-        
-        /// <summary>
         /// Sends a custom event to AppsFlyer
         /// </summary>
         public static void SendAppsFlyerEvent(string eventName,string parameter_name, int value)
@@ -101,24 +73,6 @@ namespace Playbox
      
             //if (isFirebaseInit)
             //    FirebaseAnalytics.LogEvent(eventName,new Parameter(eventName,JsonUtility.ToJson(arguments)));
-        }
-        
-        [Obsolete("Move to 'Events' subclass")]
-        public static void LogLevelUp(int level)
-        {
-            Events.LogLevelUp(level);
-        }
-        
-        [Obsolete("Move to 'Events' subclass")]
-        public static void LogContentView(string content)
-        {
-            Events.LogContentView(content);
-        }
-        
-        [Obsolete("Move to 'Events' subclass")]
-        public static void LogTutorial(string tutorial, ETutorialState stateLevel = ETutorialState.Complete, string step = "none")
-        {
-            Events.LogTutorial(tutorial, stateLevel, step);
         }
 
         public static void TrackEvent(string eventName)
@@ -197,20 +151,6 @@ namespace Playbox
 
         public static void TrackAd(MaxSdkBase.AdInfo impressionData)
         {
-            double revenue = impressionData.Revenue;
-            
-            var impressionParameters = new[] {
-                new Parameter("ad_platform", "AppLovin"),
-                new Parameter("ad_source", impressionData.NetworkName),
-                new Parameter("ad_unit_name", impressionData.AdUnitIdentifier),
-                new Parameter("ad_format", impressionData.AdFormat),
-                new Parameter("value", revenue.ToString(CultureInfo.InvariantCulture)),
-                new Parameter("currency", "USD"), 
-            };
-            
-            //if (isFirebaseInit)
-            //    FirebaseAnalytics.LogEvent("ad_impression", impressionParameters);
-            
             Events.AdImpression(impressionData.NetworkName, impressionData.Revenue, impressionData.Placement, impressionData.AdUnitIdentifier);
         }
         
