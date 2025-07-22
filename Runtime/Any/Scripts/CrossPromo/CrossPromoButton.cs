@@ -12,10 +12,10 @@ namespace Playbox
         private string Link = "";
         
         [SerializeField]
-        private string promotedID = "world.dreamsim.slumdogbillionaire";
+        private string promotedID = "";
         
         [SerializeField]
-        private string campaign = "dreamsim";
+        private string campaign = "";
         
         private void OnEnable()
         {
