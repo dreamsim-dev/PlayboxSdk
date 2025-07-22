@@ -323,7 +323,7 @@ private static extern string _GetIOSBuildNumber();
 
         public static (long totalMB, long freeMB) GetIOSRAM()
         {
-#if UNITY_IOS && !UNITY_EDITOR
+#if UNITY_IOS
     return ((long)(_GetTotalMemory() / (1024 * 1024)), (long)(_GetFreeMemory() / (1024 * 1024)));
 #else
             return (0, 0);
@@ -332,9 +332,9 @@ private static extern string _GetIOSBuildNumber();
         
         public static (long totalMB, long freeMB) GetDeviceRAM()
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID
     return GetAndroidRAM();
-#elif UNITY_IOS && !UNITY_EDITOR
+#elif UNITY_IOS
     return GetIOSRAM();
 #else
             return (SystemInfo.systemMemorySize, 0); // в Editor — только общий объём, без свободной
