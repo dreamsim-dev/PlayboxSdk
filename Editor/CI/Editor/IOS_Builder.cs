@@ -13,7 +13,7 @@ namespace Playbox.CI
 {
     public static class IOS
     {
-        public const string TeamID = "AD5J7QFQ52";
+        public const string TeamID = "DEFAULT_TEAMID";
         
         [UsedImplicitly]
         public static void Build()
