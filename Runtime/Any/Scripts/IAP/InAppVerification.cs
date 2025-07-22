@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Runtime.InteropServices;
 using CI.Utils.Extentions;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
@@ -124,8 +123,8 @@ namespace Playbox
             sendObject["device_locale"] = CultureInfo.CurrentCulture.Name;
             sendObject["time_zone"] = localZone.DisplayName;
             sendObject["app_version"] = Data.Playbox.AppVersion;
-            sendObject["build_number"] = GetBuildNumber();
-            sendObject["ram_total_and_free"] = GetDeviceRAM().ToString();
+            //sendObject["build_number"] = GetBuildNumber();
+            //sendObject["ram_total_and_free"] = GetDeviceRAM().ToString();
             
             
             sendObject["product_id"] = productID;
@@ -263,83 +262,6 @@ namespace Playbox
 #endif
 
             return "Editor";
-        }
-        
-#if UNITY_IOS
-[DllImport("__Internal")]
-private static extern string GetIOSBuildNumber();
-#endif
-        
-        public static string GetAndroidBuildNumber()
-        {
-#if UNITY_ANDROID
-    using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
-    using (var context = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity"))
-    using (var packageManager = context.Call<AndroidJavaObject>("getPackageManager"))
-    using (var packageInfo = packageManager.Call<AndroidJavaObject>("getPackageInfo", context.Call<string>("getPackageName"), 0))
-    {
-        int versionCode = packageInfo.Get<int>("versionCode"); // build number
-        return versionCode.ToString();
-    }
-#else
-            return "Editor";
-#endif
-        }
-        
-        public static string GetBuildNumber()
-        {
-#if UNITY_IOS 
-    return GetIOSBuildNumber(); 
-#elif UNITY_ANDROID 
-    return GetAndroidBuildNumber();
-#else
-            return "Editor";
-#endif
-        }
-        
-        public static (long totalMB, long freeMB) GetAndroidRAM()
-        {
-#if UNITY_ANDROID
-    using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
-    using (var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity"))
-    using (var actManager = activity.Call<AndroidJavaObject>("getSystemService", "activity"))
-    using (var memInfo = new AndroidJavaObject("android.app.ActivityManager$MemoryInfo"))
-    {
-        actManager.Call("getMemoryInfo", memInfo);
-
-        long totalMem = memInfo.Get<long>("totalMem") / (1024 * 1024);  // MB
-        long availMem = memInfo.Get<long>("availMem") / (1024 * 1024);  // MB
-
-        return (totalMem, availMem);
-    }
-#else
-            return (0, 0);
-#endif
-        }
-        
-#if UNITY_IOS
-[DllImport("__Internal")] private static extern ulong _GetTotalMemory();
-[DllImport("__Internal")] private static extern ulong _GetFreeMemory();
-#endif
-
-        public static (long totalMB, long freeMB) GetIOSRAM()
-        {
-#if UNITY_IOS
-    return ((long)(_GetTotalMemory() / (1024 * 1024)), (long)(_GetFreeMemory() / (1024 * 1024)));
-#else
-            return (0, 0);
-#endif
-        }
-        
-        public static (long totalMB, long freeMB) GetDeviceRAM()
-        {
-#if UNITY_ANDROID
-    return GetAndroidRAM();
-#elif UNITY_IOS
-    return GetIOSRAM();
-#else
-            return (SystemInfo.systemMemorySize, 0); // в Editor — только общий объём, без свободной
-#endif
         }
     }
 }
