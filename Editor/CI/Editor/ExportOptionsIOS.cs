@@ -30,9 +30,6 @@ namespace Playbox.CI
                 document.root.SetString("signingStyle", "manual");
             }
             
-            document.root.SetString("signingCertificate", "Apple Distribution: APS DATA LLC (AD5J7QFQ52)");
-            document.root.SetString("teamID", "AD5J7QFQ52");
-            
             var profiles = document.root.CreateDict("provisioningProfiles");
             
             profiles.SetString(Playbox.Data.Playbox.GameId, SmartCLA.Arguments.ProvisionProfileIos);

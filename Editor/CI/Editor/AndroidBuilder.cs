@@ -44,13 +44,6 @@ namespace Playbox.CI
             if(SmartCLA.Validations.HasKeyaliasPass) PlayerSettings.Android.keyaliasPass = SmartCLA.Arguments.KeyaliasPass;
             if(SmartCLA.Validations.HasBuildNumber) PlayerSettings.Android.bundleVersionCode = SmartCLA.Arguments.BuildNumber;
             
-            PlayerSettings.bundleVersion.PlayboxLog("bundleVersion");
-            PlayerSettings.SplashScreen.showUnityLogo.PlayboxLog("showUnityLogo");
-            PlayerSettings.Android.keystorePass.PlayboxLog("keystorePass");
-            PlayerSettings.Android.keyaliasName.PlayboxLog("keyaliasName");
-            PlayerSettings.Android.keyaliasPass.PlayboxLog("keyaliasPass");
-            PlayerSettings.Android.bundleVersionCode.PlayboxLog("bundleVersionCode");
-            
             if (SmartCLA.Validations.HasKeystorePath)
             {
                 PlayerSettings.Android.keystoreName = SmartCLA.Arguments.KeystorePath;
