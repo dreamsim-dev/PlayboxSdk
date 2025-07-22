@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using CI.Utils.Extentions;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
@@ -266,7 +267,7 @@ namespace Playbox
         
 #if UNITY_IOS
 [DllImport("__Internal")]
-private static extern string _GetIOSBuildNumber();
+private static extern string GetIOSBuildNumber();
 #endif
         
         public static string GetAndroidBuildNumber()
