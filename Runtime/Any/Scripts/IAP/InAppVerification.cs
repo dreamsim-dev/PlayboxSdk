@@ -123,14 +123,9 @@ namespace Playbox
             sendObject["device_locale"] = CultureInfo.CurrentCulture.Name;
             sendObject["time_zone"] = localZone.DisplayName;
             sendObject["app_version"] = Data.Playbox.AppVersion;
-            //sendObject["build_number"] = GetBuildNumber();
-            //sendObject["ram_total_and_free"] = GetDeviceRAM().ToString();
-            
-            
             sendObject["product_id"] = productID;
             sendObject["game_id"] = Data.Playbox.GameId;
             sendObject["version"] = Data.Playbox.AppVersion;
-            //sendObject["sandbox"] = isSandbox;
             sendObject["receipt"] = receipt;
 
 #if UNITY_ANDROID
