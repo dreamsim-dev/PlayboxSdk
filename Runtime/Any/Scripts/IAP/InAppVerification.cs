@@ -16,10 +16,10 @@ namespace Playbox
         [SerializeField] private float verifyUpdateRate = 0.5f;
 
         private const string uri = "https://api.playbox.network/verify";
-        private const string uriStatus = "https://api.playbox.network/verify/status"; // uriStatus{ticket_id}
+        private const string uriStatus = "https://api.playbox.network/verify/status";
         private const string xApiToken = "plx_api_Rm8qTXe7Pzw94v1FujgEKsWD";
 
-        private static Dictionary<string, PurchaseData> verificationQueue = new(); // ticket_id and requestAction
+        private static Dictionary<string, PurchaseData> verificationQueue = new(); 
 
         private static List<PurchaseData> keyBuffer = new();
         
@@ -48,15 +48,7 @@ namespace Playbox
             if(string.IsNullOrEmpty(productID)) return;
             if(string.IsNullOrEmpty(receipt)) return;
             if(callback == null) return;
-
-            // if (verificationQueue.ContainsKey(productID) ||
-            //     (keyBuffer.FindIndex((kv)=> kv.ProductId == productID) > -1))
-            // {
-            //     "purchase already exists".PlayboxWarning();
-            //
-            //     return;
-            // }
-
+            
             instance.SendRequest(productID, receipt,saveId,callback);
         }
 
