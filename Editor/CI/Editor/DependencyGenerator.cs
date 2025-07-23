@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR && UNITY_IOS
+﻿#if UNITY_EDITOR
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -9,7 +9,7 @@ namespace Playbox.CI
 {
     public class DependencyGenerator
     {
-        [MenuItem("PlayBox/Generate Apple")]
+        [MenuItem("Playbox/Resolve IOS Dependencies")]
         public static void GenerateApplePodfile()
         {
             var path = Path.Combine(Application.dataPath,"ExternalDependencyManager","Editor");

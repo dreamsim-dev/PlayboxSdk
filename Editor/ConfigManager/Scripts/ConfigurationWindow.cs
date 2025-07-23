@@ -18,7 +18,7 @@ namespace Playbox.SdkWindow
         
         Vector2 scrollPosition;
     
-        [MenuItem("PlayBox/Configuration")]
+        [MenuItem("Playbox/Configuration")]
         public static void ShowWindow()
         {
             var window = GetWindow<ConfigurationWindow>("Playbox Configuration");

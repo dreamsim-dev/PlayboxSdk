@@ -38,7 +38,7 @@ namespace Playbox
             };
         }
 
-        [MenuItem("PlayBox/SceneHelper/Enable Helper")]
+        [MenuItem("Playbox/SceneHelper/Enable Helper")]
         public static void ToggleHelper()
         {
             bool enabled = !EditorPrefs.GetBool(flagKey, true);
@@ -52,12 +52,12 @@ namespace Playbox
             EditorPrefs.SetBool(flagKey, enabled);
         }
 
-        [MenuItem("PlayBox/SceneHelper/Enable Helper", true)]
+        [MenuItem("Playbox/SceneHelper/Enable Helper", true)]
         public static bool ToggleHelperValidate()
         {
             bool enabled = EditorPrefs.GetBool(flagKey, true);
             
-            Menu.SetChecked("PlayBox/SceneHelper/Enable Helper", enabled);
+            Menu.SetChecked("Playbox/SceneHelper/Enable Helper", enabled);
             
             return true;
         }

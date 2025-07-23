@@ -175,7 +175,7 @@ namespace Playbox
         }
         
 #if UNITY_EDITOR
-        [MenuItem("PlayBox/Initialization/Create")]
+        [MenuItem("Playbox/Initialization/Create")]
         public static void CreateAnalyticsObject()
         { 
             var findable = GameObject.Find(objectName);
@@ -199,7 +199,7 @@ namespace Playbox
             }
         }
         
-        [MenuItem("PlayBox/Initialization/Remove")]
+        [MenuItem("Playbox/Initialization/Remove")]
         public static void RemoveAnalyticsObject()
         {
             var go = GameObject.Find(objectName);
