@@ -10,7 +10,6 @@ namespace Playbox.CI
 {
     public static class Android
     {
-        [MenuItem("Playbox/Builder/Android Build")]
         public static void Build()
         {
             DebugExtentions.BeginPrefixZone("Android");
