@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Facebook.Unity;
+using Playbox.Consent;
 using Playbox.SdkConfigurations;
 using UnityEngine;
 
@@ -21,7 +22,7 @@ namespace Playbox
             {
                 FB.ActivateApp();
                 FB.Mobile.SetAdvertiserIDCollectionEnabled(true);
-                FB.Mobile.SetAdvertiserTrackingEnabled(true);
+                FB.Mobile.SetAdvertiserTrackingEnabled(ConsentData.ATE);
             }
             else
             {

@@ -23,6 +23,7 @@ namespace Playbox.Consent
         public static bool IsChildUser = false;
         public static bool HasUserConsent = true;
         public static bool HasDoNotSell = false;
+        public static bool ATE = false;
         
         private static ConsentDebugSettings debugSettings = new ConsentDebugSettings();
 
@@ -45,6 +46,7 @@ namespace Playbox.Consent
             IsChildUser = false;
             HasUserConsent = true;
             HasDoNotSell = true;
+            ATE = true;
 
             "Consent Allow".PlayboxInfo();
             //consentCallback?.Invoke(true);
@@ -61,6 +63,7 @@ namespace Playbox.Consent
             IsChildUser = false;
             HasUserConsent = true;
             HasDoNotSell = true;
+            ATE = false;
             
             "Consent Deny".PlayboxInfo();
             //consentCallback?.Invoke(false);
